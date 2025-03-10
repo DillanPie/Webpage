@@ -1,7 +1,7 @@
 body {
     margin: 0;
     color: #ddc7a1;
-    font-family: "JetBrainsMono Nerd Font";
+    font-family: "FiraCode Nerd Font";
     background-color: #282828;
   }
 
@@ -42,75 +42,75 @@ body {
     display: flex;
     gap: 5rem;
     margin-right: 1.5rem;
-  }
+}
 
-  .secondRows {
+.secondRows {
     display: flex;
     gap: 5rem;
     margin-right: 1.5rem;
-  }
+}
 
-  .firstRow {
+.firstRow {
     font-size: 5rem;
     text-decoration: none;
     transition: 0.25s opacity ease;
-  }
+}
 
-  .firstRow:hover {
+.firstRow:hover {
     opacity: 0.5;
-  }
+}
 
-  .firstRow.youtube {
+.firstRow.youtube {
     color: #ea6962;
-  }
+}
 
-  .firstRow.reddit {
+.firstRow.reddit {
     color: #e78a4e;
-  }
+}
 
-  .firstRow.github {
+.firstRow.github {
     color: #d8a657;
-  }
+}
 
-  .firstRow.gmail {
+.firstRow.gmail {
     color: #fb4934;
-  }
+}
 
-  .firstRow.messages {
+.firstRow.messages {
     color: #83a598;
-  }
+}
 
-  .secondRow {
+.secondRow {
     font-size: 5.25rem;
     text-decoration: none;
     transition: 0.25s opacity ease;
-  }
+}
 
-  .secondRow:hover {
+.secondRow:hover {
     opacity: 0.5;
-  }
+}
 
-  .secondRow.office {
+.secondRow.office {
     color: #a9b665;
-  }
+}
 
-  .secondRow.drive {
+.secondRow.drive {
     color: #8ec07c;
-  }
+}
 
-  .secondRow.outlook {
+.secondRow.outlook {
     color: #076678;
-  }
+}
 
-  .secondRow.canvas {
+.secondRow.canvas {
     color: #9d0006;
-  }
+}
 
-  .secondRow.school {
+.secondRow.school {
     color: #ebdbb2;
-  }
+}
 
-  .card {
+.card {
     background-color: #32302f;
     border-radius: 75px;
     padding: 5px;
@@ -119,30 +119,30 @@ body {
     max-width: 800px;
     color: #ddc7a1;
     font-family: "JetBrainsMono Nerd Font";
-  }
+}
 
-  .weather {
+.weather {
     text-align: center;
     padding: 10px;
     margin-top: 10px;
-  }
+}
 
-  .weather.loading {
+.weather.loading {
     display: none;
-  }
+}
 
-  .flex {
+.flex {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
-  .flex img {
+.flex img {
     width: 50px;
     margin-right: 20px;
-  }
+}
 
-  .humidity,
-  .wind {
+.humidity,
+.wind {
     margin-top: 10px;
-  }
+}
