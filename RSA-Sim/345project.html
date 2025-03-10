@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSA Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <h1>RSA Simulator</h1>
+
+  <h2>Key Generation</h2>
+  <div class="form-container">
+  <label for="primeP">Prime p: </label>
+  <input type="number" id="primeP" placeholder="Enter a prime number"><br>
+  <label for="primeQ">Prime q: </label>
+  <input type="number" id="primeQ" placeholder="Enter a prime number"><br>
+  <label for="intE">Integer e: </label>
+  <input type="number" id="intE" placeholder="Enter a value for e"><br>
+  <button onclick="generateKeys()">Generate Keys</button><br>
+  <p id="keys"></p>
+
+  <h2>Encryption</h2>
+  <label for="message">Message (integer): </label>
+  <input type="number" id="message" placeholder="Enter a number"><br>
+  <button onclick="encryptMessage()">Encrypt</button><br>
+  <p id="ciphertext"></p>
+
+  <h2>Decryption</h2>
+  <label for="cipher">Ciphertext: </label>
+  <input type="number" id="cipher" placeholder="Enter ciphertext"><br>
+  <button onclick="decryptMessage()">Decrypt</button><br>
+  <p id="decryptedMessage"></p>
+
+  <h3>RSA Algorithm</h3>
+  <a href="https://manansingh.github.io/Cryptolab-Offline/c14-rsa.html">
+    <img src="rsa.png" class="image-container" alt="Source Image-Link">
+  </a>
+  </div>
+  <script src="rsa-simulator.js"></script>
+</body>
+
+</html>

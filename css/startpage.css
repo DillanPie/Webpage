@@ -1,0 +1,148 @@
+body {
+    margin: 0;
+    color: #ddc7a1;
+    font-family: "JetBrainsMono Nerd Font";
+    background-color: #282828;
+  }
+
+  .center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 40rem;
+    margin-inline: auto;
+    margin-top: 5vh;
+    /* Adjusted margin-top */
+  }
+
+  .title {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .search {
+    border-radius: 99999px;
+    border: none;
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    background-color: #32302f;
+    color: #928374;
+    font-size: 1.2rem;
+    font-family: JetBrainsMono Nerd Font;
+    margin-bottom: 1rem;
+  }
+
+  .search:focus {
+    outline: 2px solid #928374;
+  }
+
+  .firstRows {
+    display: flex;
+    gap: 5rem;
+    margin-right: 1.5rem;
+  }
+
+  .secondRows {
+    display: flex;
+    gap: 5rem;
+    margin-right: 1.5rem;
+  }
+
+  .firstRow {
+    font-size: 5rem;
+    text-decoration: none;
+    transition: 0.25s opacity ease;
+  }
+
+  .firstRow:hover {
+    opacity: 0.5;
+  }
+
+  .firstRow.youtube {
+    color: #ea6962;
+  }
+
+  .firstRow.reddit {
+    color: #e78a4e;
+  }
+
+  .firstRow.github {
+    color: #d8a657;
+  }
+
+  .firstRow.gmail {
+    color: #fb4934;
+  }
+
+  .firstRow.messages {
+    color: #83a598;
+  }
+
+  .secondRow {
+    font-size: 5.25rem;
+    text-decoration: none;
+    transition: 0.25s opacity ease;
+  }
+
+  .secondRow:hover {
+    opacity: 0.5;
+  }
+
+  .secondRow.office {
+    color: #a9b665;
+  }
+
+  .secondRow.drive {
+    color: #8ec07c;
+  }
+
+  .secondRow.outlook {
+    color: #076678;
+  }
+
+  .secondRow.canvas {
+    color: #9d0006;
+  }
+
+  .secondRow.school {
+    color: #ebdbb2;
+  }
+
+  .card {
+    background-color: #32302f;
+    border-radius: 75px;
+    padding: 5px;
+    margin: 20px auto;
+    width: 70%;
+    max-width: 800px;
+    color: #ddc7a1;
+    font-family: "JetBrainsMono Nerd Font";
+  }
+
+  .weather {
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  .weather.loading {
+    display: none;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flex img {
+    width: 50px;
+    margin-right: 20px;
+  }
+
+  .humidity,
+  .wind {
+    margin-top: 10px;
+  }

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="https://mshaugh.github.io/nerdfont-webfonts/build/firacode-nerd-font.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            color: #ddc7a1;
+            font-family: "JetBrainsMono Nerd Font";
+            background-color: #282828;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: #32302f;
+            padding: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            max-width: 60rem;
+            margin: 5vh auto;
+            padding: 2rem;
+            background-color: #32302f;
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .link-card {
+            background: #1d2021;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #d8a657;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-card:hover {
+            background: #fb4934;
+            transform: translateY(-5px);
+            color: #ffffff;
+        }
+
+        .footer {
+            margin-top: 5vh;
+            padding: 1.2rem;
+            background: #32302f;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        .slideshow-container {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    max-width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+/* Individual Slide */
+.slide {
+    display: none;
+    width: 100%;
+    height: auto;
+    animation: fade 1s ease-in-out;
+}
+
+/* Image Styling */
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 15px;
+    border: 5px solid #d8a657;
+    box-sizing: border-box;
+}
+
+/* Special Styling for Portrait Images */
+.slide img.portrait {
+    max-height: 600px; /* Adjust this value to control vertical image size */
+    width: auto; /* Maintain natural aspect ratio */
+}
+
+/* Fade Animation */
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Navigation Buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    user-select: none;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+
+/* Hover Effect for Arrows */
+.prev:hover, .next:hover {
+    background-color: #fb4934;
+}
+
+/* Adjusted Positions */
+.prev {
+    left: 10px; /* Positioned just inside the slideshow */
+}
+
+.next {
+    right: 10px; /* Positioned just inside the slideshow */
+}
+
+/* Dots */
+.dots-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin: 0 4px;
+    background-color: #d8a657;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.active, .dot:hover {
+    background-color: #fb4934;
+}
+
+    </style>
+    <script>
+let slideIndex = 0;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let slides = document.getElementsByClassName("slide");
+    let dots = document.getElementsByClassName("dot");
+
+    if (n >= slides.length) { slideIndex = 0; }
+    if (n < 0) { slideIndex = slides.length - 1; }
+
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+
+    slides[slideIndex].style.display = "block";
+    dots[slideIndex].className += " active";
+}
+
+// Automatic Slideshow
+setInterval(() => { plusSlides(1); }, 5000);
+
+    </script>
+</head>
+<body onload="showSlides()">
+    <div class="header">My Portfolio</div>
+
+    <div class="container">
+        <h1 class="title">Welcome to My Portfolio</h1>
+        <p class="subtitle">Aspiring Security Expert | Tech Enthusiast</p>
+        
+        <p>Hi, I'm Dillan! I specialize in cybersecurity, programming, linux system administration and problem-solving.</p>
+        
+        <div class="links">
+            <a class="link-card" href="https://github.com">GitHub</a>
+            <a class="link-card" href="https://www.linkedin.com">LinkedIn</a>
+            <a class="link-card" href="https://www.youtube.com">YouTube</a>
+            <a class="link-card" href="https://mail.google.com">Email</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Personal Projects</h1>
+        <div class="links">
+            <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator</a>
+            <a class="link-card" href="startpage.html">Homepage</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Resume</h1>
+        <a class="link-card" href="resume.pdf" download>Download My Resume</a>
+        <a class="link-card" href="resume/resume-preview.html">Preview Resume</a>
+    </div>
+    <div class="slideshow-container">
+        <div class="slide"><img src="Photos/photo1.jpg" class="portrait" alt="Side View dock"></div>
+        <div class="slide"><img src="Photos/photo2.jpg" class="portrait" alt="Spring Formal"></div>
+        <div class="slide"><img src="Photos/photo3.jpg" alt="Helicopter"></div>
+        <div class="slide"><img src="Photos/photo4.jpg" alt="Lenny's"></div>
+        <div class="slide"><img src="Photos/photo5.jpg" alt="Mountain"></div>
+        <div class="slide"><img src="Photos/photo6.jpg" alt="Lost River"></div>
+        <div class="slide"><img src="Photos/photo7.jpg" class="portrait" alt="Greek Restaurant"></div>
+        <div class="slide"><img src="Photos/photo8.jpg" alt="Italian Express"></div>
+        <div class="slide"><img src="Photos/photo9.jpg" alt="Proposal Richmond"></div>
+        <div class="slide"><img src="Photos/photo10.jpg" class="portrait" alt="Cute Pose"></div>
+    
+        <!-- Navigation buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    
+    <!-- Dot Indicators -->
+    <div class="dots-container">
+        <span class="dot" onclick="currentSlide(0)"></span> 
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+        <span class="dot" onclick="currentSlide(3)"></span> 
+        <span class="dot" onclick="currentSlide(4)"></span> 
+        <span class="dot" onclick="currentSlide(5)"></span> 
+        <span class="dot" onclick="currentSlide(6)"></span> 
+        <span class="dot" onclick="currentSlide(7)"></span> 
+        <span class="dot" onclick="currentSlide(8)"></span> 
+        <span class="dot" onclick="currentSlide(9)"></span> 
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Contact Information</h1>
+        <p>Email: your.email@example.com</p>
+        <p>Phone: (123) 456-7890</p>
+    </div>
+    <div class="footer">© 2025 [Dillan Suon]. All Rights Reserved.</div>
+</body>
+</html>

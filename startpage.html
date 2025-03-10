@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+    <link rel="preconnect" href="https://mshaugh.github.io/nerdfont-webfonts/build/firacode-nerd-font.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/startpage.css">
+    <link
+      rel="shortcut icon"
+      href="Weather-forcast/Assets/images/cloudy.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <h1 class="title">Welcome!</h1>
+    <div class="center">
+      <div class="card">
+        <div class="weather loading">
+          <h2 class="city">Weather in King George</h2>
+          <h1 class="temp">51°F</h1>
+          <div class="flex">
+            <img
+              src="https://openweathermap.org/img/wn/04n.png"
+              alt=""
+              class="icon"
+            />
+            <div class="description">Cloudy</div>
+          </div>
+          <div class="humidity">Humidity: 60%</div>
+          <div class="wind">Wind speed: 6.2 Mph</div>
+        </div>
+      </div>
+      <input
+        class="search"
+        autofocus
+        type="text"
+        placeholder="Search with Google"
+        onkeypress="searchWithGoogle(event)"
+      />
+      <div class="firstRows">
+        <a class="firstRow youtube" href="https://www.youtube.com"></a>
+        <a class="firstRow reddit" href="https://www.reddit.com"></a>
+        <a class="firstRow github" href="https://github.com"></a>
+        <a class="firstRow gmail" href="https://mail.google.com/mail/u/0/#inbox"
+          >󰊫</a
+        >
+        <a
+          class="firstRow messages"
+          href="https://messages.google.com/web/conversations"
+          >󰍩</a
+        >
+      </div>
+      <div class="secondRows">
+        <a
+          class="secondRow drive"
+          href="https://drive.google.com/drive/my-drive"
+          ></a
+        >
+        <a class="secondRow outlook" href="https://www.office365.com/outlook"
+          >󰴢</a
+        >
+        <a class="secondRow canvas" href="https://canvas.umw.edu/">󱥸</a>
+        <a class="secondRow school" href="https://www.umw.edu/in/">󱆀</a>
+        <a class="secondRow office" href="https://www.office.com">󰏆</a>
+      </div>
+    </div>
+    <script src="js/app.js"></script> <!-- Link to External JS -->
+  </body>
+</html>
