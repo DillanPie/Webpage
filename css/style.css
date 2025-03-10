@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    color: #ddc7a1;
+    font-family: "FiraCode Nerd Font";
+    background-color: #282828;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.header {
+    background: #32302f;
+    padding: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.container {
+    max-width: 70rem;
+    margin: 5vh auto;
+    padding: 2rem;
+    background-color: #32302f;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.link-card {
+    background: #1d2021;
+    padding: 1.2rem 2.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #d8a657;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, background 0.3s ease;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.link-card:hover {
+    background: #fb4934;
+    transform: translateY(-5px);
+    color: #ffffff;
+}
+
+.footer {
+    margin-top: 5vh;
+    padding: 1.2rem;
+    background: #32302f;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.user-css {
+  font-family: "Nerd Font Regular";
+  src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontRegular.ttf') 
+format('truetype');
+}
+
+.user-css {
+  font-family: "Nerd Font Bold";
+  src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontBold.ttf') 
+format('truetype');
+}
+
+.user-css {
+  font-family: "Nerd Font Italic";
+  src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontItalic.ttf') 
+format('truetype');
+}
