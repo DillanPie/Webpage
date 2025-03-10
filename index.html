@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/resume-preview.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body onload="showSlides()">
+    <div class="header">My Portfolio</div>
+
+    <div class="container">
+        <h1 class="title">Welcome to My Portfolio</h1>
+        <p class="subtitle">Aspiring Security Expert | Tech Enthusiast</p>
+        
+        <p>Hi, I'm Dillan! I specialize in cybersecurity, programming, linux system administration and problem-solving.</p>
+        
+        <div class="links">
+            <a class="link-card" href="https://github.com">󰊤 GitHub</a>
+            <a class="link-card" href="https://www.linkedin.com"> LinkedIn</a>
+            <a class="link-card" href="https://facebook.com"> Facebook</a>
+            <a class="link-card" href="https://Instagram.com"> Instagram</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Personal Projects</h1>
+        <div class="links">
+            <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator</a>
+            <a class="link-card" href="startpage.html">Homepage</a>
+            <a class="link-card" href="">Source Code for Webpage</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Resume</h1>
+        <a class="link-card" href="resume/Dillan-Suon-Resume-V.4.pdf" download>Download My Resume</a>
+        <a class="link-card" href="resume-preview.html">Preview Resume</a>
+    </div>
+    <div class="slideshow-container">
+        <div class="slide"><img src="Photos/photo1.jpg" class="portrait" alt="Side View dock"></div>
+        <div class="slide"><img src="Photos/photo2.jpg" class="portrait" alt="Spring Formal"></div>
+        <div class="slide"><img src="Photos/photo3.jpg" alt="Helicopter"></div>
+        <div class="slide"><img src="Photos/photo4.jpg" alt="Lenny's"></div>
+        <div class="slide"><img src="Photos/photo5.jpg" alt="Mountain"></div>
+        <div class="slide"><img src="Photos/photo6.jpg" alt="Lost River"></div>
+        <div class="slide"><img src="Photos/photo7.jpg" class="portrait" alt="Greek Restaurant"></div>
+        <div class="slide"><img src="Photos/photo8.jpg" alt="Italian Express"></div>
+        <div class="slide"><img src="Photos/photo9.jpg" alt="Proposal Richmond"></div>
+        <div class="slide"><img src="Photos/photo10.jpg" class="portrait" alt="Cute Pose"></div>
+    
+        <!-- Navigation buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    
+    <!-- Dot Indicators -->
+    <div class="dots-container">
+        <span class="dot" onclick="currentSlide(0)"></span> 
+        <span class="dot" onclick="currentSlide(1)"></span> 
+        <span class="dot" onclick="currentSlide(2)"></span> 
+        <span class="dot" onclick="currentSlide(3)"></span> 
+        <span class="dot" onclick="currentSlide(4)"></span> 
+        <span class="dot" onclick="currentSlide(5)"></span> 
+        <span class="dot" onclick="currentSlide(6)"></span> 
+        <span class="dot" onclick="currentSlide(7)"></span> 
+        <span class="dot" onclick="currentSlide(8)"></span> 
+        <span class="dot" onclick="currentSlide(9)"></span> 
+    </div>
+    <div class="container">
+        <h1 class="subtitle">Contact Information</h1>
+        <p>Email: dillansuon@gmail.com</p>
+        <p>Phone: (540) 413-8616</p>
+    </div>
+    <div class="footer">© 2025 [Dillan Suon]. All Rights Reserved.</div>
+    <script src="js/slideshow.js"></script> <!-- Link to External JS -->
+</body>
+</html>

@@ -1,0 +1,95 @@
+.slideshow-container {
+    position: relative;
+    margin: 20px auto; /* Add margin outside the container */
+    padding: 30px; /* Add padding inside the container to create blank space */
+    overflow: hidden;
+    max-width: 40%; /* Adjust the width as needed */
+    height: 650px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #1d2021; /* Keeps the blank space looking clean */
+}
+
+/* Individual Slide */
+.slide {
+display: none;
+width: 100%;
+height: auto;
+animation: fade 1s ease-in-out;
+}
+
+/* Image Styling */
+.slide img {
+width: 100%;
+height: auto;
+object-fit: contain;
+border-radius: 15px;
+border: 5px solid #d8a657;
+box-sizing: border-box;
+}
+
+/* Special Styling for Portrait Images */
+.slide img.portrait {
+max-height: 600px; /* Adjust this value to control vertical image size */
+width: auto; /* Maintain natural aspect ratio */
+}
+
+/* Fade Animation */
+@keyframes fade {
+from {opacity: 0;}
+to {opacity: 1;}
+}
+
+/* Navigation Buttons */
+.prev, .next {
+cursor: pointer;
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+padding: 10px;
+color: white;
+font-weight: bold;
+font-size: 2rem;
+background-color: rgba(0, 0, 0, 0.6);
+border-radius: 50%;
+user-select: none;
+transition: background-color 0.3s;
+z-index: 1;
+}
+
+/* Hover Effect for Arrows */
+.prev:hover, .next:hover {
+background-color: #fb4934;
+}
+
+/* Adjusted Positions */
+.prev {
+left: 10px; /* Positioned just inside the slideshow */
+}
+
+.next {
+right: 10px; /* Positioned just inside the slideshow */
+}
+
+/* Dots */
+.dots-container {
+text-align: center;
+margin-top: 10px;
+}
+
+.dot {
+cursor: pointer;
+height: 12px;
+width: 12px;
+margin: 0 4px;
+background-color: #d8a657;
+border-radius: 50%;
+display: inline-block;
+transition: background-color 0.3s;
+}
+
+.active, .dot:hover {
+background-color: #fb4934;
+}
