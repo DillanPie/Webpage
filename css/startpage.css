@@ -30,10 +30,19 @@ body {
     background-color: #32302f;
     color: #928374;
     font-size: 1.2rem;
-    font-family: JetBrainsMono Nerd Font;
+    font-family: "FiraCode Nerd Font";
     margin-bottom: 1rem;
+    margin-left: 1rem;
+    display:inline-flex;
   }
 
+  .home-button {
+    display: inline-block;
+    font-size: 32px; /* Adjust size as per your needs */
+    cursor: pointer; /* Make it interactive */
+    color: #ddc7a1;
+  }
+  
   .search:focus {
     outline: 2px solid #928374;
   }
@@ -118,7 +127,7 @@ body {
     width: 70%;
     max-width: 800px;
     color: #ddc7a1;
-    font-family: "JetBrainsMono Nerd Font";
+    font-family: "FiraCode Nerd Font";
 }
 
 .weather {
