@@ -1,80 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <script src="js/script.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css">
-    <link rel="stylesheet" href="css/resume-preview.css">
+    <title>Dillan Suon’s Portfolio - Cybersecurity & Programming</title>
+    <meta name="description" content="Dillan Suon's personal portfolio showcasing skills in cybersecurity, programming, and Linux system administration.">
+    
+    <!-- CSS File Integration -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/portfolio.css">
-</head>
-<body onload="showSlides()">
-    <div class="header">My Portfolio</div>
 
-    <div class="container">
+    <!-- Nerd Fonts (For Icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css">
+
+    <!-- JavaScript Integration -->
+    <script src="js/slideshow.js" defer></script>
+</head>
+
+<body onload="showSlides()">
+
+    <!-- Sticky Navbar -->
+    <div class="navbar">
+        <a href="#about">About Me</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">Dillan Suon's Portfolio</div>
+
+    <!-- About Me Section -->
+    <div class="container" id="about">
         <h1 class="title">Welcome to My Portfolio</h1>
         <p class="subtitle">Aspiring Security Expert | Tech Enthusiast</p>
-        
-        <p>Hi, I'm Dillan! I specialize in cybersecurity, programming, linux system administration and problem-solving.</p>
-        
+        <p>Hi, I'm Dillan! I specialize in cybersecurity, programming, Linux system administration, and problem-solving. I am passionate about building solutions and learning new technologies.</p>
+    </div>
+
+    <!-- Links Section -->
+    <div class="container">
         <div class="links">
-            <a class="link-card" href="https://github.com">󰊤 GitHub</a>
-            <a class="link-card" href="https://www.linkedin.com"> LinkedIn</a>
-            <a class="link-card" href="https://facebook.com"> Facebook</a>
-            <a class="link-card" href="https://Instagram.com"> Instagram</a>
+            <a class="link-card" href="https://github.com" target="_blank">󰊤 GitHub</a>
+            <a class="link-card" href="https://www.linkedin.com" target="_blank"> LinkedIn</a>
+            <a class="link-card" href="https://facebook.com" target="_blank"> Facebook</a>
+            <a class="link-card" href="https://Instagram.com" target="_blank"> Instagram</a>
         </div>
     </div>
-    <div class="container">
+
+    <!-- Projects Section -->
+    <div class="container" id="projects">
         <h1 class="subtitle">Personal Projects</h1>
         <div class="links">
-            <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator</a>
-            <a class="link-card" href="startpage.html">Homepage</a>
-            <a class="link-card" href="">Source Code for Webpage</a>
+            <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator - Cryptography Tool Built with JavaScript</a>
+            <a class="link-card" href="startpage.html">Homepage - Personal Start Page for Productivity</a>
+            <a class="link-card" href="https://github.com/DillanPie/Webpage" target="_blank">Source Code for Webpage</a>
         </div>
     </div>
-    <div class="container">
+
+    <!-- Resume Section -->
+    <div class="container" id="resume">
         <h1 class="subtitle">Resume</h1>
-        <a class="link-card" href="resume/Dillan-Suon-Resume-V.4.pdf" download>Download My Resume</a>
+        <a class="link-card" href="resume/Dillan-Suon-Resume.pdf" download>Download My Resume</a>
         <a class="link-card" href="resume-preview.html">Preview Resume</a>
     </div>
+
+    <!-- Slideshow Section -->
     <div class="slideshow-container">
-        <div class="slide"><img src="Photos/photo1.jpg" class="portrait" alt="Side View dock"></div>
-        <div class="slide"><img src="Photos/photo2.jpg" class="portrait" alt="Spring Formal"></div>
-        <div class="slide"><img src="Photos/photo3.jpg" alt="Helicopter"></div>
-        <div class="slide"><img src="Photos/photo4.jpg" alt="Lenny's"></div>
-        <div class="slide"><img src="Photos/photo5.jpg" alt="Mountain"></div>
-        <div class="slide"><img src="Photos/photo6.jpg" alt="Lost River"></div>
-        <div class="slide"><img src="Photos/photo7.jpg" class="portrait" alt="Greek Restaurant"></div>
-        <div class="slide"><img src="Photos/photo8.jpg" alt="Italian Express"></div>
-        <div class="slide"><img src="Photos/photo9.jpg" alt="Proposal Richmond"></div>
-        <div class="slide"><img src="Photos/photo10.jpg" class="portrait" alt="Cute Pose"></div>
-    
-        <!-- Navigation buttons -->
+        <div class="slide"><img src="Photos/photo1.jpg" class="portrait" alt="Side View dock" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo2.jpg" class="portrait" alt="Spring Formal" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo3.jpg" alt="Helicopter" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo4.jpg" alt="Lenny's" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo5.jpg" alt="Mountain" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo6.jpg" alt="Lost River" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo7.jpg" class="portrait" alt="Greek Restaurant" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo8.jpg" alt="Italian Express" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo9.jpg" alt="Proposal Richmond" loading="lazy"></div>
+        <div class="slide"><img src="Photos/photo10.jpg" class="portrait" alt="Cute Pose" loading="lazy"></div>
+
+        <!-- Navigation Buttons -->
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
-    
-    <!-- Dot Indicators -->
-    <div class="dots-container">
-        <span class="dot" onclick="currentSlide(0)"></span> 
-        <span class="dot" onclick="currentSlide(1)"></span> 
-        <span class="dot" onclick="currentSlide(2)"></span> 
-        <span class="dot" onclick="currentSlide(3)"></span> 
-        <span class="dot" onclick="currentSlide(4)"></span> 
-        <span class="dot" onclick="currentSlide(5)"></span> 
-        <span class="dot" onclick="currentSlide(6)"></span> 
-        <span class="dot" onclick="currentSlide(7)"></span> 
-        <span class="dot" onclick="currentSlide(8)"></span> 
-        <span class="dot" onclick="currentSlide(9)"></span> 
-    </div>
-    <div class="container">
+
+    <!-- Dots Indicator -->
+    <div class="dots-container"></div>
+
+    <!-- Contact Section -->
+    <div class="container" id="contact">
         <h1 class="subtitle">Contact Information</h1>
-        <p>Email: dillansuon@gmail.com</p>
-        <p>Phone: (540) 413-8616</p>
+        <form action="mailto:dillansuon@gmail.com" method="post" enctype="text/plain">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+
+            <input type="submit" value="Send Message">
+        </form>
     </div>
-    <div class="footer">© 2025 [Dillan Suon]. All Rights Reserved.</div>
-    <script src="js/slideshow.js"></script> <!-- Link to External JS -->
+
+    <!-- Footer Section -->
+    <div class="footer">© 2025 Dillan Suon. All Rights Reserved.</div>
 </body>
+
 </html>
