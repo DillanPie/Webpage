@@ -104,6 +104,16 @@
 
     <!-- Footer Section -->
     <div class="footer">© 2025 Dillan Suon. All Rights Reserved.</div>
+
+    <!-- Add this to the end of each HTML file -->
+<div id="navbar"></div>
+<script>
+    fetch('navbar.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('navbar').innerHTML = data)
+        .catch(error => console.error('Error loading navbar:', error));
+</script>
+
 </body>
 
 </html>
