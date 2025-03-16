@@ -2,23 +2,23 @@
 
 body {
     background-color: #282828;
-    color: #ebdbb2;
-    font-family: 'Fira Code', monospace;
+    color: #ddc7a1;
+    font-family: "Fira Code Nerd Font", monospace;
     margin: 0;
-    padding: 0;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: auto;
     padding: 20px;
 }
 
 h1 {
     text-align: center;
-    color: #b8bb26;
+    color: #d8a657;
 }
 
+/* Project Grid Styling */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -27,7 +27,7 @@ h1 {
 }
 
 .project-item {
-    background-color: #3c3836;
+    background-color: #1d2021;
     padding: 15px;
     border-radius: 8px;
     transition: transform 0.3s, background-color 0.3s;
@@ -35,7 +35,7 @@ h1 {
 
 .project-item:hover {
     transform: scale(1.05);
-    background-color: #504945;
+    background-color: #3c3836;
 }
 
 .project-item img {
@@ -45,21 +45,23 @@ h1 {
 }
 
 .project-item h2 {
-    color: #fabd2f;
+    color: #d8a657;
     margin-top: 10px;
 }
 
 .project-item p {
-    color: #d5c4a1;
+    color: #bdae93;
 }
 
 .links a {
+    display: inline-block;
     margin-right: 10px;
     color: #83a598;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s;
 }
 
 .links a:hover {
-    color: #d3869b;
+    color: #fb4934;
 }

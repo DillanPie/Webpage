@@ -258,3 +258,25 @@ form input[type="submit"]:hover {
         height: 400px;
     }
 }
+/* Button Link Styling */
+.project-button-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.view-all-projects-button {
+    background-color: #689d6a; /* Gruvbox Aqua */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: "Fira Code Nerd Font", monospace;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.view-all-projects-button:hover {
+    background-color: #83a598; /* Lighter Aqua */
+    transform: scale(1.05);
+}
