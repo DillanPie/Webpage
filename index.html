@@ -47,15 +47,21 @@
         </div>
     </div>
 
-    <!-- Projects Section -->
-    <div class="container" id="projects">
-        <h1 class="subtitle">Personal Projects</h1>
-        <div class="links">
-            <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator - Cryptography Tool Built with JavaScript</a>
-            <a class="link-card" href="startpage.html">Homepage - Personal Start Page for Productivity</a>
-            <a class="link-card" href="https://github.com/DillanPie/Webpage" target="_blank">Source Code for Webpage</a>
-        </div>
+<!-- Projects Section -->
+<div class="container" id="projects">
+    <h1 class="subtitle">Personal Projects</h1>
+    <div class="links">
+        <a class="link-card" href="RSA-Sim/345project.html">RSA Simulator - Cryptography Tool Built with JavaScript</a>
+        <a class="link-card" href="startpage.html">Homepage - Personal Start Page for Productivity</a>
+        <a class="link-card" href="https://github.com/DillanPie/Webpage" target="_blank">Source Code for Webpage</a>
     </div>
+
+    <!-- New Button Link to Projects Page -->
+    <div class="project-button-container">
+        <a class="view-all-projects-button" href="projects.html">View All Projects</a>
+    </div>
+</div>
+
 
     <!-- Resume Section -->
     <div class="container" id="resume">
@@ -104,15 +110,6 @@
 
     <!-- Footer Section -->
     <div class="footer">© 2025 Dillan Suon. All Rights Reserved.</div>
-
-    <!-- Add this to the end of each HTML file -->
-<div id="navbar"></div>
-<script>
-    fetch('navbar.html')
-        .then(response => response.text())
-        .then(data => document.getElementById('navbar').innerHTML = data)
-        .catch(error => console.error('Error loading navbar:', error));
-</script>
 
 </body>
 
