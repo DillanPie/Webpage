@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
             links.forEach(link => {
                 if (link.href === window.location.href) {
                     link.classList.add('active');
+
+                    // Apply fade-in animation to the active link
+                    link.style.opacity = '0';
+                    link.style.transition = 'opacity 0.6s'; // Ensures smooth fade-in effect
+                    setTimeout(() => {
+                        link.style.opacity = '1';
+                    }, 100);
                 }
             });
         })

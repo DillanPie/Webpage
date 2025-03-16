@@ -5,7 +5,7 @@
     position: sticky;
     top: 0;
     width: 100%;
-    background-color: #1d2021; /* Same background as index.html */
+    background-color: #1d2021;
     padding: 0.8rem 0;
     z-index: 10;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -17,7 +17,7 @@
 
 /* Navbar Links */
 .navbar a {
-    color: #d8a657; /* Gruvbox yellow, same as index.html */
+    color: #d8a657;
     text-decoration: none;
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
@@ -28,15 +28,17 @@
 
 /* Hover Effects */
 .navbar a:hover {
-    background-color: #fb4934; /* Same as index.html */
+    background-color: #fb4934;
     color: #ffffff;
 }
 
-/* Active Link Styling */
+/* Active Link Styling with Smooth Transition */
 .navbar a.active {
-    background-color: #689d6a; /* Aqua Gruvbox color for active link */
+    background-color: #689d6a;  /* Aqua Gruvbox color */
     color: #ffffff;
+    transition: background-color 0.4s, color 0.4s, opacity 0.6s; /* Smooth transition effect */
 }
+
 
 /* Mobile-Friendly Navbar */
 @media (max-width: 768px) {
