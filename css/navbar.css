@@ -1,0 +1,50 @@
+/* navbar.css */
+
+/* Sticky Navbar Styling */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #1d2021; /* Same background as index.html */
+    padding: 0.8rem 0;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    transition: background-color 0.3s;
+}
+
+/* Navbar Links */
+.navbar a {
+    color: #d8a657; /* Gruvbox yellow, same as index.html */
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: "FiraCode Nerd Font", monospace;
+}
+
+/* Hover Effects */
+.navbar a:hover {
+    background-color: #fb4934; /* Same as index.html */
+    color: #ffffff;
+}
+
+/* Active Link Styling */
+.navbar a.active {
+    background-color: #689d6a; /* Aqua Gruvbox color for active link */
+    color: #ffffff;
+}
+
+/* Mobile-Friendly Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+    .navbar a {
+        margin: 0.5rem 0;
+    }
+}
