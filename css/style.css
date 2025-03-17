@@ -264,7 +264,7 @@ form input[type="submit"]:hover {
     text-align: center;
 }
 
-.view-all-projects-button {
+.view-all-button {
     background-color: #689d6a; /* Gruvbox Aqua */
     color: #ffffff;
     padding: 10px 20px;
@@ -276,7 +276,7 @@ form input[type="submit"]:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.view-all-projects-button:hover {
+.view-all-button:hover {
     background-color: #83a598; /* Lighter Aqua */
     transform: scale(1.05);
 }

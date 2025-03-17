@@ -1,0 +1,106 @@
+/* about.css */
+
+/* General Styling */
+body {
+    margin: 0;
+    background-color: #282828;
+    color: #ddc7a1;
+    font-family: "FiraCode Nerd Font", monospace;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px;
+    background-color: #32302f;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.7s ease;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* About Content */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    text-align: center;  /* Center text under profile picture */
+}
+
+/* Profile Picture Styling */
+.profile-pic {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #d8a657;
+    margin-bottom: 20px; /* Adds space between image and text */
+}
+
+/* About Text */
+.about-text {
+    max-width: 700px;
+}
+
+.about-text p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.about-text h2 {
+    color: #689d6a;
+    margin-top: 20px;
+}
+
+/* Slideshow Container */
+.slideshow-container {
+    position: relative;
+    margin: 40px auto;
+    max-width: 80%;
+    border-radius: 10px;
+}
+
+/* Individual Slide */
+.slide {
+    display: none;
+    width: 100%;
+}
+
+/* Navigation Buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border-radius: 50%;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.prev:hover, .next:hover {
+    background-color: #fb4934;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* Responsive Styling */
+@media (min-width: 768px) {
+    .about-content {
+        flex-direction: row;
+        align-items: flex-start; /* Align text to the top of the image */
+        text-align: left;
+    }
+
+    .about-text {
+        margin-left: 30px; /* Adds spacing between image and text */
+    }
+}
