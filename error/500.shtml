@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 Not Found</title>
+  <title>500 Internal Server Error</title>
 
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css" />
@@ -15,10 +15,10 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">404</h1>
-    <p class="subtitle">Oops! That page doesn't exist.</p>
+    <h1 class="title">500</h1>
+    <p class="subtitle">Something went wrong on our end. We're working on it!</p>
     <div class="view-all-button-container">
-      <a href="/" class="view-all-button">← Back to Home</a>
+      <a href="/" class="view-all-button">← Return Home</a>
     </div>
   </div>
 </body>
