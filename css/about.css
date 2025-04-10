@@ -16,13 +16,6 @@ body {
     background-color: #32302f;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.7s ease;
-}
-
-/* Fade-in Animation */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 /* About Content */
