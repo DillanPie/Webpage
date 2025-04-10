@@ -280,3 +280,14 @@ form input[type="submit"]:hover {
     background-color: #83a598; /* Lighter Aqua */
     transform: scale(1.05);
 }
+
+.footer a {
+    color: #83a598;
+    text-decoration: none;
+    margin-left: 8px;
+  }
+  
+  .footer a:hover {
+    color: #fabd2f;
+  }
+  
