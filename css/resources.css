@@ -1,0 +1,46 @@
+.links.links-column {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .link-card.uniform {
+    width: 600px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 0 20px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .icon {
+    flex-shrink: 0;
+    font-size: 1.5rem;
+  }
+  
+  .link-text {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .tool-name {
+    align-items: baseline;
+    text-align: center;
+    color: #fabd2f;
+    font-weight: bold;
+    min-width: 160px; /* adjust this width until all descriptions align */
+    display: inline-block;
+  }
+  
+  .tool-desc {
+    color: #ebdbb2;
+    flex-shrink: 1;
+  }
