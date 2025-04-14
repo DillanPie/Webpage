@@ -31,6 +31,37 @@ h1 {
     padding: 15px;
     border-radius: 8px;
     transition: transform 0.3s, background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left; /* Body text default */
+}
+
+.project-item h2 {
+    color: #d8a657;
+    margin: 10px 0 8px;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.project-item .links {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    margin-top: auto;  /* push to bottom if needed */
+}
+
+
+.project-item p {
+    color: #bdae93;
+    margin: 0 0 10px;
+    line-height: 1.4;
+    font-size: 1rem;
+    max-width: 90%;
 }
 
 .project-item:hover {
@@ -42,15 +73,9 @@ h1 {
     width: 100%;
     height: auto;
     border-radius: 5px;
-}
-
-.project-item h2 {
-    color: #d8a657;
-    margin-top: 10px;
-}
-
-.project-item p {
-    color: #bdae93;
+    max-height: 180px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
 .links a {

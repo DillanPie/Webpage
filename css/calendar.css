@@ -23,10 +23,11 @@
   
   /* Contribution Levels (adjusted to match Gruvbox) */
   .calendar .contrib-column .day[data-level="0"] { fill: #32302f; } /* no contributions */
-  .calendar .contrib-column .day[data-level="1"] { fill: #b8bb26; } /* light green */
-  .calendar .contrib-column .day[data-level="2"] { fill: #fabd2f; } /* yellow */
-  .calendar .contrib-column .day[data-level="3"] { fill: #fe8019; } /* orange */
-  .calendar .contrib-column .day[data-level="4"] { fill: #fb4934; } /* red */
+  .calendar .contrib-column .day[data-level="1"] { fill: #a9b665; } /* light green */
+  .calendar .contrib-column .day[data-level="2"] { fill: #98971a; } /* mid green */
+  .calendar .contrib-column .day[data-level="3"] { fill: #79740e; } /* dark green */
+  .calendar .contrib-column .day[data-level="4"] { fill: #3c3836; } /* deepest tone */
+  
   
   .subtitle {
     padding: 2rem;
