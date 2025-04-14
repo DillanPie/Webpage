@@ -14,6 +14,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
     <link rel="manifest" href="favicon_io/site.webmanifest">
+
+    <!-- GitHub Calendar CSS -->
+<link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css" />
+<link rel="stylesheet" href="css/calendar.css" />
+
 </head>
 
 <body>
@@ -68,13 +73,29 @@
                 </div>
             </div>
         </div>
+        <!-- GitHub Contribution Calendar -->
+<div class="calendar-section">
+    <h2 class="subtitle">My GitHub Activity</h2>
+    <div class="calendar">Loading GitHub activity…</div>
+  </div>
+  
     </div>
     <!-- Footer Section -->
     <div class="footer">
         © 2025 Dillan Suon. All Rights Reserved. |
         <a href="/resources.html" style="color: #83a598; text-decoration: none;">Resources</a>
       </div>
+      
     <!-- Load Navbar JavaScript -->
     <script src="js/navbar.js"></script>
+
+    <!-- GitHub Calendar Script -->
+<script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
+<script>
+  GitHubCalendar(".calendar", "DillanPie", {
+    responsive: true,
+    global_stats: false
+  });
+</script>
 </body>
 </html>
