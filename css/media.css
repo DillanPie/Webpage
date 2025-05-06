@@ -1,0 +1,75 @@
+body {
+    background-color: #282828;
+    color: #ebdbb2;
+    font-family: "Fira Code Nerd Font", monospace;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    color: #d8a657;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.media-section {
+    margin-bottom: 3rem;
+}
+
+.media-section h2 {
+    text-align: center;
+    color: #b8bb26;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.media-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* For 3-wide video game grid */
+.games-grid {
+    justify-content: center;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Shared Media Item Styling */
+.media-item {
+    width: 200px;
+    text-align: center;
+}
+
+.media-item img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #665c54;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.media-section:nth-of-type(2) .media-item img {
+    height: auto;
+}
+
+.media-item img:hover {
+    transform: scale(1.05);
+}
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1d2021;
+    color: #a89984;
+}
