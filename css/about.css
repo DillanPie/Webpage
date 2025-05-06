@@ -85,32 +85,6 @@ body {
 .prev { left: 10px; }
 .next { right: 10px; }
 
-.media-button-container {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.media-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background-color: #d79921; /* Gruvbox yellow */
-    color: #282828;
-    font-weight: bold;
-    border: 2px solid #665c54;
-    border-radius: 8px;
-    text-decoration: none;
-    font-family: "Fira Code Nerd Font", monospace;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.media-button:hover {
-    background-color: #fabd2f;
-    transform: scale(1.05);
-    cursor: pointer;
-}
-
-
 /* Responsive Styling */
 @media (min-width: 768px) {
     .about-content {
