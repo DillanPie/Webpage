@@ -27,6 +27,12 @@ h1 {
     color: #b8bb26;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.media-section h2:hover {
+    color: #fabd2f;
+    text-shadow: 0 0 5px #fabd2f;
 }
 
 .media-grid {
@@ -36,22 +42,30 @@ h1 {
     gap: 20px;
 }
 
-/* For 3-wide video game grid */
 .games-grid {
-    justify-content: center;
     max-width: 700px;
     margin: auto;
 }
 
-/* Shared Media Item Styling */
 .media-item {
-    width: 200px;
+    flex: 0 1 200px;
     text-align: center;
 }
 
 .media-item img {
     width: 100%;
-    height: 280px;
+    height: auto;
+    object-fit: contain;
+    background-color: #1d2021;
+    border-radius: 8px;
+    border: 2px solid #665c54;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+}
+/* Game-specific image sizing */
+.games-grid .media-item img {
+    width: 100%;
+    height: 300px;
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid #665c54;
@@ -59,12 +73,21 @@ h1 {
     transition: transform 0.3s ease;
 }
 
-.media-section:nth-of-type(2) .media-item img {
-    height: auto;
-}
-
 .media-item img:hover {
     transform: scale(1.05);
+}
+
+.media-caption {
+    margin-top: 0.5rem;
+    color: #fabd2f;
+    font-size: 0.9rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.media-item:hover .media-caption {
+    opacity: 1;
 }
 
 .footer {
@@ -72,4 +95,29 @@ h1 {
     padding: 1rem;
     background-color: #1d2021;
     color: #a89984;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #1d2021;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #928374;
+    border-radius: 10px;
+    border: 2px solid #1d2021;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #d79921;
+}
+
+@media (max-width: 600px) {
+    .media-item {
+        width: 45%;
+    }
+    .media-item img {
+        height: auto;
+    }
 }
