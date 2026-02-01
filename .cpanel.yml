@@ -1,4 +1,0 @@
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/dillansu/public_html
-    - /bin/cp -r * $DEPLOYPATH
