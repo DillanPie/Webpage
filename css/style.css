@@ -50,7 +50,7 @@
 --border-color: var(--gruvbox-gray);
 --primary-accent: var(--gruvbox-yellow-bright); /* For links, buttons, highlights */
 --secondary-accent: var(--gruvbox-blue);     /* For secondary actions or details */
---hover-accent: var(--gruvbox-red); /* For interactive element feedback */
+--hover-accent: var(--gruvbox-red-bright); /* For interactive element feedback */
 --text-color: var(--gruvbox-dark-fg0)
 
 }
@@ -154,23 +154,6 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1.5rem;
-}
-
-.link-card {
-    background: var(--gruvbox-dark-bg0);
-    padding: 1.2rem 2.5rem;
-    border-radius: 12px;
-    text-decoration: none;
-    color: var(--headings-color);
-    font-size: 1.5rem;
-    transition: transform 0.3s ease, background 0.3s ease;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-}
-
-.link-card:hover {
-    background: var(--hover-accent);
-    transform: translateY(-5px);
-    color:  var(--gruvbox-dark-fg0);
 }
 
 /* Slideshow Container */
@@ -316,31 +299,9 @@ form input[type="submit"]:hover {
         height: 400px;
     }
 }
-/* Button Link Styling */
-.view-all-button-container {
-    margin-top: 40px;
-    text-align: center;
-}
-
-.view-all-button {
-    background-color: var(--gruvbox-aqua);
-    color:  var(--gruvbox-dark-fg0);
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-family: "Fira Code Nerd Font", monospace;
-    font-size: 1.2rem;
-    transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.view-all-button:hover {
-    background-color: #83a598; /* Lighter Aqua */
-    transform: scale(1.05);
-}
 
 .footer a {
-    color: #83a598;
+    color: var(--gruvbox-dark-fg);
     text-decoration: none;
     margin-left: 8px;
   }
@@ -349,3 +310,57 @@ form input[type="submit"]:hover {
     color: var(--gruvbox-yellow-bright);
   }
   
+
+  /* ============= UNIFIED BUTTON & LINK STYLES ============= */
+
+/* 1. The Base Button/Link Class (Shape, Size, Effects) */
+.btn {
+  /* --- Layout & Shape --- */
+  display: inline-block;
+  padding: 1.2rem 2.5rem; /* Using the padding from your link-card */
+  border-radius: 12px;     /* Using the border-radius from your link-card */
+  border: none;
+
+  /* --- Font & Text --- */
+  font-family: "FiraCode Nerd Font", monospace;
+  font-size: 1.5rem;      /* Using the font-size from your link-card */
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+
+  /* --- Effects --- */
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Universal Hover Effect */
+.btn:hover {
+  transform: translateY(-5px);
+  color: var(--hover-accent);
+}
+
+.btn-default {
+  background-color: var(--gruvbox-dark-bg0);
+  color: var(--gruvbox-yellow-soft);
+}
+
+.btn-default:hover {
+  color: var(--hover-accent);
+}
+
+/*Color Variant: Green */
+.btn-green {
+  background-color: var(--gruvbox-aqua);
+  color: var(--gruvbox-dark-fg0);
+}
+
+.btn-green:hover {
+  color: var(--gruvbox-yellow-soft);
+}
+
+/* Container for buttons that need extra margin */
+.button-container {
+    margin-top: 40px;
+    text-align: center;
+}
+/* ========================================================= */

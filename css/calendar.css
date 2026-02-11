@@ -20,7 +20,15 @@
   .calendar .contrib-column .day {
     stroke: #1d2021;
   }
-  
+
+  /*
+  Hides the "Skip to contributions" accessibility link
+  from the GitHub Calendar widget.
+*/
+.calendar a[href*="year-link"] {
+  display: none;
+}
+
   /* Contribution Levels (adjusted to match Gruvbox) */
   .calendar .contrib-column .day[data-level="0"] { fill: var(--gruvbox-dark-bg); } /* no contributions */
   .calendar .contrib-column .day[data-level="1"] { fill: #a9b665; } /* light green */

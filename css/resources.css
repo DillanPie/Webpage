@@ -1,46 +1,62 @@
-.links.links-column {
+/*
+  MODIFIER for Resource Page Links
+  - This class works WITH .btn to change its layout from a centered
+    button to a full-width, left-aligned info bar.
+*/
+.btn-resource {
+  /* --- Layout Overrides --- */
+  display: flex;             /* Use flexbox for internal alignment */
+  justify-content: flex-start; /* Align content to the left */
+  align-items: center;
+  width: 100%;               /* Make button fill its container */
+  max-width: 700px;          /* Set a max-width for large screens */
+  text-align: left;          /* Override the default centered text */
+  
+  /* --- Shape & Spacing Overrides --- */
+  padding: 0 25px;           /* Adjust padding for the new layout */
+  height: 65px;              /* Set a consistent height */
+  gap: 20px;                 /* Space between the icon and text */
+}
+
+.btn-resource:hover .icon,
+.btn-resource:hover .tool-name {
+  color: var(--gruvbox-red-bright);
+}
+
+.btn-resource .icon {
+  flex-shrink: 0; /* Prevents the icon from being squished */
+  font-size: 1.8rem;
+  width: 30px;    /* Gives the icon a consistent space */
+  text-align: center;
+  color: var(--gruvbox-yellow-soft)
+}
+
+.btn-resource .text-content {
+  display: flex;
+  align-items: baseline; /* Aligns the bottom of the name and description */
+  gap: 12px;
+  overflow: hidden;      /* Prevents long text from breaking the layout */
+}
+
+.btn-resource .tool-name {
+  color: var(--gruvbox-yellow-soft);
+  font-weight: bold;
+  flex-shrink: 0; /* Prevents the name from shrinking */
+}
+
+.btn-resource .tool-desc {
+  color: var(--text-color);
+  font-size: 1.1rem; /* Make description slightly smaller for hierarchy */
+  opacity: 0.8;
+  white-space: nowrap;     /* Keep it on one line */
+  overflow: hidden;        /* Hide any text that overflows */
+  text-overflow: ellipsis; /* Add '...' to overflowing text */
+}
+
+/* Helper class for the container on the resources page */
+.links-column {
+    display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .link-card.uniform {
-    width: 600px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
-    padding: 0 20px;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .icon {
-    flex-shrink: 0;
-    font-size: 1.5rem;
-  }
-  
-  .link-text {
-    display: flex;
-    gap: 6px;
-    align-items: baseline;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .tool-name {
-    align-items: baseline;
-    text-align: center;
-    color: var(--gruvbox-yellow-soft);
-    font-weight: bold;
-    min-width: 160px; /* adjust this width until all descriptions align */
-    display: inline-block;
-  }
-  
-  .tool-desc {
-    color: var(--text-color);
-    flex-shrink: 1;
-  }
+    gap: 1rem; /* Adds space between each resource link */
+}
