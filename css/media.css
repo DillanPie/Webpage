@@ -5,6 +5,13 @@
     padding: 2rem;
 }
 
+h1 {
+    text-align: center;
+    color: var(--gruvbox-yellow-soft);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
 .media-section {
     margin-bottom: 3rem;
 }
