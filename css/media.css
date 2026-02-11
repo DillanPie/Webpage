@@ -1,21 +1,8 @@
-body {
-    background-color: #282828;
-    color: #ebdbb2;
-    font-family: "Fira Code Nerd Font", monospace;
-    margin: 0;
-}
 
 .container {
     max-width: 1000px;
     margin: auto;
     padding: 2rem;
-}
-
-h1 {
-    text-align: center;
-    color: #d8a657;
-    margin-bottom: 2rem;
-    font-size: 2rem;
 }
 
 .media-section {
@@ -24,7 +11,7 @@ h1 {
 
 .media-section h2 {
     text-align: center;
-    color: #b8bb26;
+    color: var(--gruvbox-green-bright);
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
 }
@@ -65,16 +52,4 @@ h1 {
 
 .media-item img:hover {
     transform: scale(1.05);
-}
-
-.footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #1d2021;
-    color: #a89984;
-}
-
-a:hover {
-    color: #fabd2f;
-    text-decoration: underline;
 }

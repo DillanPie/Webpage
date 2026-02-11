@@ -1,23 +1,5 @@
 /* about.css */
 
-/* General Styling */
-body {
-    margin: 0;
-    background-color: #282828;
-    color: #ddc7a1;
-    font-family: "FiraCode Nerd Font", monospace;
-}
-
-/* Container */
-.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px;
-    background-color: #32302f;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
 /* About Content */
 .about-content {
     display: flex;
@@ -32,7 +14,7 @@ body {
     height: 180px;
     object-fit: cover;
     border-radius: 50%;
-    border: 4px solid #d8a657;
+    border: 4px solid var(--gruvbox-yellow-soft);
     margin-bottom: 20px; /* Adds space between image and text */
 }
 
@@ -47,7 +29,7 @@ body {
 }
 
 .about-text h2 {
-    color: #689d6a;
+    color: var(--gruvbox-aqua);
     margin-top: 20px;
 }
 
@@ -72,14 +54,14 @@ body {
     top: 50%;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.6);
-    color: #ffffff;
+    color: var(--gruvbox-dark-fg0);
     border-radius: 50%;
     user-select: none;
     transition: background-color 0.3s;
 }
 
 .prev:hover, .next:hover {
-    background-color: #fb4934;
+    background-color: var(--gruvbox-red);
 }
 
 .prev { left: 10px; }

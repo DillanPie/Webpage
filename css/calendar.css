@@ -1,8 +1,8 @@
 /* Calendar Wrapper */
 .calendar {
-    background-color: #282828;
-    color: #ebdbb2;
-    border: 3px solid #689d6a;
+    background-color: var(--gruvbox-dark-bg);
+    color: var(--gruvbox-dark-fg);
+    border: 3px solid var(--gruvbox-aqua);
     padding: 2rem;
     border-radius: 10px;
     font-family: "FiraCode Nerd Font", monospace;
@@ -22,7 +22,7 @@
   }
   
   /* Contribution Levels (adjusted to match Gruvbox) */
-  .calendar .contrib-column .day[data-level="0"] { fill: #32302f; } /* no contributions */
+  .calendar .contrib-column .day[data-level="0"] { fill: var(--gruvbox-dark-bg); } /* no contributions */
   .calendar .contrib-column .day[data-level="1"] { fill: #a9b665; } /* light green */
   .calendar .contrib-column .day[data-level="2"] { fill: #98971a; } /* mid green */
   .calendar .contrib-column .day[data-level="3"] { fill: #79740e; } /* dark green */
@@ -33,5 +33,5 @@
     padding: 2rem;
     font-size: 1.8rem;
     margin-bottom: 2rem;
-    color: #d8a657;
+    color: var(--gruvbox-yellow-soft);
   }

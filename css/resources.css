@@ -34,13 +34,13 @@
   .tool-name {
     align-items: baseline;
     text-align: center;
-    color: #fabd2f;
+    color: var(--gruvbox-yellow-soft);
     font-weight: bold;
     min-width: 160px; /* adjust this width until all descriptions align */
     display: inline-block;
   }
   
   .tool-desc {
-    color: #ebdbb2;
+    color: var(--text-color);
     flex-shrink: 1;
   }

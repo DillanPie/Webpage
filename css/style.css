@@ -1,9 +1,67 @@
+/*Color Palette definations */
+:root {
+  /* Dark Mode Colors */
+  --gruvbox-dark-bg: #282828;
+  --gruvbox-dark-bg0: #1d2021;
+  --gruvbox-dark-bg1: #3c3836;
+  --gruvbox-dark-bg2: #504945;
+  --gruvbox-dark-bg3: #665c54;
+  --gruvbox-dark-bg4: #7c6f64;
+  --gruvbox-dark-fg: #ebdbb2;
+  --gruvbox-dark-fg0: #fbf1c7;
+  --gruvbox-dark-fg1: #ebdbb2;
+  --gruvbox-dark-fg2: #d5c4a1;
+  --gruvbox-dark-fg3: #bdae93;
+  --gruvbox-dark-fg4: #a89984;
+
+  /* Light Mode Colors */
+  --gruvbox-light-bg: #fbf1c7;
+  --gruvbox-light-bg0: #f9f5d7;
+  --gruvbox-light-bg1: #ebdbb2;
+  --gruvbox-light-bg2: #d5c4a1;
+  --gruvbox-light-bg3: #bdae93;
+  --gruvbox-light-bg4: #a89984;
+  --gruvbox-light-fg: #3c3836;
+  --gruvbox-light-fg1: #282828;
+
+  /* Accent Colors (shared) */
+  --gruvbox-red: #cc241d;
+  --gruvbox-red-bright: #fb4934;
+  --gruvbox-green: #98971a;
+  --gruvbox-green-bright: #b8bb26;
+  --gruvbox-yellow: #d79921;
+  --gruvbox-yellow-bright: #fabd2f;
+  --gruvbox-yellow-soft:  #d8a657;
+  --gruvbox-blue: #458588;
+  --gruvbox-blue-bright: #83a598;
+  --gruvbox-purple: #b16286;
+  --gruvbox-purple-bright: #d3869b;
+  --gruvbox-aqua: #689d6a;
+  --gruvbox-aqua-bright: #8ec07c;
+  --gruvbox-orange: #d65d0e;
+  --gruvbox-orange-bright: #fe8019;
+  --gruvbox-gray: #928374;
+  --gruvbox-gray-bright: #a89984;
+
+  /*Site's Semantic Palette (assigning roles to colors) */
+--page-background: var(--gruvbox-dark-bg);
+--headings-color: var(--gruvbox-yellow-soft);
+--card-background: var(--gruvbox-dark-bg1);
+--border-color: var(--gruvbox-gray);
+--primary-accent: var(--gruvbox-yellow-bright); /* For links, buttons, highlights */
+--secondary-accent: var(--gruvbox-blue);     /* For secondary actions or details */
+--hover-accent: var(--gruvbox-red); /* For interactive element feedback */
+--text-color: var(--gruvbox-dark-fg0)
+
+}
+
+
 /* General Body Styling */
 body {
     margin: 0;
-    color: #ddc7a1;
+    color:  var(--gruvbox-dark-fg);
     font-family: "FiraCode Nerd Font", monospace;
-    background-color: #282828;
+    background-color: var(--gruvbox-dark-bg);
     text-align: center;
     overflow-x: hidden;
 }
@@ -24,11 +82,11 @@ body {
 
 /* Header */
 .header {
-    background: #32302f;
+    background: var(--gruvbox-dark-bg0);
     padding: 1.5rem;
     font-size: 2rem;
     font-weight: bold;
-    color: #d8a657;
+    color: var(--headings-color) ;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -37,7 +95,7 @@ body {
     position: sticky;
     top: 0;
     width: 100%;
-    background-color: #1d2021;
+    background-color: var(--gruvbox-dark-bg0);
     padding: 0.8rem 0;
     z-index: 10;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -48,7 +106,7 @@ body {
 }
 
 .navbar a {
-    color: #d8a657;
+    color: var(--headings-color);
     text-decoration: none;
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
@@ -57,12 +115,12 @@ body {
 }
 
 .navbar a:hover {
-    background-color: #fb4934;
-    color: #ffffff;
+    background-color: var(--hover-accent);
+    color:  var(--gruvbox-dark-fg0);
 }
 
 .navbar a:active {
-    background-color: #d65d0e;
+    background-color: var(--gruvbox-orange);
 }
 
 /* Container Boxes */
@@ -70,7 +128,7 @@ body {
     max-width: 70rem;
     margin: 5vh auto;
     padding: 2rem;
-    background-color: #32302f;
+    background-color: var(--gruvbox-dark-bg1);
     border-radius: 15px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     animation: fadeIn 1s ease-in-out;
@@ -81,13 +139,13 @@ body {
     font-size: 3.5rem;
     font-weight: bold;
     margin-bottom: 1.5rem;
-    color: #d8a657;
+    color: var(--headings-color);
 }
 
 .subtitle {
     font-size: 1.8rem;
     margin-bottom: 2rem;
-    color: #d65d0e;
+    color: var(--gruvbox-orange);
 }
 
 /* Links */
@@ -99,20 +157,20 @@ body {
 }
 
 .link-card {
-    background: #1d2021;
+    background: var(--gruvbox-dark-bg0);
     padding: 1.2rem 2.5rem;
     border-radius: 12px;
     text-decoration: none;
-    color: #d8a657;
+    color: var(--headings-color);
     font-size: 1.5rem;
     transition: transform 0.3s ease, background 0.3s ease;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .link-card:hover {
-    background: #fb4934;
+    background: var(--hover-accent);
     transform: translateY(-5px);
-    color: #ffffff;
+    color:  var(--gruvbox-dark-fg0);
 }
 
 /* Slideshow Container */
@@ -127,7 +185,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    background-color: #1d2021;
+    background-color: var(--gruvbox-dark-bg0);
 }
 
 /* Individual Slide */
@@ -144,7 +202,7 @@ body {
     height: auto;
     object-fit: contain;
     border-radius: 15px;
-    border: 5px solid #d8a657;
+    border: 5px solid var(--gruvbox-yellow-soft);
     box-sizing: border-box;
 }
 
@@ -167,7 +225,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     padding: 10px;
-    color: white;
+    color:  var(--gruvbox-dark-fg0);
     font-weight: bold;
     font-size: 2rem;
     background-color: rgba(0, 0, 0, 0.6);
@@ -178,7 +236,7 @@ body {
 }
 
 .prev:hover, .next:hover {
-    background-color: #fb4934;
+    background-color: var(--hover-accent);
 }
 
 .prev { left: 10px; }
@@ -195,14 +253,14 @@ body {
     height: 12px;
     width: 12px;
     margin: 0 4px;
-    background-color: #d8a657;
+    background-color: var(--gruvbox-yellow-soft);
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.3s;
 }
 
 .active, .dot:hover {
-    background-color: #fb4934;
+    background-color: var(--hover-accent);
 }
 
 /* Contact Form */
@@ -217,29 +275,29 @@ form input, form textarea {
     padding: 0.7rem;
     width: 80%;
     max-width: 500px;
-    background-color: #1d2021;
-    color: #d8a657;
-    border: 1px solid #d8a657;
+    background-color: var(--gruvbox-dark-bg0);
+    color: var(--headings-color);
+    border: 1px solid var(--gruvbox-yellow-soft);
     border-radius: 8px;
 }
 
 form input[type="submit"] {
-    background-color: #d65d0e;
-    color: white;
+    background-color: var(--gruvbox-orange);
+    color:  var(--gruvbox-dark-fg0);
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 form input[type="submit"]:hover {
-    background-color: #fb4934;
+    background-color: var(--hover-accent);
 }
 
 /* Footer */
 .footer {
     margin-top: 5vh;
     padding: 1.2rem;
-    background: #32302f;
-    color: #ddc7a1;
+    background: var(--gruvbox-dark-bg1);
+    color: var(--gruvbox-dark-fg2);
     font-size: 1.2rem;
     opacity: 0.8;
 }
@@ -265,8 +323,8 @@ form input[type="submit"]:hover {
 }
 
 .view-all-button {
-    background-color: #689d6a; /* Gruvbox Aqua */
-    color: #ffffff;
+    background-color: var(--gruvbox-aqua);
+    color:  var(--gruvbox-dark-fg0);
     padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
@@ -288,6 +346,6 @@ form input[type="submit"]:hover {
   }
   
   .footer a:hover {
-    color: #fabd2f;
+    color: var(--gruvbox-yellow-bright);
   }
   
