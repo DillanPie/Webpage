@@ -3,9 +3,16 @@
 /* About Content */
 .about-content {
     display: flex;
+    flex-direction: row;      /* Arrange items side-by-side */
+    align-items: flex-start;  /* Align items to the top of the container */
+    gap: 30px;                /* Creates space between the picture and the text */
+}
+
+.image-container {
+    display: flex;
     flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    text-align: center;  /* Center text under profile picture */
+    gap: 50px;
+    align-items: center;
 }
 
 /* Profile Picture Styling */
@@ -15,21 +22,95 @@
     object-fit: cover;
     border-radius: 50%;
     border: 4px solid var(--gruvbox-yellow-soft);
-    margin-bottom: 20px; /* Adds space between image and text */
+    flex-shrink: 0; /* Prevents the image from shrinking */
+}
+
+.UMW {
+    width: 180px;
+    height: auto;
+    border-radius: 15px;
+}
+
+.container h1{
+color: var(--gruvbox-orange)
 }
 
 /* About Text */
 .about-text {
     max-width: 700px;
+    text-align: left; /* Ensures text inside this div is left-aligned */
 }
+
+/* Remove top margin from the very first element (the <p> tag) in the text block for better alignment with the image. */
+.about-text > *:first-child {
+    margin-top: 0;
+}
+
 
 .about-text p {
     margin-bottom: 15px;
     line-height: 1.6;
 }
 
+
 .about-text h2 {
     color: var(--gruvbox-aqua);
     margin-top: 20px;
 }
 
+
+.captioned-image {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 4px solid var(--gruvbox-yellow-soft);
+    border-radius: 20%;
+    padding: 15px;
+    gap: 10px;
+}
+
+/* This styles the new caption text */
+.image-caption {
+    margin-top: 8px;    
+    font-size: 30px;   
+    color: var(--gruvbox-blue);
+    text-align: center;
+    line-height: 1;
+}
+
+.caption-year {
+    font-size: 0.8em;
+    color: var(--gruvbox-purple);
+}
+
+.btn-favMedia {
+    background-color: var(--gruvbox-blue);
+    color: var(--gruvbox-dark-fg1);
+    display: inline-block;
+    padding: 1rem 2rem; /* Using the padding from your link-card */
+    border-radius: 5px;     /* Using the border-radius from your link-card */
+    border: none;
+
+    /* --- Font & Text --- */
+    font-family: "FiraCode Nerd Font", monospace;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column; /* Revert to vertical stacking */
+        align-items: center;    /* Center content horizontally */
+    }
+    
+    .about-text {
+        text-align: center; /* Center text for a better mobile view */
+    }
+
+    .profile-pic {
+        margin-bottom: 20px; /* Add space below the image on mobile */
+    }
+}
