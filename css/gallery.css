@@ -1,0 +1,44 @@
+.grid {
+  /* Defines the number of columns and the gap between them */
+  column-count: 3;
+  column-gap: 15px;
+}
+
+.item {
+  /* Prevents items from breaking across columns */
+  break-inside: avoid;
+  margin-bottom: 15px; /* This is the vertical gap */
+  background: transparent;
+  box-shadow: none; /* We will re-add this in the JS version */
+}
+
+.js-enabled .grid {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 20px; /* A small unit for items to span across */
+  column-count: auto;
+  column-gap: normal;
+}
+
+.js-enabled .item {
+  break-inside: auto;
+  margin-bottom: 0;
+
+  /* Re-apply the original styling */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--gruvbox-orange);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.item img:hover {
+  transform: scale(1.05);
+}
