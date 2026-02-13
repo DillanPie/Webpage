@@ -16,6 +16,9 @@
   padding: 0 25px;           /* Adjust padding for the new layout */
   height: 65px;              /* Set a consistent height */
   gap: 20px;                 /* Space between the icon and text */
+
+  /*Backgrund color overide */
+  background-color: var(--gruvbox-dark-bg2);
 }
 
 .btn-resource:hover .icon,
