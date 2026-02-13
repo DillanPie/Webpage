@@ -1,6 +1,5 @@
-/* navbar.css */
 
-/* Sticky Navbar Styling */
+/* Main Navbar Container */
 .navbar {
     position: sticky;
     top: 0;
@@ -15,37 +14,41 @@
     transition: background-color 0.3s;
 }
 
-/* Navbar Links */
+/* Individual Navbar Links */
 .navbar a {
     color: var(--gruvbox-yellow-soft);
     text-decoration: none;
+    font-family: "FiraCode Nerd Font", monospace;
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-    font-family: "FiraCode Nerd Font", monospace;
 }
 
-/* Hover Effects */
+/* State: When hovering over a link */
 .navbar a:hover {
-    background-color: var(--hover-accent);
+    background-color: var(--hover-accent); /* Red background */
     color: var(--gruvbox-dark-fg0);
 }
 
-/* Active Link Styling with Smooth Transition */
+/* State: As a link is being clicked (from style.css) */
+.navbar a:active {
+    background-color: var(--gruvbox-orange);
+}
+
+/* State: For the link of the current page (added by navbar.js) */
 .navbar a.active {
-    background-color: var(--gruvbox-aqua);
+    background-color: var(--gruvbox-aqua); /* Green background */
     color: var(--gruvbox-dark-fg0);
-    transition: background-color 0.4s, color 0.4s, opacity 0.6s; /* Smooth transition effect */
 }
 
-
-/* Mobile-Friendly Navbar */
+/* Responsive styles for mobile devices */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
         padding: 1rem 0;
     }
+
     .navbar a {
         margin: 0.5rem 0;
     }

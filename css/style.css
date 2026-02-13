@@ -90,39 +90,6 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Sticky Navbar */
-.navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background-color: var(--gruvbox-dark-bg0);
-    padding: 0.8rem 0;
-    z-index: 10;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    transition: background-color 0.3s;
-}
-
-.navbar a {
-    color: var(--headings-color);
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.navbar a:hover {
-    background-color: var(--hover-accent);
-    color:  var(--gruvbox-dark-fg0);
-}
-
-.navbar a:active {
-    background-color: var(--gruvbox-orange);
-}
-
 /* Container Boxes */
 .container {
     max-width: 70rem;
@@ -186,15 +153,7 @@ form input[type="submit"]:hover {
     background-color: var(--hover-accent);
 }
 
-/* Footer */
-.footer {
-    margin-top: 5vh;
-    padding: 1.2rem;
-    background: var(--gruvbox-dark-bg1);
-    color: var(--gruvbox-dark-fg2);
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
+
 
 /* Mobile Friendly Adjustments */
 @media (max-width: 768px) {
@@ -210,17 +169,6 @@ form input[type="submit"]:hover {
         height: 400px;
     }
 }
-
-.footer a {
-    color: var(--gruvbox-dark-fg);
-    text-decoration: none;
-    margin-left: 8px;
-  }
-  
-  .footer a:hover {
-    color: var(--gruvbox-yellow-bright);
-  }
-  
 
   /* ============= UNIFIED BUTTON & LINK STYLES ============= */
 
