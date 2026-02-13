@@ -53,3 +53,6 @@
         margin: 0.5rem 0;
     }
 }
+.navbar a:hover {
+  transform: none; /* or transform: translateY(0); */
+}

@@ -223,3 +223,39 @@ form input[type="submit"]:hover {
     text-align: center;
 }
 /* ========================================================= */
+
+/* --- Unified Loading Animation --- */
+@keyframes fadeInOnLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 
+  This is a reusable utility class we can add via JavaScript 
+  to elements that are loaded dynamically, like the navbar and footer.
+*/
+.apply-load-animation {
+  /* Start hidden to prevent a flash of unstyled content */
+  opacity: 0;
+  animation: fadeInOnLoad 0.7s ease-out forwards;
+}
+
+.container{
+    animation: fadeInOnLoad 1s ease-in-out;
+}
+
+/* --- Unified Image Loading Animation --- */
+@keyframes imageFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

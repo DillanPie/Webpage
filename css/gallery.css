@@ -37,6 +37,7 @@
   border: 2px solid var(--gruvbox-orange);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
+  animation: imageFadeIn 0.6s ease-out forwards;
 }
 
 .item img:hover {
