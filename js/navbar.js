@@ -1,7 +1,7 @@
 // navbar.js
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('partials/navbar.html')
+    fetch('/partials/navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar').innerHTML = data;

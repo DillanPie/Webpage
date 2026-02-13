@@ -12,6 +12,7 @@
     <!-- CSS File Integration -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/slideshow.css" />
+    <link rel="stylesheet" href="css/navbar.css" />
 
     <!-- Nerd Fonts (For Icons) -->
     <link
@@ -50,12 +51,7 @@
 
   <body onload="showSlides()">
     <!-- Sticky Navbar -->
-    <div class="navbar">
-      <a href="#about">About Me</a>
-      <a href="#projects">Projects</a>
-      <a href="#resume">Resume</a>
-      <a href="#contact">Contact</a>
-    </div>
+    <div id="navbar" class="navbar"></div>
 
     <!-- Header Section -->
     <div class="header">Dillan Suon's Portfolio</div>
@@ -223,7 +219,8 @@
         <input type="submit" value="Send Message" />
       </form>
     </div>
-
+    <!--Navbar-->
+    <script src="js/navbar.js"></script>
     <!-- Footer Section -->
     <div id="footer-placeholder"></div>
     <script src="js/footer.js"></script>
