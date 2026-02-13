@@ -39,25 +39,29 @@ h1 {
 
 /* Shared Media Item Styling */
 .media-item {
-    width: 200px;
-    text-align: center;
+  width: 200px;
+  text-align: center;
 }
 
 .media-item img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid #665c54;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease;
-    animation: imageFadeIn 0.6s ease-out forwards;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #665c54;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  
+  /* This handles the smoothness of the hover effect */
+  transition: transform 0.3s ease;
+  
+  /* This now applies the non-conflicting fade-in animation */
+  animation: imageFadeIn 0.6s ease-out forwards;
 }
 
 .media-section:nth-of-type(2) .media-item img {
-    height: auto;
+  height: auto;
 }
 
 .media-item img:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
