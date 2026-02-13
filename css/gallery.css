@@ -23,7 +23,7 @@
 
 .js-enabled .item {
   break-inside: auto;
-  margin-bottom: 0;
+  margin-bottom: 15px;
 
   /* Re-apply the original styling */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -41,4 +41,18 @@
 
 .item img:hover {
   transform: scale(1.05);
+}
+
+h1 {
+    text-align: center;
+    color: var(--gruvbox-yellow-soft);
+    margin-bottom: 1rem;
+    font-size: 4rem;
+}
+
+h2 {
+    text-align: center;
+    color: var(--gruvbox-green-bright);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
 }
