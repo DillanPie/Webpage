@@ -1,4 +1,3 @@
-
 .title {
     font-size: 3rem;
     font-weight: bold;
@@ -18,18 +17,46 @@
     margin-bottom: 2rem;
 }
 
-
+/* MODIFIED PDF CONTAINER */
 .pdf-container {
+    position: relative; /* Crucial for centering the loader */
     background-color: #1d2021;
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    min-height: 400px; /* Gives the container a size during load */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* --- NEW STYLES for Loading Indicator --- */
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: var(--gruvbox-dark-fg);
+}
+
+.spinner {
+    border: 4px solid var(--gruvbox-dark-bg3);
+    border-top: 4px solid var(--gruvbox-aqua);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- HIDE CANVAS by default --- */
 .pdf-viewer {
     width: 100%;
-    height: 800px;
-    border: none;
+    height: auto;
+    display: none; /* Changed from visibility for simplicity */
     border-radius: 8px;
 }
-

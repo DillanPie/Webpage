@@ -4,23 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resume Preview - Dillan Suon</title>
-    <script src="js/resume.js"></script>
-    <!-- 1. External Libraries -->
+    <!-- Styles -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css"
     />
-    <!-- 2. Global Site Styles -->
     <link rel="stylesheet" href="css/style.css" />
-
-    <!-- 3. Reusable Component Styles -->
     <link rel="stylesheet" href="css/navbar.css" />
     <link rel="stylesheet" href="css/footer.css" />
-
-    <!-- 4. Page-Specific Styles-->
     <link rel="stylesheet" href="css/resume-preview.css" />
-
-    <!-- Favicon web icon-->
+    <!-- Favicons -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -47,7 +40,6 @@
     <div class="container">
       <h1 class="title">Dillan Suon's Resume</h1>
       <p class="subtitle">Download or View Below</p>
-
       <div class="resume-links">
         <a class="btn btn-default" href="resume/Dillan-Suon-Resume.pdf" download
           >󰇚 Download Resume</a
@@ -55,18 +47,22 @@
         <a class="btn btn-default" href="index.html"> Back to Portfolio</a>
       </div>
 
+      <!-- MODIFIED CONTAINER -->
       <div class="pdf-container">
-        <iframe
-          src="resume/Dillan-Suon-Resume.pdf"
-          class="pdf-viewer"
-          title="Resume PDF"
-        ></iframe>
+        <!-- 1. Add this loading indicator -->
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+          <p>Loading Resume...</p>
+        </div>
+        <!-- The canvas remains the same -->
+        <canvas id="pdf-render" class="pdf-viewer"></canvas>
       </div>
     </div>
 
-    <!-- Footer Section -->
-    <div id="footer-placeholder"></div>
+    <!-- Scripts -->
     <script src="js/footer.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="js/resume-preview.js"></script>
   </body>
 </html>
