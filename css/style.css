@@ -88,6 +88,8 @@ body {
     font-weight: bold;
     color: var(--headings-color) ;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Container Boxes */
@@ -98,20 +100,24 @@ body {
     background-color: var(--gruvbox-dark-bg1);
     border-radius: 15px;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
     animation: fadeIn 1s ease-in-out;
+    -webkit-animation: fadeIn 1s ease-in-out;
+    -moz-animation: fadeIn 1s ease-in-out;
 }
 
 /* Titles and Subtitles */
 .title {
-    font-size: 3.5rem;
+    font-size: 2.5rem; /* Adjusted for better mobile scaling */
     font-weight: bold;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     color: var(--headings-color);
 }
 
 .subtitle {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
+    font-size: 1.5rem; /* Adjusted for better mobile scaling */
+    margin-bottom: 1.5rem;
     color: var(--gruvbox-orange);
 }
 
@@ -120,7 +126,7 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1rem; /* Slightly reduced gap for mobile */
 }
 
 
@@ -134,7 +140,7 @@ form {
 
 form input, form textarea {
     padding: 0.7rem;
-    width: 80%;
+    width: 90%; /* Increased width for mobile */
     max-width: 500px;
     background-color: var(--gruvbox-dark-bg0);
     color: var(--headings-color);
@@ -147,6 +153,8 @@ form input[type="submit"] {
     color:  var(--gruvbox-dark-fg0);
     cursor: pointer;
     transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
 }
 
 form input[type="submit"]:hover {
@@ -157,16 +165,23 @@ form input[type="submit"]:hover {
 
 /* Mobile Friendly Adjustments */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        padding: 1rem 0;
+    .title {
+        font-size: 2rem;
     }
-    .navbar a {
-        margin: 0.5rem 0;
+    
+    .subtitle {
+        font-size: 1.2rem;
     }
+
+    .container {
+        margin: 3vh 15px; /* Adds side margin on mobile */
+        padding: 1.5rem;
+    }
+    
     .slideshow-container {
-        max-width: 90%;
-        height: 400px;
+        max-width: 95%; /* Allow slideshow to take more width */
+        height: auto; /* Let height be determined by aspect ratio */
+        min-height: 300px;
     }
 }
 
@@ -176,25 +191,31 @@ form input[type="submit"]:hover {
 .btn {
   /* --- Layout & Shape --- */
   display: inline-block;
-  padding: 1.2rem 2.5rem; /* Using the padding from your link-card */
-  border-radius: 12px;     /* Using the border-radius from your link-card */
+  padding: 1rem 1.5rem; /* Adjusted padding for better scaling */
+  border-radius: 12px;
   border: none;
 
   /* --- Font & Text --- */
   font-family: "FiraCode Nerd Font", monospace;
-  font-size: 1.5rem;      /* Using the font-size from your link-card */
+  font-size: 1.2rem; /* Adjusted for better mobile scaling */
   text-decoration: none;
   text-align: center;
   cursor: pointer;
 
   /* --- Effects --- */
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, background-color 0.3s ease;
+  -webkit-transition: transform 0.3s ease, background-color 0.3s ease;
+  -moz-transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Universal Hover Effect */
 .btn:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px); /* Reduced hover effect slightly */
+  -webkit-transform: translateY(-3px);
+  -moz-transform: translateY(-3px);
   color: var(--hover-accent);
 }
 
@@ -219,7 +240,7 @@ form input[type="submit"]:hover {
 
 /* Container for buttons that need extra margin */
 .button-container {
-    margin-top: 40px;
+    margin-top: 25px; /* Reduced margin for mobile */
     text-align: center;
 }
 /* ========================================================= */
@@ -233,6 +254,8 @@ form input[type="submit"]:hover {
     opacity: 1;
   }
 }
+@-webkit-keyframes fadeInOnLoad { from { opacity: 0; } to { opacity: 1; } }
+@-moz-keyframes fadeInOnLoad { from { opacity: 0; } to { opacity: 1; } }
 
 /* 
   This is a reusable utility class we can add via JavaScript 
@@ -242,10 +265,14 @@ form input[type="submit"]:hover {
   /* Start hidden to prevent a flash of unstyled content */
   opacity: 0;
   animation: fadeInOnLoad 0.7s ease-out forwards;
+  -webkit-animation: fadeInOnLoad 0.7s ease-out forwards;
+  -moz-animation: fadeInOnLoad 0.7s ease-out forwards;
 }
 
 .container{
     animation: fadeInOnLoad 1s ease-in-out;
+    -webkit-animation: fadeInOnLoad 1s ease-in-out;
+    -moz-animation: fadeInOnLoad 1s ease-in-out;
 }
 
 /* --- Unified Image Loading Animation --- */
@@ -257,3 +284,5 @@ form input[type="submit"]:hover {
     opacity: 1;
   }
 }
+@-webkit-keyframes imageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@-moz-keyframes imageFadeIn { from { opacity: 0; } to { opacity: 1; } }

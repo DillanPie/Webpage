@@ -12,10 +12,12 @@ h1 {
 /* Project Grid Styling */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+    /* On mobile, this will create a single column. On desktop, it fits as many 300px columns as possible. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; /* Reduced gap for mobile */
     margin-top: 30px;
 }
+
 
 .project-item {
     background-color: var(--gruvbox-dark-bg0);

@@ -57,3 +57,24 @@ h2 {
     margin-bottom: 1.5rem;
     font-size: 2rem;
 }
+
+
+/* Mobile adjustments for Gallery */
+@media (max-width: 768px) {
+    .grid {
+        column-count: 1; /* Single column on mobile */
+    }
+
+    .js-enabled .grid {
+        /* Adjust the minimum item width for mobile */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}

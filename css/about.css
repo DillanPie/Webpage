@@ -102,15 +102,21 @@ color: var(--gruvbox-orange)
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .about-content {
-        flex-direction: column; /* Revert to vertical stacking */
+        flex-direction: column; /* Stack content vertically */
         align-items: center;    /* Center content horizontally */
+        gap: 20px;
     }
     
     .about-text {
         text-align: center; /* Center text for a better mobile view */
+        max-width: 100%; /* Allow text to fill container */
     }
 
     .profile-pic {
         margin-bottom: 20px; /* Add space below the image on mobile */
+    }
+
+    .image-container {
+        gap: 20px;
     }
 }

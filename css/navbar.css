@@ -1,21 +1,28 @@
-
 /* Main Navbar Container */
 .navbar {
     position: sticky;
     top: 0;
     width: 100%;
     background-color: var(--gruvbox-dark-bg0);
-    padding: 0.8rem 0;
+    padding: 0.8rem 1rem; /* Add horizontal padding */
     z-index: 10;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Keep centered on desktop */
+    align-items: center; /* Vertically align items */
     gap: 2rem;
     transition: background-color 0.3s;
+    box-sizing: border-box; /* Include padding in width/height calculations */
+}
+
+/* Container for the links (will be added via JS) */
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
 }
 
 /* Individual Navbar Links */
-.navbar a {
+.navbar-menu a {
     color: var(--gruvbox-yellow-soft);
     text-decoration: none;
     font-family: "FiraCode Nerd Font", monospace;
@@ -25,34 +32,75 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* State: When hovering over a link */
-.navbar a:hover {
-    background-color: var(--hover-accent); /* Red background */
+/* States for links */
+.navbar-menu a:hover, .navbar-menu a:focus {
+    background-color: var(--hover-accent);
     color: var(--gruvbox-dark-fg0);
 }
 
-/* State: As a link is being clicked (from style.css) */
-.navbar a:active {
+.navbar-menu a:active {
     background-color: var(--gruvbox-orange);
 }
 
-/* State: For the link of the current page (added by navbar.js) */
-.navbar a.active {
-    background-color: var(--gruvbox-aqua); /* Green background */
+.navbar-menu a.active {
+    background-color: var(--gruvbox-aqua);
     color: var(--gruvbox-dark-fg0);
+}
+
+/* Hamburger Toggle Button - Hidden on Desktop */
+.navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 11; /* Ensure it's on top */
+}
+
+.navbar-toggle .icon-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--gruvbox-yellow-soft);
+    margin: 5px 0;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 /* Responsive styles for mobile devices */
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column;
-        padding: 1rem 0;
+        justify-content: flex-end; /* Align hamburger to the right */
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
     }
 
-    .navbar a {
-        margin: 0.5rem 0;
+    /* Show the hamburger button */
+    .navbar-toggle {
+        display: block;
     }
-}
-.navbar a:hover {
-  transform: none; /* or transform: translateY(0); */
+    
+    /* Style the menu container for dropdown */
+    .navbar-menu {
+        display: none; /* Hide menu by default */
+        position: absolute;
+        top: 100%; /* Position it right below the navbar */
+        left: 0;
+        width: 100%;
+        background-color: var(--gruvbox-dark-bg1);
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        gap: 0.5rem;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    /* This class will be toggled by JS to show the menu */
+    .navbar-menu.show {
+        display: flex;
+    }
+
+    .navbar-menu a {
+        width: 90%;
+        text-align: center;
+    }
 }
