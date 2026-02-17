@@ -32,36 +32,19 @@ h1 {
 
 /* For 3-wide video game grid */
 .games-grid {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* This creates 3 equal-width columns */
+    gap: 20px;                             
+
+    /* These lines keep it centered and prevent it from becoming too wide */
     max-width: 700px;
     margin: auto;
 }
 
-/* Shared Media Item Styling */
-.media-item {
-  width: 200px;
-  text-align: center;
-}
-
+/* AFTER: In media.css */
 .media-item img {
-  width: 100%;
+  /* This only keeps the unique properties */
   height: 280px;
   object-fit: cover;
-  border-radius: 8px;
   border: 2px solid #665c54;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  
-  /* This handles the smoothness of the hover effect */
-  transition: transform 0.3s ease;
-  
-  /* This now applies the non-conflicting fade-in animation */
-  animation: imageFadeIn 0.6s ease-out forwards;
-}
-
-.media-section:nth-of-type(2) .media-item img {
-  height: auto;
-}
-
-.media-item img:hover {
-  transform: scale(1.05);
 }
