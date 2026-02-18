@@ -252,19 +252,22 @@ form input[type="submit"]:hover {
 }
 
 /* Universal Hover Effect */
-.btn:hover {
+.btn:hover,
+.btn:focus {
   transform: translateY(-3px); /* Reduced hover effect slightly */
   -webkit-transform: translateY(-3px);
   -moz-transform: translateY(-3px);
   color: var(--hover-accent);
 }
 
-.btn-default {
+.btn-default,
+.btn:focus {
   background-color: var(--gruvbox-dark-bg0);
   color: var(--gruvbox-yellow-soft);
 }
 
-.btn-default:hover {
+.btn-default:hover,
+.btn:focusS {
   color: var(--hover-accent);
 }
 
