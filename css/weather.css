@@ -148,3 +148,22 @@ body.weather-loading #current-weather-container::after {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.scroll-arrow {
+    background-color: rgba(80, 80, 80, 0.4); /* A lighter, more transparent background */
+    backdrop-filter: blur(8px); /* The magic ingredient! */
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+
+.hourly-scroll-wrapper {
+  position: relative;
+}
+
+.scroll-arrow-left {
+  left: -15px;
+}
+
+.scroll-arrow-right {
+  right: -15px;
+}

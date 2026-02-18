@@ -161,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     },
 
+
     displayHourly: function(hourlyData) {
         const container = document.getElementById("hourly-forecast");
         container.innerHTML = "";
@@ -171,6 +172,8 @@ document.addEventListener("DOMContentLoaded", () => {
             el.innerHTML = `<div class="time">${new Date(hourlyData.time[i]).toLocaleTimeString([], { hour: 'numeric' })}</div><img src="https://openweathermap.org/img/wn/${icon}.png" alt="icon" /><div class="temp">${Math.round(hourlyData.temperature_2m[i])}°F</div>`;
             container.appendChild(el);
         }
+        // A short timeout ensures the browser has rendered the items before we check the scroll width.
+        setTimeout(updateScrollButtons, 100);
     },
 
     displayDaily: function(dailyData) {
@@ -215,6 +218,33 @@ document.addEventListener("DOMContentLoaded", () => {
         if (city) this.getWeatherForCity(city);
     },
   };
+
+   // --- Interactive Hourly Scroll Logic ---
+  const hourlyContainer = document.getElementById("hourly-forecast");
+  const scrollLeftBtn = document.getElementById("hourly-scroll-left");
+  const scrollRightBtn = document.getElementById("hourly-scroll-right");
+
+  const updateScrollButtons = () => {
+      // Add a small buffer (10px) to account for sub-pixel rendering.
+      const atStart = hourlyContainer.scrollLeft < 10;
+      const atEnd = hourlyContainer.scrollWidth - hourlyContainer.scrollLeft - hourlyContainer.clientWidth < 10;
+      
+      scrollLeftBtn.disabled = atStart;
+      scrollRightBtn.disabled = atEnd;
+  };
+
+  scrollLeftBtn.addEventListener("click", () => {
+      // Scroll by 300px or the width of about 3-4 items.
+      hourlyContainer.scrollBy({ left: -300, behavior: "smooth" });
+  });
+
+  scrollRightBtn.addEventListener("click", () => {
+      hourlyContainer.scrollBy({ left: 300, behavior: "smooth" });
+  });
+
+  // Update the buttons whenever the user scrolls manually with their mouse/touchpad.
+  hourlyContainer.addEventListener("scroll", updateScrollButtons);
+
 
   // --- Event Listeners and Initial Page Load ---
   document.querySelector(".weather-search-btn").addEventListener("click", () => weather.search());
