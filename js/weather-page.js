@@ -1,29 +1,98 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- DEVELOPMENT SWITCH ---
-  // Set to 'true' to use mock data without an API key.
-  // Set to 'false' and add your key below to use live data.
   const useMockData = false;
-
   let hourlyChart;
   let map;
 
   const weather = {
-    // This key is ONLY for the geocoding (city search) and map overlay.
     apiKey: "44a54a5ef877513e49804e198c18cb32",
 
     // --- Main Workflow ---
+    // STEP 1 (MODIFIED): Try browser geolocation first.
+    getLocationAndWeather: function() {
+        if (navigator.geolocation) {
+            document.body.classList.add("weather-loading");
+            document.getElementById("weather-search-input").placeholder = "Getting your location...";
+            
+            navigator.geolocation.getCurrentPosition(
+                // SUCCESS: User approved location access.
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    // NEW: Convert coordinates to a city name first.
+                    this.getCityNameFromCoords(latitude, longitude);
+                },
+                // ERROR: User denied or an error occurred.
+                (error) => {
+                    console.warn(`Geolocation Error (${error.code}): ${error.message}`);
+                    console.log("Falling back to IP-based location.");
+                    this.getWeatherByIP(); // Fallback to IP lookup.
+                }
+            );
+        } else {
+            // Browser doesn't support geolocation at all.
+            console.log("Geolocation not supported. Using IP-based location.");
+            this.getWeatherByIP();
+        }
+    },
+
+    // STEP 2 (NEW): Convert coordinates to a city name using Reverse Geocoding.
+    getCityNameFromCoords: function(lat, lon) {
+        const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${this.apiKey}`;
+        
+        fetch(url)
+            .then(res => {
+                if (!res.ok) throw new Error("Could not reverse geocode coordinates.");
+                return res.json();
+            })
+            .then(data => {
+                // Construct a city name like "Brooklyn, NY" if state is available.
+                const city = data[0]?.name || "Your Location";
+                const state = data[0]?.state;
+                const cityName = state ? `${city}, ${state}` : city;
+                
+                // Now that we have the name, get the full forecast.
+                this.getForecast(lat, lon, cityName);
+            })
+            .catch(err => {
+                console.error("Reverse Geocoding Error:", err);
+                // If reverse geocoding fails, still show the weather, but with a generic name.
+                alert("Could not find city name. Showing weather for your current coordinates.");
+                this.getForecast(lat, lon, "Your Location");
+            });
+    },
+
+    // STEP 3 (FALLBACK): Get location from IP address.
+    getWeatherByIP: function() {
+        document.getElementById("weather-search-input").placeholder = "Guessing location...";
+        
+        fetch('https://ipinfo.io/json')
+            .then(res => {
+                if (!res.ok) throw new Error("Could not fetch IP location.");
+                return res.json();
+            })
+            .then(data => {
+                const [lat, lon] = data.loc.split(',');
+                const cityName = `${data.city} (IP Approx.)`;
+                this.getForecast(parseFloat(lat), parseFloat(lon), cityName);
+            })
+            .catch(err => {
+                console.error("IP Geolocation Error:", err);
+                alert("Could not determine location. Defaulting to New York.");
+                this.getWeatherForCity("New York");
+            });
+    },
+    
+    // This function is for manual city searches
     getWeatherForCity: function(city) {
       document.body.classList.add("weather-loading");
-      // Decide whether to use live data or simulate with mock data
       if (useMockData) {
-        console.log("Mock Mode: Simulating geocoding for New York.");
         this.getForecast(40.71, -74.0, "New York (Mock Data)");
       } else {
         this.getCoords(city);
       }
     },
 
-    // Step 1: Use OpenWeather to get coordinates from a city name.
+    // This converts a city name string into coordinates for the forecast call
     getCoords: function(city) {
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}`)
         .then(res => { if (!res.ok) throw new Error("City not found."); return res.json(); })
@@ -31,12 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(err => { alert(err.message); document.body.classList.remove("weather-loading"); });
     },
 
-    // Step 2: Use coordinates to get FREE forecast data from Open-Meteo.
+    // This is the final step that gets forecast data from Open-Meteo.
     getForecast: function(lat, lon, cityName) {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,apparent_temperature,weathercode,windspeed_10m&hourly=temperature_2m,precipitation_probability,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto`;
-
       fetch(url)
-        .then(res => { if (!res.ok) throw new Error("Could not retrieve forecast from Open-Meteo."); return res.json(); })
+        .then(res => { if (!res.ok) throw new Error("Could not retrieve forecast."); return res.json(); })
         .then(data => {
             data.lat = lat;
             data.lon = lon;
@@ -45,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(err => { alert(err.message); document.body.classList.remove("weather-loading"); });
     },
 
-    // --- UI Display Functions ---
+    // --- All UI Display Functions (unchanged from before) ---
     displayAllWeather: function(data, cityName) {
         this.displayCurrent(data, cityName);
         this.displayHourlyChart(data.hourly);
@@ -53,8 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
         this.displayDaily(data.daily);
         this.displayWeatherMap(data.lat, data.lon);
 
-        const cityForImage = cityName.split('(')[0].trim();
-        document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${cityForImage},city)`;
+        const cityForImage = cityName.split(',')[0].trim();
+        document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${cityForImage},city')`;
         
         document.body.classList.remove("weather-loading");
         document.querySelector(".weather-search").value = cityName;
@@ -131,15 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!useMockData && this.apiKey && this.apiKey !== "YOUR_API_KEY_GOES_HERE") {
             L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${this.apiKey}`, { opacity: 0.7 }).addTo(map);
-        } else {
-            console.log("In mock mode. Using embedded Data URL for weather map overlay.");
-            const imageUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH6AYbFwslkpBrqwAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAVVSURBVHja7d1BjvwmEAVQJolI/v/L3kOQC4kgxJIi2Uu/tc45z8zM3p6XHoB5u+kCgP8TSAUE4gIBRcDiAyIUEIgLRBQCiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+IFEIgLhBQiA+... The rest of this is unchanged ...";
-            const imageBounds = [[38.0, -82.0], [45.0, -70.0]];
-            L.imageOverlay(imageUrl, imageBounds, { opacity: 0.6, interactive: true }).addTo(map);
         }
     },
 
-    // This helper function must be INSIDE the weather object to be called with 'this'
     getWeatherInfoFromCode: function(code) {
         const weatherMap = {
             0: { description: "Clear sky", icon: "01d" }, 1: { description: "Mainly clear", icon: "01d" }, 2: { description: "Partly cloudy", icon: "02d" }, 3: { description: "Overcast", icon: "04d" },
@@ -157,12 +219,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const city = document.querySelector(".weather-search").value;
         if (city) this.getWeatherForCity(city);
     },
-  }; // <-- The weather object correctly closes here
+  };
 
   // --- Event Listeners and Initial Page Load ---
   document.querySelector(".weather-search-btn").addEventListener("click", () => weather.search());
   document.getElementById("weather-search-input").addEventListener("keyup", e => e.key === "Enter" && weather.search());
   
-  weather.getWeatherForCity("New York");
-
+  weather.getLocationAndWeather();
 });

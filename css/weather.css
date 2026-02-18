@@ -83,18 +83,12 @@ body.weather-loading #current-weather {
   /* This blend mode is still the best for a glowing effect */
   mix-blend-mode: color-dodge;
 
-  /* 
-   * DIAL 1: BOOST THE CORE COLORS (More Intense)
-   * We are significantly increasing brightness and saturation before blending.
-   */
   filter: brightness(1.8) saturate(2) contrast(1.2);
 
-  /* 
-   * DIAL 2: ADD AN ACTUAL GLOW
+/* 
    * The drop-shadow filter adds a colored glow around the weather patterns.
-   * We'll use a bright aqua from your Gruvbox theme.
    * Format: drop-shadow(x-offset y-offset blur-radius color)
-   */
+   */ 
   filter: 
     brightness(1.5) 
     saturate(2) 
