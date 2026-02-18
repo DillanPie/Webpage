@@ -42,18 +42,32 @@
     <div class="center">
       <div class="card">
         <div class="weather loading">
-          <h2 class="city">Weather in King George</h2>
-          <h1 class="temp">51°F</h1>
+          <!-- This header holds the label, input, and button -->
+          <div class="weather-header">
+            <span class="weather-label">Weather in</span>
+
+            <input
+              type="text"
+              id="weather-search-input"
+              class="weather-search"
+              placeholder="Loading..."
+            />
+
+            <button class="weather-search-btn">Go</button>
+          </div>
+
+          <!-- Weather display (updated with generic text) -->
+          <h1 class="temp"></h1>
           <div class="flex">
             <img
               src="https://openweathermap.org/img/wn/04n.png"
               alt=""
               class="icon"
             />
-            <div class="description">Cloudy</div>
+            <div class="description"></div>
           </div>
-          <div class="humidity">Humidity: 60%</div>
-          <div class="wind">Wind speed: 6.2 Mph</div>
+          <div class="humidity"></div>
+          <div class="wind"></div>
         </div>
       </div>
       <div>

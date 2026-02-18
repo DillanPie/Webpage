@@ -1,157 +1,209 @@
+/* =================================================================== */
+/*                      STARTPAGE MASTER STYLESHEET                    */
+/* =================================================================== */
+
+/* --- General Startpage Layout --- */
+
 body {
     margin: 0;
-    color: #ddc7a1;
-    font-family: "FiraCode Nerd Font";
-    background-color: #282828;
-  }
+    padding: 0;
+}
 
-  .center {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    max-width: 40rem;
-    margin-inline: auto;
-    margin-top: 5vh;
-    /* Adjusted margin-top */
-  }
+.center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 45rem; 
+  margin-inline: auto;
+  margin-top: 5vh;
+  padding: 0 1rem; 
+}
 
-  .title {
-    font-size: 4rem;
-    font-weight: 900;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .search {
-    border-radius: 99999px;
-    border: none;
-    padding-block: 0.75rem;
-    padding-inline: 1rem;
-    background-color: #32302f;
-    color: #928374;
-    font-size: 1.2rem;
-    font-family: "FiraCode Nerd Font";
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    display:inline-flex;
-  }
-
-  .home-button {
-    display: inline-block;
-    font-size: 32px; /* Adjust size as per your needs */
-    cursor: pointer; /* Make it interactive */
-    color: #ddc7a1;
-  }
+.title {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-align: center;
   
-  .search:focus {
-    outline: 2px solid #928374;
-  }
-
-  .firstRows {
-    display: flex;
-    gap: 5rem;
-    margin-right: 1.5rem;
 }
 
-.secondRows {
-    display: flex;
-    gap: 5rem;
-    margin-right: 1.5rem;
+
+/* --- Main Google Search Bar --- */
+.main-search-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.firstRow {
-    font-size: 5rem;
-    text-decoration: none;
-    transition: 0.25s opacity ease;
+.home-button {
+  display: inline-block;
+  font-size: 32px;
+  text-decoration: none;
+  color: var(--gruvbox-dark-fg);
+  transition: color 0.2s;
+  margin: 1rem;
+}
+.home-button:hover {
+  color: var(--primary-accent);
 }
 
-.firstRow:hover {
-    opacity: 0.5;
+.search {
+  border-radius: 99999px;
+  border: none;
+  padding: 0.75rem 1.2rem;
+  background-color: var(--gruvbox-dark-bg1);
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-family: "FiraCode Nerd Font";
 }
 
-.firstRow.youtube {
-    color: #ea6962;
+.search:focus {
+  outline: 2px solid var(--secondary-accent);
 }
 
-.firstRow.reddit {
-    color: #e78a4e;
+
+/* --- Icon Link Grids --- */
+.firstRows, .secondRows {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5rem;
+  margin-top: 1.5rem;
 }
 
-.firstRow.github {
-    color: #d8a657;
+.firstRow, .secondRow {
+  font-size: 5rem;
+  text-decoration: none;
+  transition: 0.25s opacity ease;
 }
 
-.firstRow.gmail {
-    color: #fb4934;
+.firstRow:hover, .secondRow:hover {
+  opacity: 0.7;
 }
 
-.firstRow.messages {
-    color: #83a598;
-}
+/* Icon Colors */
+.firstRow.youtube { color: #ea6962; }
+.firstRow.reddit { color: #e78a4e; }
+.firstRow.github { color: #d8a657; }
+.firstRow.gmail { color: #fb4934; }
+.firstRow.messages { color: #83a598; }
 
-.secondRow {
-    font-size: 5.25rem;
-    text-decoration: none;
-    transition: 0.25s opacity ease;
-}
+.secondRow.office { color: #a9b665; }
+.secondRow.drive { color: #8ec07c; }
+.secondRow.outlook { color: #076678; }
+.secondRow.canvas { color: #9d0006; }
+.secondRow.school { color: #ebdbb2; }
 
-.secondRow:hover {
-    opacity: 0.5;
-}
 
-.secondRow.office {
-    color: #a9b665;
-}
-
-.secondRow.drive {
-    color: #8ec07c;
-}
-
-.secondRow.outlook {
-    color: #076678;
-}
-
-.secondRow.canvas {
-    color: #9d0006;
-}
-
-.secondRow.school {
-    color: #ebdbb2;
-}
+/* =================================================================== */
+/*                         WEATHER WIDGET STYLES                       */
+/* =================================================================== */
 
 .card {
-    background-color: #32302f;
-    border-radius: 75px;
-    padding: 5px;
-    margin: 20px auto;
-    width: 70%;
-    max-width: 800px;
-    color: #ddc7a1;
-    font-family: "FiraCode Nerd Font";
+  background-color: var(--card-background);
+  border-radius: 25px; /* Softened the corners slightly */
+  padding: 20px;
+  margin: 20px auto;
+  width: 100%; /* The card will now take the full width of its parent (.center) */
+  max-width: 35rem;
+  color: var(--text-color);
+  font-family: "FiraCode Nerd Font";
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .weather {
-    text-align: center;
-    padding: 10px;
-    margin-top: 10px;
+  text-align: center;
 }
 
-.weather.loading {
-    display: none;
+/* Hide the weather details until the data is loaded */
+.weather.loading .temp,
+.weather.loading .flex,
+.weather.loading .humidity,
+.weather.loading .wind {
+  display: none;
+}
+
+/* --- THE CORRECTED & FLUID WEATHER HEADER --- */
+.weather-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap; /* Allows stacking on very small screens, but the fluid input prevents it */
+  margin-bottom: 25px;
+}
+
+.weather-label {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  /* The label will not shrink */
+  flex-shrink: 0;
+}
+
+.weather-search {
+  /* This input is now fluid and responsive */
+  flex-grow: 1;      /* Allows it to grow and fill available space */
+  flex-shrink: 1;    /* Allows it to shrink when the card is narrow */
+  min-width: 150px;  /* Prevents it from becoming too small */
+  max-width: 200px;  /* Prevents it from becoming too large */
+  
+  /* Styling consistent with style.css */
+  font-family: "FiraCode Nerd Font";
+  font-size: 1.2rem;
+  color: var(--text-color);
+  background-color: var(--gruvbox-dark-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 15px;
+}
+
+.weather-search:focus {
+  outline: 2px solid var(--secondary-accent);
+}
+
+.weather-search-btn {
+  /* This button now inherits from the .btn class principles */
+  font-family: "FiraCode Nerd Font";
+  font-size: 1rem;
+  color: var(--gruvbox-dark-fg0);
+  background-color: var(--secondary-accent); /* Using semantic color */
+  border: none;
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* The button will not shrink */
+  flex-shrink: 0;
+}
+
+.weather-search-btn:hover {
+  background-color: var(--gruvbox-blue-bright);
+}
+
+/* --- Weather Details Display --- */
+.temp {
+  font-size: 3rem;
+  margin: 10px 0;
 }
 
 .flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flex img {
-    width: 50px;
-    margin-right: 20px;
+  width: 50px;
+  margin-right: 15px;
+}
+
+.description {
+  text-transform: capitalize;
 }
 
 .humidity,
 .wind {
-    margin-top: 10px;
+  margin-top: 15px;
 }
