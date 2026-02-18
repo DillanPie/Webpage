@@ -1,0 +1,78 @@
+/* --- Loading State --- */
+/* When the body has this class, hide all containers except the first one */
+body.weather-loading #hourly-container,
+body.weather-loading #daily-container,
+body.weather-loading #map-container {
+  display: none;
+}
+
+/* While loading, keep the top container visible but hide its main content */
+body.weather-loading #current-weather {
+    visibility: hidden;
+}
+
+
+/* --- Search Header --- */
+.weather-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap; 
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--gruvbox-dark-bg4);
+  padding-bottom: 1.5rem;
+}
+.weather-label { font-size: 2rem; font-weight: bold; }
+.weather-search {
+  flex-grow: 1; max-width: 250px; font-size: 1.2rem;
+  color: var(--text-color); background-color: var(--gruvbox-dark-bg);
+  border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 15px;
+}
+.weather-search-btn {
+  font-size: 1rem; color: var(--gruvbox-dark-fg0); background-color: var(--secondary-accent);
+  border: none; border-radius: 14px; padding: 10px 12px; cursor: pointer;
+}
+
+/* --- Current Weather --- */
+#current-weather { text-align: center; }
+.city-name { font-size: 2.5rem; margin-bottom: 1rem; }
+.current-main { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+.current-temp { font-size: 5rem; font-weight: bold; }
+.current-icon { width: 100px; }
+.current-description { text-transform: capitalize; font-size: 1.5rem; margin-top: -1rem; }
+.current-extras {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--gruvbox-dark-fg2);
+}
+
+/* --- Shared Forecast Styles (for the <h3> titles) --- */
+.container .subtitle {
+    text-align: left;
+    border-bottom: 1px solid var(--gruvbox-dark-bg3);
+    padding-bottom: 0.5rem;
+}
+
+/* --- Hourly & Daily Forecasts (These styles are correct) --- */
+.hourly-forecast-container { display: flex; overflow-x: auto; padding: 1rem 0.5rem; gap: 1rem; scrollbar-width: thin; scrollbar-color: var(--gruvbox-dark-bg3) var(--gruvbox-dark-bg1); }
+.hourly-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; background: rgba(40, 40, 40, 0.4); padding: 1rem; border-radius: 15px; min-width: 80px; }
+.hourly-item .temp { font-size: 1.2rem; }
+.hourly-item .icon { width: 50px; }
+.daily-forecast-container { display: flex; flex-direction: column; gap: 0.75rem; }
+.daily-item { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0.75rem 1rem; background: rgba(40, 40, 40, 0.4); border-radius: 10px; }
+.daily-item .day { font-weight: bold; }
+.daily-item .icon-temp { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+.daily-item .icon { width: 40px; }
+.daily-item .temps { text-align: right; }
+
+/* --- Map Styles --- */
+#weather-map {
+  height: 450px;
+  width: 100%;
+  border-radius: 15px;
+  background-color: #1d2021;
+}
