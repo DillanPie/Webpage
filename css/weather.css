@@ -100,3 +100,51 @@ body.weather-loading #current-weather {
 .leaflet-pane.leaflet-weather-pane .leaflet-layer {
   opacity: 0.9; /* Increased from 0.8 */
 }
+
+/* --- Error Message Styling --- */
+.weather-error {
+  /* Use your theme's red for text color */
+  color: var(--gruvbox-red-bright);
+  /* Add a subtle, transparent red background */
+  background-color: rgba(204, 36, 29, 0.2);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem; /* Adds space between the error and weather data */
+  font-size: 1.1rem;
+  text-align: center;
+  /* Hide it by default; we'll show it with JavaScript */
+  display: none;
+  border: 1px solid var(--gruvbox-red);
+}
+
+/* --- Enhanced Loading Spinner --- */
+/* This makes the container a reference point for the spinner */
+body.weather-loading #current-weather-container {
+    position: relative;
+    /* Ensure a minimum height so the spinner is visible even when empty */
+    min-height: 300px;
+}
+
+/* This pseudo-element IS the spinner. It only appears when the body has the 'weather-loading' class. */
+body.weather-loading #current-weather-container::after {
+  content: '';
+  position: absolute;
+  /* Center it in the container */
+  top: 50%;
+  left: 50%;
+  /* Spinner dimensions */
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;  /* Half of height */
+  margin-left: -25px; /* Half of width */
+  /* The gray "track" of the spinner */
+  border: 5px solid var(--gruvbox-dark-bg3);
+  /* The colored, moving part of the spinner */
+  border-top-color: var(--primary-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
