@@ -77,28 +77,17 @@ body.weather-loading #current-weather {
   background-color: #1d2021;
 }
 
-/* --- Map Visibility Enhancement --- */
-
-.leaflet-pane.leaflet-weather-pane {
-  /* This blend mode is still the best for a glowing effect */
-  mix-blend-mode: color-dodge;
-
-  filter: brightness(1.8) saturate(2) contrast(1.2);
-
-/* 
-   * The drop-shadow filter adds a colored glow around the weather patterns.
-   * Format: drop-shadow(x-offset y-offset blur-radius color)
-   */ 
-  filter: 
-    brightness(1.5) 
-    saturate(2) 
-    contrast(1.2) 
-    drop-shadow(0 0 6px var(--gruvbox-aqua-bright)); /* Adjust the '4px' to make the glow larger or smaller */
+#weather-map .leaflet-tile-pane img:not(.rainviewer-layer) {
+    filter: sepia(20%) brightness(105%) saturate(80%) contrast(95%);
 }
 
-/* We can also increase the base opacity for a stronger effect */
-.leaflet-pane.leaflet-weather-pane .leaflet-layer {
-  opacity: 0.9; /* Increased from 0.8 */
+#weather-map .rainviewer-layer {
+    filter: sepia(45%) saturate(200%) brightness(95%) contrast(130%);  }
+
+.leaflet-pane.leaflet-tile-pane {
+  filter: 
+    hue-rotate(-20deg)
+    saturate(140%);
 }
 
 /* --- Error Message Styling --- */

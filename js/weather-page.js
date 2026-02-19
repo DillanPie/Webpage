@@ -116,8 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         this.displayDaily(data.daily);
         this.displayWeatherMap(data.lat, data.lon);
 
-        const cityForImage = cityName.split(',')[0].trim();
-        document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${cityForImage},city')`;
         
         document.body.classList.remove("weather-loading");
         document.querySelector(".weather-search").value = cityName;
@@ -190,15 +188,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     },
     
-    displayWeatherMap: function(lat, lon) {
-        if (map) { map.remove(); }
-        map = L.map('weather-map').setView([lat, lon], 9);
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', { attribution: '&copy; Stadia Maps' }).addTo(map);
 
-        if (!useMockData && this.apiKey && this.apiKey !== "YOUR_API_KEY_GOES_HERE") {
-            L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${this.apiKey}`, { opacity: 0.7 }).addTo(map);
-        }
-    },
+
+displayWeatherMap: function(lat, lon) {
+    if (map) {
+        map.remove();
+    }
+    map = L.map('weather-map').setView([lat, lon], 9);
+
+    // 1. Add the light base map (this is your existing base map)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    }).addTo(map);
+
+    // 2. Asynchronously fetch and add the RainViewer radar layer
+    fetch('https://api.rainviewer.com/public/weather-maps.json')
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('RainViewer API request failed');
+            }
+            return res.json();
+        })
+        .then(data => {
+            // Get the path for the most recent radar map
+            const latestTimestampPath = data.radar.past[data.radar.past.length - 1].path;
+            
+            // Construct the tile URL for the RainViewer layer
+            const radarUrl = `https://tilecache.rainviewer.com/v2/radar/${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
+
+            // Add the RainViewer layer to the map
+            L.tileLayer(radarUrl, {
+                attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
+                opacity: 0.7, // Use some transparency to see the map underneath
+                className: 'rainviewer-layer'
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error("Could not load RainViewer radar layer:", error);
+            // Optional: You could add a fallback layer here if RainViewer fails
+            console.log("Falling back to the original MeteoBlue layer.");
+            L.tileLayer('https://my.meteoblue.com/images/map/web/packages/rain/nowcast_regular/{z}/{x}/{y}.png', {
+                attribution: ' | <a href="https://www.meteoblue.com" target="_blank">MeteoBlue (Fallback)</a>'
+            }).addTo(map);
+        });
+},
+
+
 
     getWeatherInfoFromCode: function(code) {
         const weatherMap = {
