@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const useMockData = false;
   let hourlyChart;
   let map;
+  let expandedMap; 
 
   const weather = {
     apiKey: "44a54a5ef877513e49804e198c18cb32",
@@ -114,11 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
         this.displayHourlyChart(data.hourly);
         this.displayHourly(data.hourly);
         this.displayDaily(data.daily);
-        this.displayWeatherMap(data.lat, data.lon);
+        this.displayWeatherMap(data.lat, data.lon, 'map', false);
 
         
         document.body.classList.remove("weather-loading");
         document.querySelector(".weather-search").value = cityName;
+        document.getElementById("timestamp").innerText = new Date().toLocaleTimeString();
         
         setTimeout(() => map && map.invalidateSize(), 100);
     },
@@ -188,52 +190,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     },
     
-
-
-displayWeatherMap: function(lat, lon) {
-    if (map) {
-        map.remove();
-    }
-    map = L.map('weather-map').setView([lat, lon], 9);
-
-    // 1. Add the light base map (this is your existing base map)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-    }).addTo(map);
-
-    // 2. Asynchronously fetch and add the RainViewer radar layer
-    fetch('https://api.rainviewer.com/public/weather-maps.json')
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('RainViewer API request failed');
-            }
-            return res.json();
-        })
-        .then(data => {
-            // Get the path for the most recent radar map
-            const latestTimestampPath = data.radar.past[data.radar.past.length - 1].path;
-            
-            // Construct the tile URL for the RainViewer layer
-            const radarUrl = `https://tilecache.rainviewer.com/v2/radar/${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
-
-            // Add the RainViewer layer to the map
-            L.tileLayer(radarUrl, {
-                attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
-                opacity: 0.7, // Use some transparency to see the map underneath
-                className: 'rainviewer-layer'
-            }).addTo(map);
-        })
-        .catch(error => {
-            console.error("Could not load RainViewer radar layer:", error);
-            // Optional: You could add a fallback layer here if RainViewer fails
-            console.log("Falling back to the original MeteoBlue layer.");
-            L.tileLayer('https://my.meteoblue.com/images/map/web/packages/rain/nowcast_regular/{z}/{x}/{y}.png', {
-                attribution: ' | <a href="https://www.meteoblue.com" target="_blank">MeteoBlue (Fallback)</a>'
-            }).addTo(map);
-        });
-},
-
-
+    displayWeatherMap: function(lat, lon, mapId, isExpanded) {
+        let mapInstance;
+    
+        if (isExpanded) {
+            if (expandedMap) expandedMap.remove();
+            expandedMap = L.map(mapId).setView([lat, lon], 9);
+            mapInstance = expandedMap;
+        } else {
+            if (map) map.remove();
+            map = L.map(mapId).setView([lat, lon], 9);
+            mapInstance = map;
+        }
+    
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(mapInstance);
+    
+        fetch('https://api.rainviewer.com/public/weather-maps.json')
+            .then(res => {
+                if (!res.ok) throw new Error('RainViewer API request failed');
+                return res.json();
+            })
+            .then(data => {
+                const latestTimestampPath = data.radar.past[data.radar.past.length - 1].path;
+                const radarUrl = `https://tilecache.rainviewer.com/v2/radar/${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
+                L.tileLayer(radarUrl, {
+                    attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
+                    opacity: 0.7,
+                    className: 'rainviewer-layer'
+                }).addTo(mapInstance);
+            })
+            .catch(error => {
+                console.error("Could not load RainViewer radar layer:", error);
+            });
+    },
 
     getWeatherInfoFromCode: function(code) {
         const weatherMap = {
@@ -249,18 +240,18 @@ displayWeatherMap: function(lat, lon) {
     },
 
     search: function() {
+        document.querySelector(".weather-search-btn").disabled = true;
+        document.querySelector(".weather-search-input").disabled = true;
         const city = document.querySelector(".weather-search").value;
         if (city) this.getWeatherForCity(city);
     },
   };
 
-   // --- Interactive Hourly Scroll Logic ---
   const hourlyContainer = document.getElementById("hourly-forecast");
   const scrollLeftBtn = document.getElementById("hourly-scroll-left");
   const scrollRightBtn = document.getElementById("hourly-scroll-right");
 
   const updateScrollButtons = () => {
-      // Add a small buffer (10px) to account for sub-pixel rendering.
       const atStart = hourlyContainer.scrollLeft < 10;
       const atEnd = hourlyContainer.scrollWidth - hourlyContainer.scrollLeft - hourlyContainer.clientWidth < 10;
       
@@ -269,7 +260,6 @@ displayWeatherMap: function(lat, lon) {
   };
 
   scrollLeftBtn.addEventListener("click", () => {
-      // Scroll by 300px or the width of about 3-4 items.
       hourlyContainer.scrollBy({ left: -300, behavior: "smooth" });
   });
 
@@ -277,13 +267,44 @@ displayWeatherMap: function(lat, lon) {
       hourlyContainer.scrollBy({ left: 300, behavior: "smooth" });
   });
 
-  // Update the buttons whenever the user scrolls manually with their mouse/touchpad.
   hourlyContainer.addEventListener("scroll", updateScrollButtons);
 
-
-  // --- Event Listeners and Initial Page Load ---
   document.querySelector(".weather-search-btn").addEventListener("click", () => weather.search());
   document.getElementById("weather-search-input").addEventListener("keyup", e => e.key === "Enter" && weather.search());
   
   weather.getLocationAndWeather();
+
+  // --- Modal Logic ---
+  const mapModal = document.getElementById('map-modal');
+  const closeModalBtn = document.querySelector('.close-modal');
+  const mainMapContainer = document.getElementById('map');
+
+  mainMapContainer.addEventListener('click', () => {
+      mapModal.classList.add('visible');
+      document.body.classList.add('modal-open');
+      const currentCenter = map.getCenter();
+      const currentZoom = map.getZoom();
+      weather.displayWeatherMap(currentCenter.lat, currentCenter.lng, 'expanded-map', true);
+      setTimeout(() => expandedMap.invalidateSize(), 100); 
+  });
+
+  closeModalBtn.addEventListener('click', () => {
+      mapModal.classList.remove('visible');
+      document.body.classList.remove('modal-open');
+      if (expandedMap) {
+          expandedMap.remove();
+          expandedMap = null;
+      }
+  });
+
+  mapModal.addEventListener('click', (e) => {
+      if (e.target === mapModal) {
+          mapModal.classList.remove('visible');
+          document.body.classList.remove('modal-open');
+          if (expandedMap) {
+              expandedMap.remove();
+              expandedMap = null;
+          }
+      }
+  });
 });

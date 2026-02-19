@@ -130,12 +130,42 @@
 
     <!-- Container 4: Map -->
     <div class="container" id="map-container">
-      <h3 class="subtitle">Live Weather Map</h3>
-      <div id="weather-map"></div>
+      <div class="map-header">
+        <h3>Live Weather</h3>
+        <div id="timestamp-container">
+          <p>Last updated: <span id="timestamp"></span></p>
+        </div>
+        <div id="map-legend">
+          <ul>
+            <li>
+              <span style="background-color: var(--radar-light-pink)"></span>
+              Light
+            </li>
+            <li>
+              <span style="background-color: var(--radar-blue)"></span>
+              Moderate
+            </li>
+            <li>
+              <span style="background-color: var(--radar-yellow)"></span> Heavy
+            </li>
+            <li>
+              <span style="background-color: var(--radar-orange)"></span> V.
+              Heavy
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="map"></div>
     </div>
 
     <!-- Footer -->
     <div id="footer-placeholder"></div>
+
+    <!-- Modal-->
+    <div id="map-modal" class="map-modal">
+      <span class="close-modal" title="Close">&times;</span>
+      <div id="expanded-map"></div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/navbar.js"></script>

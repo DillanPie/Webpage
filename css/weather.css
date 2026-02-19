@@ -11,6 +11,11 @@ body.weather-loading #current-weather {
     visibility: hidden;
 }
 
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--gruvbox-orange);
+}
 
 /* --- Search Header --- */
 .weather-header {
@@ -70,7 +75,7 @@ body.weather-loading #current-weather {
 .daily-item .temps { text-align: right; }
 
 /* --- Map Styles --- */
-#weather-map {
+#map {
   height: 450px;
   width: 100%;
   border-radius: 15px;
@@ -89,6 +94,114 @@ body.weather-loading #current-weather {
     hue-rotate(-20deg)
     saturate(140%);
 }
+
+/*Weather Map Legend */
+.map-header {
+    display: flex;
+    justify-content: space-between; /* Pushes title and legend apart */
+    align-items: center;
+    margin-bottom: 1rem; /* Adds some space above the map */
+
+  --radar-light-pink: #ffe2be;
+  --radar-blue: #3f827e;
+  --radar-yellow: #ffe916;
+  --radar-orange: #ffb82e;
+}
+
+/* Reset the legend to be a simple flex container */
+#map-legend {
+    padding: 0;
+}
+
+#map-legend ul {
+    display: flex;      /* Makes the list items display horizontally */
+    gap: 1rem;          /* Creates space between each legend item */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#map-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;        /* Creates space between the color swatch and text */
+    font-size: 0.9em;   /* Makes the font slightly smaller */
+    color: var(--light2); /* Use a slightly more subtle text color from your theme */
+}
+
+/* Find this existing rule in your weather.css */
+#map-legend li span {
+    display: inline-block; /* <-- ADD THIS LINE - This makes the square visible */
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--dark3);
+    border-radius: 3px;
+}
+
+/* --- Timestamp Styles --- */
+#timestamp-container p {
+  margin: 0; 
+  font-size: 0.9em;
+  color: var(--gruvbox-dark-fg2);
+}
+
+/* --- Styles for Expanded Map Modal --- */
+
+/* Make the original map look clickable */
+#map {
+  cursor: pointer;
+}
+
+/* Modal background - hidden by default */
+.map-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Class to show the modal via JavaScript */
+.map-modal.visible {
+  display: flex;
+}
+
+/* Container for the expanded map inside the modal */
+#expanded-map {
+  width: 90vw;
+  height: 90vh;
+  border: 2px solid var(--gruvbox-dark-bg3, #504945);
+  border-radius: 8px;
+}
+
+/* Style for the close button */
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Prevent the main page from scrolling when the modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
 
 /* --- Error Message Styling --- */
 .weather-error {
