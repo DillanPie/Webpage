@@ -9,10 +9,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/navbar.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/resume-preview.css" />
+    <script type="module">
+      import "/css/resume-preview.css";
+    </script>
+    >
     <!-- Favicons -->
     <link
       rel="apple-touch-icon"
@@ -60,9 +60,11 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/footer.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script src="js/resume-preview.js"></script>
+    <script type="module" src="/js/include/main.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"
+      defer
+    ></script>
+    <script src="js/resume-preview.js" defer></script>
   </body>
 </html>

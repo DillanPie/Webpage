@@ -1,65 +1,72 @@
-/*
-  MODIFIER for Resource Page Links
-  - This class works WITH .btn to change its layout from a centered
-    button to a full-width, left-aligned info bar.
-*/
-.btn-resource {
-  /* --- Layout Overrides --- */
-  display: flex;             /* Use flexbox for internal alignment */
-  justify-content: flex-start; /* Align content to the left */
-  align-items: center;
-  width: 100%;               /* Make button fill its container */
-  max-width: 700px;          /* Set a max-width for large screens */
-  text-align: left;          /* Override the default centered text */
-  
-  /* --- Shape & Spacing Overrides --- */
-  padding: 0 25px;           /* Adjust padding for the new layout */
-  height: 65px;              /* Set a consistent height */
-  gap: 20px;                 /* Space between the icon and text */
+/* In css/resources.css */
 
-  /*Backgrund color overide */
+/* 
+  REPLACE your old .btn-resource rule with this one.
+  By targeting the element with both classes, we increase specificity
+  and guarantee this rule will override the base .btn styles.
+*/
+a.btn.btn-resource {
+  /* --- Layout --- */
+  display: flex;
+  flex-direction: row;
+  align-items: center;         /* Vertically centers the icon and text */
+  justify-content: flex-start; /* Aligns the icon and text to the far left */
+  
+  /* --- Sizing & Spacing --- */
+  width: 100%;
+  max-width: 700px;
+  height: 65px;
+  padding: 0 25px;
+  gap: 20px;
+  
+  /* --- Appearance --- */
+  text-align: left; /* Explicitly set text-align for any non-flex children */
   background-color: var(--gruvbox-dark-bg2);
 }
 
+/* The hover and child element styles remain the same */
 .btn-resource:hover .icon,
 .btn-resource:hover .tool-name {
   color: var(--gruvbox-red-bright);
 }
 
 .btn-resource .icon {
-  flex-shrink: 0; /* Prevents the icon from being squished */
+  flex-shrink: 0;
   font-size: 1.8rem;
-  width: 30px;    /* Gives the icon a consistent space */
+  width: 30px;
   text-align: center;
   color: var(--gruvbox-yellow-soft)
 }
 
-.btn-resource .text-content {
+/* Make sure this uses the correct class name you have in your HTML ('link-text' or 'text-content') */
+.btn-resource .link-text { /* Or .text-content */
   display: flex;
-  align-items: baseline; /* Aligns the bottom of the name and description */
+  align-items: baseline;
   gap: 12px;
-  overflow: hidden;      /* Prevents long text from breaking the layout */
+  overflow: hidden;
 }
 
 .btn-resource .tool-name {
   color: var(--gruvbox-yellow-soft);
   font-weight: bold;
-  flex-shrink: 0; /* Prevents the name from shrinking */
+  flex-shrink: 0;
 }
 
 .btn-resource .tool-desc {
   color: var(--text-color);
-  font-size: 1.1rem; /* Make description slightly smaller for hierarchy */
+  font-size: 1.1rem;
   opacity: 0.8;
-  white-space: nowrap;     /* Keep it on one line */
-  overflow: hidden;        /* Hide any text that overflows */
-  text-overflow: ellipsis; /* Add '...' to overflowing text */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* In css/resources.css */
 
 /* Helper class for the container on the resources page */
 .links-column {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem; /* Adds space between each resource link */
+    align-items: center;  /* THIS IS THE FIX: Centers the entire column of buttons horizontally */
+    gap: 1.25rem;         /* This adds space between each button. Feel free to adjust the value (e.g., 1rem, 1.5rem) */
 }
