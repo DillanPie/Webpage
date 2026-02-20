@@ -1,0 +1,17 @@
+{
+  "name": "webpage",
+  "version": "1.0.0",
+  "description": "Welcome to my personal portfolio website! This site showcases my skills, projects, and resume, all wrapped in a clean, dark-themed design inspired by the **Gruvbox** color palette.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "glob": "^13.0.6",
+    "vite": "^7.3.1"
+  }
+}
