@@ -11,8 +11,8 @@ YELLOW=$'\\033[0;33m'
 RED=$'\\033[0;31m'
 NC=$'\\033[0m' # No Color
 
-SOURCE_DIR="Photos"
-OUTPUT_DIR="Photos-WebP"
+SOURCE_DIR="public/Photos"
+OUTPUT_DIR="public/Photos-WebP"
 WEBP_QUALITY=75
 
 # --- 1. Prerequisite Check ---
