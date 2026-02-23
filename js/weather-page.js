@@ -158,10 +158,79 @@ document.addEventListener("DOMContentLoaded", () => {
         const precipData = hourlyData.precipitation_probability.slice(0, 24);
 
         hourlyChart = new Chart(ctx, {
-            type: 'bar', data: { labels, datasets: [ { type: 'line', label: 'Temp (°F)', data: tempData, borderColor: '#fabd2f', tension: 0.4, yAxisID: 'yTemp' }, { type: 'bar', label: 'Precipitation (%)', data: precipData, backgroundColor: '#83a598', yAxisID: 'yPrecip' } ] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#ebdbb2' } }, yTemp: { position: 'left', ticks: { color: '#fabd2f' }, grid: { drawOnChartArea: false } }, yPrecip: { position: 'right', max: 100, ticks: { color: '#83a598' } } } }
+            type: 'bar', 
+            data: { 
+                labels, 
+                datasets: [
+                    { type: 'line', label: 'Temp', data: tempData, borderColor: '#fabd2f', tension: 0.4, yAxisID: 'yTemp' }, 
+                    { type: 'bar', label: 'Precip', data: precipData, backgroundColor: '#83a598', yAxisID: 'yPrecip' } 
+                ] 
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                // *** NEW: Plugin options for legend styling ***
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ebdbb2',
+                            font: {
+                                size: 14 // Adjust size of top legend labels (e.g., "Temp", "Precip")
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#ebdbb2' }
+                    },
+                    yTemp: { // Temperature Axis (Left)
+                        position: 'left',
+                        ticks: {
+                            color: '#fabd2f',
+                            // *** NEW: Font size for the temperature numbers ***
+                            font: {
+                                size: 14 // Adjust size of numbers on the axis
+                            }
+                        },
+                        // *** NEW: Title for the temperature axis ***
+                        title: {
+                            display: true,
+                            text: 'Temp (°F)',
+                            color: '#fabd2f',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: { drawOnChartArea: false }
+                    },
+                    yPrecip: { // Precipitation Axis (Right)
+                        position: 'right',
+                        max: 100,
+                        ticks: {
+                            color: '#83a598',
+                             // *** NEW: Font size for the precipitation numbers ***
+                            font: {
+                                size: 14 // Adjust size of numbers on the axis
+                            }
+                        },
+                         // *** NEW: Title for the precipitation axis ***
+                        title: {
+                            display: true,
+                            text: 'Precipitation (%)',
+                            color: '#83a598',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
         });
     },
+
     
 // This function is updated to center the current hour.
     displayHourly: function(hourlyData) {
