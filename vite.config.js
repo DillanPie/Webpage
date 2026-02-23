@@ -3,7 +3,8 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { globSync } from 'glob';
 
-// Import Optimization Plugins
+// --- PLUGIN IMPORTS ---
+import { createHtmlPlugin } from 'vite-plugin-html';
 import purgeCss from '@fullhuman/postcss-purgecss';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -18,13 +19,12 @@ const htmlFiles = Object.fromEntries(
 
 export default defineConfig(({ mode }) => {
   return {
-    // Project root directory (where index.html is)
+    // Project root directory
     root: './',
-    // Base public path when served in development or production
+    // Base public path
     base: '/',
 
     // --- OPTIMIZATION 1: Path Aliases ---
-    // Allows using '@/' to refer to the project root, cleaning up import paths.
     resolve: {
       alias: {
         '@': resolve(__dirname, './'),
@@ -32,11 +32,12 @@ export default defineConfig(({ mode }) => {
     },
 
     // --- OPTIMIZATION 2: Unused CSS Removal ---
-    // PurgeCSS scans your files and removes unused CSS rules from the final build.
     css: {
       postcss: {
         plugins: [
           purgeCss({
+            // Scan all HTML and JS files for class names.
+            // Because the HTML plugin runs first, PurgeCSS will see the complete HTML.
             content: [
               './*.html',
               './js/**/*.js',
@@ -46,33 +47,36 @@ export default defineConfig(({ mode }) => {
       },
     },
     
-    // --- OPTIMIZATION 3 & 4: Compression and Bundle Analysis ---
+    // --- PLUGINS ---
     plugins: [
-      // Creates pre-compressed .gz files for Nginx to serve.
+      // --- NEW: Build-Time HTML Includes ---
+      // This plugin assembles your HTML files before the build,
+      // replacing <%- include(...) %> tags with the content of your partials.
+      createHtmlPlugin({
+        minify: true, // Minifies the final HTML file
+      }),
+
+      // --- OPTIMIZATION 3: Asset Compression ---
       viteCompression({
         algorithm: 'gzip',
         ext: '.gz',
       }),
-      // Creates pre-compressed .br (Brotli) files, which are even smaller.
       viteCompression({
         algorithm: 'brotliCompress',
         ext: '.br',
-        // Brotli can be slow, so you might disable it for development builds if needed.
-        // apply: 'build', 
       }),
-      // --- SECURITY FOCUS: Only run the visualizer in 'analyze' mode ---
-      // This prevents the stats.html file from being generated in a normal 'npm run build'.
+
+      // --- OPTIMIZATION 4: Bundle Analysis (Securely) ---
+      // Only runs when you execute 'npm run build:analyze'
       mode === 'analyze' && visualizer({
-        open: true, // Automatically opens the report in your browser
-        filename: 'dist/stats.html', // Output file for the report
+        open: true,
+        filename: 'dist/stats.html',
       }),
     ],
 
     build: {
-      // Output directory for the build
       outDir: 'dist',
       rollupOptions: {
-        // Tell Vite about all your HTML entry points
         input: htmlFiles,
       },
     },

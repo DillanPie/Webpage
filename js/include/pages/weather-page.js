@@ -8,6 +8,6 @@ import '@/css/weather.css';
 import 'leaflet/dist/leaflet.css'; // This path is correct (from node_modules)
 
 // Step 3: Import the page-specific JavaScript logic file.
-import '@/js/weather-page.js'; // This loads and runs your weather logic
+import '@/js/weather.js'; // This loads and runs your weather logic
 
 console.log("Weather page assets have been loaded.");
