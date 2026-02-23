@@ -147,11 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("low-temp").innerText = `${Math.round(min[0])}°F`;
         document.getElementById("wind-speed").innerText = `${wind_speed.toFixed(1)} mph`;
         document.getElementById("humidity").innerText = `${humidity}%`;
-        
-        const uvIndexEl = document.getElementById("uv-index").parentElement;
-        const visibilityEl = document.getElementById("visibility").parentElement;
-        if (uvIndexEl) uvIndexEl.style.display = 'none';
-        if (visibilityEl) visibilityEl.style.display = 'none';
     },
     
     displayHourlyChart: function(hourlyData) {
@@ -247,7 +242,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     className: 'rainviewer-layer'
                 }).addTo(mapInstance);
             })
-            .catch(error => console.error("Could not load RainViewer radar layer:", error));
+            .catch(error => {
+                console.error("Could not load RainViewer radar layer:", error);
+                const mapContainer = mapInstance.getContainer();
+                // Check if an error message already exists to avoid duplicates
+                if (!mapContainer.querySelector('.radar-error')) {
+                    const radarError = document.createElement('div');
+                    radarError.className = 'radar-error';
+                    radarError.innerText = 'Live radar layer is currently unavailable.';
+                    mapContainer.appendChild(radarError);
+                }
+});
+
     },
 
     getWeatherInfoFromCode: function(code) {

@@ -301,3 +301,18 @@ body.modal-open {
   display: none;
   border: 1px solid var(--gruvbox-red);
 }
+
+/* Style for the radar error message */
+.radar-error {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(204, 36, 29, 0.8); /* Use your theme's red */
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 1001; /* Ensure it's above the map tiles */
+  font-size: 0.9rem;
+  pointer-events: none; /* Allows clicking through the message */
+}

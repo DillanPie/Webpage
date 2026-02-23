@@ -87,8 +87,6 @@
           </div>
           <div>Wind: <span id="wind-speed">-- mph</span></div>
           <div>Humidity: <span id="humidity">--%</span></div>
-          <div>UV Index: <span id="uv-index">--</span></div>
-          <div>Visibility: <span id="visibility">-- mi</span></div>
         </div>
       </div>
     </div>
@@ -108,12 +106,17 @@
         <canvas id="hourly-chart"></canvas>
       </div>
       <div class="hourly-scroll-wrapper">
-        <button class="scroll-arrow scroll-arrow-left" id="hourly-scroll-left">
+        <button
+          class="scroll-arrow scroll-arrow-left"
+          id="hourly-scroll-left"
+          aria-label="Scroll left"
+        >
           
         </button>
         <button
           class="scroll-arrow scroll-arrow-right"
           id="hourly-scroll-right"
+          aria-label="Scroll right"
         >
           
         </button>
