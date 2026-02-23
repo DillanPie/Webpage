@@ -1,14 +1,14 @@
-// main.js
+// js/include/main.js
 
-// === Import Global CSS ===
-// Vite will bundle into a single CSS file for production.
-import '/css/style.css';
-import '/css/navbar.css';
-import '/css/footer.css';
+// This file is the single source of truth for all GLOBAL assets.
 
-// === Import Global JavaScript ===
-// Will be bundled into the main JS file.
-import './navbar.js';
-import './footer.js';
+// Import all global styles using the '@/' alias
+import '@/css/style.css';
+import '@/css/navbar.css';
+import '@/css/footer.css';
 
-console.log("Vite main entry point loaded.");
+// Import all global scripts
+import '@/js/include/navbar.js';
+import '@/js/include/footer.js';
+
+console.log("Global assets (main.js) have been loaded.");
