@@ -167,7 +167,8 @@ document.addEventListener("DOMContentLoaded", () => {
             options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#ebdbb2' } }, yTemp: { position: 'left', ticks: { color: '#fabd2f' }, grid: { drawOnChartArea: false } }, yPrecip: { position: 'right', max: 100, ticks: { color: '#83a598' } } } }
         });
     },
-
+    
+// This function is updated to center the current hour.
     displayHourly: function(hourlyData) {
         const container = document.getElementById("hourly-forecast");
         container.innerHTML = "";
@@ -178,7 +179,30 @@ document.addEventListener("DOMContentLoaded", () => {
             el.innerHTML = `<div class="time">${new Date(hourlyData.time[i]).toLocaleTimeString([], { hour: 'numeric' })}</div><img src="https://openweathermap.org/img/wn/${icon}.png" alt="icon" /><div class="temp">${Math.round(hourlyData.temperature_2m[i])}°F</div>`;
             container.appendChild(el);
         }
-        setTimeout(updateScrollButtons, 100);
+
+        // Use a short timeout to ensure the browser has rendered the items
+        // and calculated their widths before we try to scroll.
+        setTimeout(() => {
+            const currentIndex = new Date().getHours(); // Get the current hour (0-23)
+            const items = container.children;
+
+            if (items[currentIndex]) {
+                const currentItem = items[currentIndex];
+                const containerWidth = container.clientWidth;
+                const itemLeft = currentItem.offsetLeft;
+                const itemWidth = currentItem.offsetWidth;
+
+                // Calculate the scroll position needed to center the item
+                const scrollPosition = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+
+                // Set the container's scroll position smoothly
+                container.scrollTo({
+                    left: scrollPosition,
+                    behavior: 'smooth'
+                });
+            }
+            // The scroll event listener will automatically update the arrow buttons.
+        }, 150);
     },
 
     displayDaily: function(dailyData) {
@@ -235,7 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const city = document.getElementById("weather-search-input").value;
         if (city) {
             this.disableSearchControls();
-            // **FIX**: Immediately add loading class to trigger spinner and hide old content.
             document.body.classList.add("weather-loading");
             this.getWeatherForCity(city);
         }
