@@ -162,8 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
             data: { 
                 labels, 
                 datasets: [
-                    { type: 'line', label: 'Temp', data: tempData, borderColor: '#fabd2f', tension: 0.4, yAxisID: 'yTemp' }, 
-                    { type: 'bar', label: 'Precip', data: precipData, backgroundColor: '#83a598', yAxisID: 'yPrecip' } 
+                    { type: 'line', label: 'Temperature', data: tempData, borderColor: '#fabd2f', tension: 0.4, yAxisID: 'yTemp' }, 
+                    { type: 'bar', label: 'Precipitation', data: precipData, backgroundColor: '#83a598', yAxisID: 'yPrecip' } 
                 ] 
             },
             options: {
