@@ -1,3 +1,14 @@
-.vscode/settings.json
+/.vscode
 Logs
 *.log
+# Ignore build output
+/dist
+
+# Ignore dependencies
+/node_modules
+
+# Ignore system files
+.DS_Store
+
+# Ignore private server configuration
+deploy.conf
