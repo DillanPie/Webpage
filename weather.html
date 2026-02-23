@@ -41,8 +41,12 @@
     <link rel="manifest" href="favicon_io/site.webmanifest" />
 
     <!-- Library Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- External Libraries (CSS is now handled by Vite) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css"
+    />
   </head>
   <body class="weather-loading">
     <!-- Start with loading class on body -->
@@ -165,8 +169,7 @@
     </div>
 
     <!-- Scripts -->
-    <script type="module" src="/js/include/main.js"></script>
-    <script src="js/mock-weather.js" defer></script>
-    <script src="js/weather-page.js" defer></script>
+    <script type="module" src="/js/include/pages/weather-page.js"></script>
+    <script src="/js/mock-weather.js" defer></script>
   </body>
 </html>

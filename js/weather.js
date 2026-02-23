@@ -1,3 +1,6 @@
+import Chart from 'chart.js/auto';
+import L from 'leaflet';
+
 document.addEventListener("DOMContentLoaded", () => {
   const useMockData = false;
   let hourlyChart;

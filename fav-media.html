@@ -14,10 +14,8 @@
       href="https://unpkg.com/photoswipe@5/dist/photoswipe.css"
     />
 
-    <link rel="stylesheet" href="css/media.css" />
-    <!-- <script type="module">
-        import '/css/media.css';
-    </script> -->
+    <!-- 2. Vite handles all local CSS via the JS entry point below -->
+
     <!-- Favicon web icon -->
     <link
       rel="apple-touch-icon"
@@ -47,96 +45,188 @@
       <section class="media-section">
         <h2>Favorite Video Games</h2>
         <div class="media-grid games-grid">
+          <!-- Baldur's Gate 3 -->
           <div class="media-item">
             <a href="Photos/fav-video-games/balders-gate3.png" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/balders-gate3.png"
-                loading="lazy"
-                alt="Baldur's Gate 3"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/balders-gate3.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/balders-gate3.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/balders-gate3.png"
+                  loading="lazy"
+                  alt="Baldur's Gate 3"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Black Flag -->
           <div class="media-item">
             <a href="Photos/fav-video-games/blackflag.jpg" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/blackflag.jpg"
-                loading="lazy"
-                alt="Assassin's Creed: Black Flag"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/blackflag.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/blackflag.jpg"
+                  type="image/jpeg"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/blackflag.jpg"
+                  loading="lazy"
+                  alt="Assassin's Creed: Black Flag"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Origins -->
           <div class="media-item">
             <a href="Photos/fav-video-games/origins.png" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/origins.png"
-                loading="lazy"
-                alt="Assassin's Creed: Origins"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/origins.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/origins.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/origins.png"
+                  loading="lazy"
+                  alt="Assassin's Creed: Origins"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Crusader Kings III -->
           <div class="media-item">
             <a
               href="Photos/fav-video-games/Crusader_Kings_III.jpg"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/Crusader_Kings_III.jpg"
-                loading="lazy"
-                alt="Crusader Kings III"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/Crusader_Kings_III.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/Crusader_Kings_III.jpg"
+                  type="image/jpeg"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/Crusader_Kings_III.jpg"
+                  loading="lazy"
+                  alt="Crusader Kings III"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Cyberpunk 2077 -->
           <div class="media-item">
             <a href="Photos/fav-video-games/cyberpunk2077.jpg" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/cyberpunk2077.jpg"
-                loading="lazy"
-                alt="Cyberpunk 2077"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/cyberpunk2077.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/cyberpunk2077.jpg"
+                  type="image/jpeg"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/cyberpunk2077.jpg"
+                  loading="lazy"
+                  alt="Cyberpunk 2077"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Firewatch -->
           <div class="media-item">
             <a href="Photos/fav-video-games/firewatch.jpg" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/fav-video-games/firewatch.jpg"
-                loading="lazy"
-                alt="Firewatch"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/fav-video-games/firewatch.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/fav-video-games/firewatch.jpg"
+                  type="image/jpeg"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/fav-video-games/firewatch.jpg"
+                  loading="lazy"
+                  alt="Firewatch"
+                />
+              </picture>
             </a>
           </div>
         </div>
       </section>
+
       <!-- Favorite Music Section -->
       <section class="media-section">
         <h2>Favorite Music Albums</h2>
         <div class="music-grid">
+          <!-- Image Loop Start -->
           <div class="media-item">
             <a
               href="Photos/beatprints/birds_of_a_feather_by_billie_eilish_a69.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/birds_of_a_feather_by_billie_eilish_a69.png"
-                loading="lazy"
-                alt="Birds of a Feather - Billie Eilish"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/birds_of_a_feather_by_billie_eilish_a69.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/birds_of_a_feather_by_billie_eilish_a69.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/birds_of_a_feather_by_billie_eilish_a69.png"
+                  loading="lazy"
+                  alt="Birds of a Feather - Billie Eilish"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
             <a href="Photos/beatprints/charm_by_clairo_d23.png" target="_blank">
-              <img
-                class="card-image"
-                src="Photos/beatprints/charm_by_clairo_d23.png"
-                loading="lazy"
-                alt="Charm - Clairo"
-              />
+              <picture>
+                <source
+                  srcset="Photos-WebP/beatprints/charm_by_clairo_d23.webp"
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/beatprints/charm_by_clairo_d23.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/charm_by_clairo_d23.png"
+                  loading="lazy"
+                  alt="Charm - Clairo"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -144,12 +234,24 @@
               href="Photos/beatprints/cloud_9_by_beach_bunny_364.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/cloud_9_by_beach_bunny_364.png"
-                loading="lazy"
-                alt="Cloud 9 - Beach Bunny"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/cloud_9_by_beach_bunny_364.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/beatprints/cloud_9_by_beach_bunny_364.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/cloud_9_by_beach_bunny_364.png"
+                  loading="lazy"
+                  alt="Cloud 9 - Beach Bunny"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -157,12 +259,24 @@
               href="Photos/beatprints/f-1_trillion_by_post_malone_02a.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/f-1_trillion_by_post_malone_02a.png"
-                loading="lazy"
-                alt="F-1 Trillion - Post Malone"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/f-1_trillion_by_post_malone_02a.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/beatprints/f-1_trillion_by_post_malone_02a.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/f-1_trillion_by_post_malone_02a.png"
+                  loading="lazy"
+                  alt="F-1 Trillion - Post Malone"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -170,12 +284,26 @@
               href="Photos/beatprints/feel_it_(from_“invincible”)_by_d4vd_e8c.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/feel_it_(from_“invincible”)_by_d4vd_e8c.png"
-                loading="lazy"
-                alt="Feel It - d4vd"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/feel_it_(from_“invincible”)_by_d4vd_e8c.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/feel_it_(from_“invincible”)_by_d4vd_e8c.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/feel_it_(from_“invincible”)_by_d4vd_e8c.png"
+                  loading="lazy"
+                  alt="Feel It - d4vd"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -183,12 +311,24 @@
               href="Photos/beatprints/glue_song_by_beabadoobee_b73.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/glue_song_by_beabadoobee_b73.png"
-                loading="lazy"
-                alt="Glue Song - Beabadoobee"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/glue_song_by_beabadoobee_b73.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/beatprints/glue_song_by_beabadoobee_b73.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/glue_song_by_beabadoobee_b73.png"
+                  loading="lazy"
+                  alt="Glue Song - Beabadoobee"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -196,12 +336,26 @@
               href="Photos/beatprints/hollywood's_bleeding_by_post_malone_343.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/hollywood's_bleeding_by_post_malone_343.png"
-                loading="lazy"
-                alt="Hollywood's Bleeding - Post Malone"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/hollywood's_bleeding_by_post_malone_343.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/hollywood's_bleeding_by_post_malone_343.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/hollywood's_bleeding_by_post_malone_343.png"
+                  loading="lazy"
+                  alt="Hollywood's Bleeding - Post Malone"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -209,12 +363,26 @@
               href="Photos/beatprints/looking_out_for_you_by_joy_again_e85.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/looking_out_for_you_by_joy_again_e85.png"
-                loading="lazy"
-                alt="Looking Out for You - Joy Again"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/looking_out_for_you_by_joy_again_e85.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/looking_out_for_you_by_joy_again_e85.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/looking_out_for_you_by_joy_again_e85.png"
+                  loading="lazy"
+                  alt="Looking Out for You - Joy Again"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -222,12 +390,26 @@
               href="Photos/beatprints/short_n'_sweet_by_sabrina_carpenter_f05.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/short_n'_sweet_by_sabrina_carpenter_f05.png"
-                loading="lazy"
-                alt="Short n' Sweet - Sabrina Carpenter"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/short_n'_sweet_by_sabrina_carpenter_f05.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/short_n'_sweet_by_sabrina_carpenter_f05.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/short_n'_sweet_by_sabrina_carpenter_f05.png"
+                  loading="lazy"
+                  alt="Short n' Sweet - Sabrina Carpenter"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -235,12 +417,24 @@
               href="Photos/beatprints/stick_season_by_noah_kahan_dda.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/stick_season_by_noah_kahan_dda.png"
-                loading="lazy"
-                alt="Stick Season - Noah Kahan"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/stick_season_by_noah_kahan_dda.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="Photos/beatprints/stick_season_by_noah_kahan_dda.png"
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/stick_season_by_noah_kahan_dda.png"
+                  loading="lazy"
+                  alt="Stick Season - Noah Kahan"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -248,12 +442,26 @@
               href="Photos/beatprints/the_rise_and_fall_of_a_midwest_princess_by_chappell_roan_4f9.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/the_rise_and_fall_of_a_midwest_princess_by_chappell_roan_4f9.png"
-                loading="lazy"
-                alt="The Rise and Fall of a Midwest Princess - Chappell Roan"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/the_rise_and_fall_of_a_midwest_princess_by_chappell_roan_4f9.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/the_rise_and_fall_of_a_midwest_princess_by_chappell_roan_4f9.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/the_rise_and_fall_of_a_midwest_princess_by_chappell_roan_4f9.png"
+                  loading="lazy"
+                  alt="The Rise and Fall of a Midwest Princess - Chappell Roan"
+                />
+              </picture>
             </a>
           </div>
           <div class="media-item">
@@ -261,21 +469,35 @@
               href="Photos/beatprints/you_belong_with_me_(taylor’s_version)_by_taylor_swift_c6e.png"
               target="_blank"
             >
-              <img
-                class="card-image"
-                src="Photos/beatprints/you_belong_with_me_(taylor’s_version)_by_taylor_swift_c6e.png"
-                loading="lazy"
-                alt="You Belong With Me (Taylor’s Version)"
-              />
+              <picture>
+                <source
+                  srcset="
+                    Photos-WebP/beatprints/you_belong_with_me_(taylor’s_version)_by_taylor_swift_c6e.webp
+                  "
+                  type="image/webp"
+                />
+                <source
+                  srcset="
+                    Photos/beatprints/you_belong_with_me_(taylor’s_version)_by_taylor_swift_c6e.png
+                  "
+                  type="image/png"
+                />
+                <img
+                  class="card-image"
+                  src="Photos/beatprints/you_belong_with_me_(taylor’s_version)_by_taylor_swift_c6e.png"
+                  loading="lazy"
+                  alt="You Belong With Me (Taylor’s Version)"
+                />
+              </picture>
             </a>
           </div>
+          <!-- Image Loop End -->
         </div>
       </section>
     </div>
     <!-- Footer Section -->
     <div id="footer-placeholder"></div>
 
-    <script type="module" src="/js/main.js"></script>
-    <script type="module" src="js/gallery-init.js" defer></script>
+    <script type="module" src="/js/include/pages/gallery-page.js"></script>
   </body>
 </html>
