@@ -7,19 +7,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const weather = {
     apiKey: "44a54a5ef877513e49804e198c18cb32",
 
-    // --- NEW HELPER FUNCTIONS ---
+    // --- HELPER FUNCTIONS ---
     displayError: function(message) {
         const errorEl = document.getElementById("weather-error-message");
         errorEl.innerText = message;
         errorEl.style.display = "block";
         document.body.classList.remove("weather-loading"); // Stop the loading spinner
-        // Hide the stale weather data section
         document.getElementById("current-weather").style.visibility = 'hidden';
+        this.enableSearchControls();
     },
 
     clearError: function() {
         const errorEl = document.getElementById("weather-error-message");
         errorEl.style.display = "none";
+    },
+
+    disableSearchControls: function() {
+        document.querySelector(".weather-search-btn").disabled = true;
+        document.getElementById("weather-search-input").disabled = true;
+    },
+
+    enableSearchControls: function() {
+        document.querySelector(".weather-search-btn").disabled = false;
+        document.getElementById("weather-search-input").disabled = false;
     },
 
     // --- Main Workflow ---
@@ -55,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.getForecast(lat, lon, cityName);
             })
             .catch(err => {
-                // If reverse geocoding fails, still get the weather with a generic name
                 console.error("Reverse Geocoding Error:", err);
                 this.getForecast(lat, lon, "Current Location");
             });
@@ -71,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.getForecast(parseFloat(lat), parseFloat(lon), cityName);
             })
             .catch(err => {
-                // FINAL FALLBACK: If IP lookup also fails, use a default and show error
                 console.error("IP Geolocation Error:", err);
                 this.displayError("Could not determine your location. Showing weather for New York instead.");
                 this.getWeatherForCity("New York");
@@ -79,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     
     getWeatherForCity: function(city) {
-      document.body.classList.add("weather-loading");
       this.clearError();
       if (useMockData) {
         this.getForecast(40.71, -74.0, "New York (Mock Data)");
@@ -92,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}`)
         .then(res => { if (!res.ok) throw new Error(`City "${city}" not found.`); return res.json(); })
         .then(data => this.getForecast(data.coord.lat, data.coord.lon, data.name))
-        .catch(err => this.displayError(err.message)); // Use the new error function
+        .catch(err => this.displayError(err.message));
     },
 
     getForecast: function(lat, lon, cityName) {
@@ -104,11 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
             data.lon = lon;
             this.displayAllWeather(data, cityName);
         })
-        .catch(err => this.displayError(err.message)); // Use the new error function
+        .catch(err => this.displayError(err.message));
     },
 
     displayAllWeather: function(data, cityName) {
-        // Show the weather content area before populating it
         document.getElementById("current-weather").style.visibility = 'visible';
         
         this.displayCurrent(data, cityName);
@@ -117,10 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
         this.displayDaily(data.daily);
         this.displayWeatherMap(data.lat, data.lon, 'map', false);
 
-        
         document.body.classList.remove("weather-loading");
         document.querySelector(".weather-search").value = cityName;
         document.getElementById("timestamp").innerText = new Date().toLocaleTimeString();
+        
+        this.enableSearchControls();
         
         setTimeout(() => map && map.invalidateSize(), 100);
     },
@@ -161,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     },
 
-
     displayHourly: function(hourlyData) {
         const container = document.getElementById("hourly-forecast");
         container.innerHTML = "";
@@ -172,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
             el.innerHTML = `<div class="time">${new Date(hourlyData.time[i]).toLocaleTimeString([], { hour: 'numeric' })}</div><img src="https://openweathermap.org/img/wn/${icon}.png" alt="icon" /><div class="temp">${Math.round(hourlyData.temperature_2m[i])}°F</div>`;
             container.appendChild(el);
         }
-        // A short timeout ensures the browser has rendered the items before we check the scroll width.
         setTimeout(updateScrollButtons, 100);
     },
 
@@ -208,12 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }).addTo(mapInstance);
     
         fetch('https://api.rainviewer.com/public/weather-maps.json')
-            .then(res => {
-                if (!res.ok) throw new Error('RainViewer API request failed');
-                return res.json();
-            })
+            .then(res => res.ok ? res.json() : Promise.reject('RainViewer API request failed'))
             .then(data => {
-                const latestTimestampPath = data.radar.past[data.radar.past.length - 1].path;
+                const latestTimestampPath = data.radar.past.pop().path;
                 const radarUrl = `https://tilecache.rainviewer.com/v2/radar/${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
                 L.tileLayer(radarUrl, {
                     attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
@@ -221,29 +223,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     className: 'rainviewer-layer'
                 }).addTo(mapInstance);
             })
-            .catch(error => {
-                console.error("Could not load RainViewer radar layer:", error);
-            });
+            .catch(error => console.error("Could not load RainViewer radar layer:", error));
     },
 
     getWeatherInfoFromCode: function(code) {
-        const weatherMap = {
-            0: { description: "Clear sky", icon: "01d" }, 1: { description: "Mainly clear", icon: "01d" }, 2: { description: "Partly cloudy", icon: "02d" }, 3: { description: "Overcast", icon: "04d" },
-            45: { description: "Fog", icon: "50d" }, 48: { description: "Rime Fog", icon: "50d" },
-            51: { description: "Light Drizzle", icon: "09d" }, 53: { description: "Drizzle", icon: "09d" }, 55: { description: "Dense Drizzle", icon: "09d" },
-            61: { description: "Slight Rain", icon: "10d" }, 63: { description: "Rain", icon: "10d" }, 65: { description: "Heavy Rain", icon: "10d" },
-            71: { description: "Slight Snow", icon: "13d" }, 73: { description: "Snow", icon: "13d" }, 75: { description: "Heavy Snow", icon: "13d" },
-            80: { description: "Rain Showers", icon: "09d" }, 81: { description: "Rain Showers", icon: "09d" }, 82: { description: "Violent Showers", icon: "09d" },
-            95: { description: "Thunderstorm", icon: "11d" }
-        };
+        const weatherMap = { 0: { description: "Clear sky", icon: "01d" }, 1: { description: "Mainly clear", icon: "01d" }, 2: { description: "Partly cloudy", icon: "02d" }, 3: { description: "Overcast", icon: "04d" }, 45: { description: "Fog", icon: "50d" }, 48: { description: "Rime Fog", icon: "50d" }, 51: { description: "Light Drizzle", icon: "09d" }, 53: { description: "Drizzle", icon: "09d" }, 55: { description: "Dense Drizzle", icon: "09d" }, 61: { description: "Slight Rain", icon: "10d" }, 63: { description: "Rain", icon: "10d" }, 65: { description: "Heavy Rain", icon: "10d" }, 71: { description: "Slight Snow", icon: "13d" }, 73: { description: "Snow", icon: "13d" }, 75: { description: "Heavy Snow", icon: "13d" }, 80: { description: "Rain Showers", icon: "09d" }, 81: { description: "Rain Showers", icon: "09d" }, 82: { description: "Violent Showers", icon: "09d" }, 95: { description: "Thunderstorm", icon: "11d" } };
         return weatherMap[code] || { description: "Unknown", icon: "50d" };
     },
 
     search: function() {
-        document.querySelector(".weather-search-btn").disabled = true;
-        document.querySelector(".weather-search-input").disabled = true;
-        const city = document.querySelector(".weather-search").value;
-        if (city) this.getWeatherForCity(city);
+        const city = document.getElementById("weather-search-input").value;
+        if (city) {
+            this.disableSearchControls();
+            // **FIX**: Immediately add loading class to trigger spinner and hide old content.
+            document.body.classList.add("weather-loading");
+            this.getWeatherForCity(city);
+        }
     },
   };
 
@@ -254,19 +249,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateScrollButtons = () => {
       const atStart = hourlyContainer.scrollLeft < 10;
       const atEnd = hourlyContainer.scrollWidth - hourlyContainer.scrollLeft - hourlyContainer.clientWidth < 10;
-      
       scrollLeftBtn.disabled = atStart;
       scrollRightBtn.disabled = atEnd;
   };
 
-  scrollLeftBtn.addEventListener("click", () => {
-      hourlyContainer.scrollBy({ left: -300, behavior: "smooth" });
-  });
-
-  scrollRightBtn.addEventListener("click", () => {
-      hourlyContainer.scrollBy({ left: 300, behavior: "smooth" });
-  });
-
+  scrollLeftBtn.addEventListener("click", () => hourlyContainer.scrollBy({ left: -300, behavior: "smooth" }));
+  scrollRightBtn.addEventListener("click", () => hourlyContainer.scrollBy({ left: 300, behavior: "smooth" }));
   hourlyContainer.addEventListener("scroll", updateScrollButtons);
 
   document.querySelector(".weather-search-btn").addEventListener("click", () => weather.search());
@@ -288,23 +276,17 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => expandedMap.invalidateSize(), 100); 
   });
 
-  closeModalBtn.addEventListener('click', () => {
+  const closeModal = () => {
       mapModal.classList.remove('visible');
       document.body.classList.remove('modal-open');
       if (expandedMap) {
           expandedMap.remove();
           expandedMap = null;
       }
-  });
+  };
 
+  closeModalBtn.addEventListener('click', closeModal);
   mapModal.addEventListener('click', (e) => {
-      if (e.target === mapModal) {
-          mapModal.classList.remove('visible');
-          document.body.classList.remove('modal-open');
-          if (expandedMap) {
-              expandedMap.remove();
-              expandedMap = null;
-          }
-      }
+      if (e.target === mapModal) closeModal();
   });
 });
