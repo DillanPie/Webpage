@@ -1,0 +1,24 @@
+/* Style for the seed display paragraph */
+#seed-display {
+  color: var(--gruvbox-gray);
+  text-align: center;
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+/* Styling for the SVG canvas itself */
+#bonsai-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  /* Use a slightly darker background for contrast against the container */
+  background-color: var(--gruvbox-dark-bg0);
+  border-radius: 8px; /* Match other rounded corners on the site */
+  border: 1px solid var(--gruvbox-dark-bg3); /* Use a subtle border color from the palette */
+
+  /* SVG stroke defaults */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

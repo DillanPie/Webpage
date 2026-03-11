@@ -3,56 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Digital Bonsai Garden</title>
-    <style>
-      body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
-        display: grid;
-        place-items: center;
-        min-height: 100vh;
-        margin: 0;
-        background-color: #f0f4f8;
-        color: #333;
-      }
-      main {
-        text-align: center;
-        background-color: #fff;
-        padding: 2rem 3rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        color: #2c3e50;
-        margin-bottom: 0.5rem;
-      }
-      p {
-        color: #7f8c8d;
-        margin-top: 0;
-        font-family: monospace;
-      }
-      #bonsai-canvas {
-        width: 100%;
-        max-width: 500px;
-        height: auto;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-    </style>
+    <title>Digital Bonsai Garden</title>
+
+    <!-- Global & Component Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/navbar.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <!-- Page-Specific Styles -->
+    <link rel="stylesheet" href="css/bonsai.css" />
   </head>
   <body>
-    <main>
-      <h1>The Digital Bonsai</h1>
-      <p id="seed-display">Loading seed...</p>
+    <!-- Use the standard JS-powered navbar -->
+    <div id="navbar" class="navbar"></div>
+
+    <!-- Wrap main content in the .container class for consistent layout -->
+    <div class="container">
+      <h1>The Digital Bonsai Garden</h1>
+
+      <p id="seed-display">> Loading seed...</p>
+
+      <!-- The SVG canvas for the bonsai tree -->
       <svg
         id="bonsai-canvas"
         viewBox="0 0 500 500"
         xmlns="http://www.w3.org/2000/svg"
       ></svg>
-    </main>
+    </div>
 
-    <!-- The renderer script -->
+    <!-- Use the standard JS-powered footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts for dynamic content and the bonsai renderer -->
+    <script src="js/navbar.js"></script>
+    <script src="js/footer.js"></script>
     <script src="/js/bonsai-renderer.js"></script>
   </body>
 </html>
