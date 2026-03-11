@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Digital Bonsai Garden</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f4f8;
+        color: #333;
+      }
+      main {
+        text-align: center;
+        background-color: #fff;
+        padding: 2rem 3rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        color: #7f8c8d;
+        margin-top: 0;
+        font-family: monospace;
+      }
+      #bonsai-canvas {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>The Digital Bonsai</h1>
+      <p id="seed-display">Loading seed...</p>
+      <svg
+        id="bonsai-canvas"
+        viewBox="0 0 500 500"
+        xmlns="http://www.w3.org/2000/svg"
+      ></svg>
+    </main>
+
+    <!-- The renderer script -->
+    <script src="/js/bonsai-renderer.js"></script>
+  </body>
+</html>
