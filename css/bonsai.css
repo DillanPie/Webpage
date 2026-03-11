@@ -6,17 +6,24 @@
   margin-bottom: 1rem;
 }
 
+/* New container for the bonsai background */
+.bonsai-viewer {
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1rem; /* Add some padding around the SVG */
+  background-color: #f2f0ef; /* Lighter background color */
+  border-radius: 8px;
+  border: 3px solid var(--gruvbox-orange); /* Thicker border for better visibility */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
 /* Styling for the SVG canvas itself */
 #bonsai-canvas {
   width: 100%;
-  max-width: 500px;
   height: auto;
   display: block;
-  margin: 1rem auto;
-  /* Use a slightly darker background for contrast against the container */
-  background-color: var(--gruvbox-dark-bg0);
-  border-radius: 8px; /* Match other rounded corners on the site */
-  border: 1px solid var(--gruvbox-dark-bg3); /* Use a subtle border color from the palette */
+  /* Make SVG background transparent to show the viewer's background */
+  background-color: transparent;
 
   /* SVG stroke defaults */
   stroke-linecap: round;
