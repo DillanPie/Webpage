@@ -53,7 +53,9 @@ async function generateBonsai() {
     const colorPalette = {
         trunk: `hsl(25, ${15 + random() * 20}%, ${25 + random() * 10}%)`,
         leaf: `hsl(${80 + random() * 50}, ${40 + random() * 20}%, 55%)`,
-        pot: `hsl(${200 + random() * 30}, 20%, 40%)`
+        potBody: `hsl(${200 + random() * 30}, 20%, 40%)`,
+        potLip: `hsl(${200 + random() * 30}, 25%, 32%)`, // Slightly darker for contrast
+        potStroke: `hsl(200, 20%, 25%)`
     };
 
     // Clear any previous drawing
@@ -62,84 +64,88 @@ async function generateBonsai() {
     // --- Recursive Function to Draw Branches ---
     function drawBranch(x, y, angle, thickness, depth) {
         if (depth > maxDepth || thickness < 0.5) {
-            const leaf = createSvgElement('circle', {
-                cx: x,
-                cy: y,
-                r: 2.5 + random() * 2,
-                fill: colorPalette.leaf,
-                opacity: 0.75,
-            });
-            canvas.appendChild(leaf);
+            if (depth > 1) { // Only draw leaves on smaller branches
+                 const leaf = createSvgElement('circle', {
+                    cx: x,
+                    cy: y,
+                    r: 2.5 + random() * 2,
+                    fill: colorPalette.leaf,
+                    opacity: 0.75,
+                });
+                canvas.appendChild(leaf);
+            }
             return;
         }
 
         const branchLength = trunkHeight / (depth + 1.5) * (0.8 + random() * 0.4);
-        const segmentCount = 4;
-        const segmentLength = branchLength / segmentCount;
+        
         let currentX = x;
         let currentY = y;
-        let d = `M ${currentX} ${currentY}`;
         let currentAngle = angle;
-        let currentThickness = thickness;
 
-        for (let i = 0; i < segmentCount; i++) {
-            const wobble = (random() - 0.5) * 0.5;
-            currentAngle += wobble;
+        const endX = x + Math.cos(angle) * branchLength;
+        const endY = y + Math.sin(angle) * branchLength;
 
-            const nextX = currentX + Math.cos(currentAngle) * segmentLength;
-            const nextY = currentY + Math.sin(currentAngle) * segmentLength;
+        // Add a control point to create a curve
+        const cp1X = x + Math.cos(angle + (random() - 0.5) * 0.8) * branchLength * 0.3;
+        const cp1Y = y + Math.sin(angle + (random() - 0.5) * 0.8) * branchLength * 0.3;
+        const cp2X = x + Math.cos(angle + (random() - 0.5) * 0.4) * branchLength * 0.7;
+        const cp2Y = y + Math.sin(angle + (random() - 0.5) * 0.4) * branchLength * 0.7;
 
-            const path = createSvgElement('path', {
-                d: `M ${currentX} ${currentY} L ${nextX} ${nextY}`,
-                'stroke-width': currentThickness,
-                stroke: colorPalette.trunk
-            });
-            canvas.appendChild(path);
-
-            currentX = nextX;
-            currentY = nextY;
-            currentThickness *= 0.95;
-        }
+        const pathData = `M ${x} ${y} C ${cp1X} ${cp1Y}, ${cp2X} ${cp2Y}, ${endX} ${endY}`;
         
+        const branchPath = createSvgElement('path', {
+            d: pathData,
+            'stroke-width': thickness,
+            stroke: colorPalette.trunk,
+            fill: 'none' // Ensure the path is not filled
+        });
+        canvas.appendChild(branchPath);
+
         const branchCount = random() > 0.4 ? 2 : 1;
-        
         for (let i = 0; i < branchCount; i++) {
-            const gravity = (currentX - 250) / 2000;
-            const newAngle = currentAngle + (random() - 0.5) * 1.6 + gravity;
-            const newThickness = currentThickness * (0.65 + random() * 0.15);
-            drawBranch(currentX, currentY, newAngle, newThickness, depth + 1);
+            const gravity = (endX - 250) / 2000;
+            const newAngle = angle + (random() - 0.5) * 1.6 + gravity;
+            const newThickness = thickness * (0.65 + random() * 0.15);
+            drawBranch(endX, endY, newAngle, newThickness, depth + 1);
         }
     }
-    
-    // --- Draw the Pot ---
+
+    // --- Draw the Pot & Tree with Correct Layering ---
     const potHeight = 60 + random() * 20;
     const potWidth = 150 + random() * 50;
-    const potTopY = 480; // The bottom of the canvas
+    const potTopY = 480;
+    const potLipHeight = 15;
+
     const potTopLeftX = 250 - potWidth / 2;
     const potTopRightX = 250 + potWidth / 2;
-    const potBottomLeftX = 250 - (potWidth / 2) + 20;
-    const potBottomRightX = 250 + (potWidth / 2) - 20;
-    
-    // The corrected path draws the pot right-side up.
-    // It starts from the top-left, goes to top-right, then bottom-right, then bottom-left, and closes.
-    const potPath = `M ${potTopLeftX},${potTopY - potHeight} L ${potTopRightX},${potTopY - potHeight} L ${potBottomRightX},${potTopY} L ${potBottomLeftX},${potTopY} Z`;
+    const potBottomLeftX = potTopLeftX + 20;
+    const potBottomRightX = potTopRightX - 20;
 
-    const pot = createSvgElement('path', {
-        d: potPath, // <-- Use the corrected path
-        fill: colorPalette.pot,
-        stroke: `hsl(${200}, 20%, 25%)`,
+    // 1. Draw the main body of the pot (the back) FIRST.
+    const potBodyPath = `M ${potTopLeftX},${potTopY - potHeight + potLipHeight} L ${potTopRightX},${potTopY - potHeight + potLipHeight} L ${potBottomRightX},${potTopY} L ${potBottomLeftX},${potTopY} Z`;
+    const potBody = createSvgElement('path', {
+        d: potBodyPath,
+        fill: colorPalette.potBody,
+        stroke: colorPalette.potStroke,
         'stroke-width': 2
     });
-    canvas.appendChild(pot);
+    canvas.appendChild(potBody);
 
-
-    // 4. Start the drawing process
+    // 2. Draw the ENTIRE tree SECOND.
     const startX = 250;
-    // The tree now starts from inside the pot, not the absolute bottom of the canvas.
-    const startY = potTopY - potHeight; // <-- Tree base is at the soil line
-    const initialAngle = -Math.PI / 2; // Point straight up
-    
+    const startY = potTopY - potHeight + potLipHeight / 3; // Start inside the pot lip
+    const initialAngle = -Math.PI / 2;
     drawBranch(startX, startY, initialAngle, trunkThickness, 0);
+
+    // 3. Draw the pot's front lip LAST, so it covers the tree trunk.
+    const potLip = createSvgElement('path', {
+        d: `M ${potTopLeftX - 3} ${potTopY - potHeight} L ${potTopRightX + 3} ${potTopY - potHeight} L ${potTopRightX + 3} ${potTopY - potHeight + potLipHeight} L ${potTopLeftX - 3} ${potTopY - potHeight + potLipHeight} Z`,
+        fill: colorPalette.potLip,
+        stroke: colorPalette.potStroke,
+        'stroke-width': 2
+    });
+    canvas.appendChild(potLip);
 }
 
 // Run the generation when the script loads
