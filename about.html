@@ -16,16 +16,15 @@
     </noscript>
 
     <!-- 2. Page-Specific CSS (Handled by Vite) -->
-    <script type="module">
-        import '/css/slideshow.css';
-        import '/css/about.css';
-    </script>
     
     <!-- Favicon web icon-->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
     <link rel="manifest" href="favicon_io/site.webmanifest">
+
+<script type="module" src="/js/include/pages/about-page.js"></script>
+
 </head>
 <body>
     <!-- Load Navbar -->
@@ -188,8 +187,5 @@
     <!-- Footer Section -->
     <div id="footer-placeholder"></div>
 
-    <!-- Vite and Page-Specific Scripts -->
-    <script type="module" src="/js/include/main.js"></script>
-    <script type="module" src="/js/slideshow.js" defer></script>
 </body>
 </html>
