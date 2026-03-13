@@ -9,6 +9,3 @@ Logs
 
 # Ignore system files
 .DS_Store
-
-# Ignore private server configuration
-deploy.conf

@@ -1,40 +1,57 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-# Load configuration variables from a private file
-# The '.' command is a synonym for 'source'
-if [ -f "$(dirname "$0")/deploy.conf" ]; then
-    . "$(dirname "$0")/deploy.conf"
+# --- Load configuration ---
+CONF_FILE="$(dirname "$0")/deploy.conf"
+if [ -f "$CONF_FILE" ]; then
+    . "$CONF_FILE"
 else
-    echo "Error: deploy.conf not found."
+    echo "Error: deploy.conf not found at $CONF_FILE"
     exit 1
 fi
 
-# --- Deployment Steps (Now using variables) ---
+# --- Ensure PROJECT_DIR exists ---
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Error: PROJECT_DIR '$PROJECT_DIR' does not exist."
+    exit 1
+fi
 
-echo ">>> Pulling latest source code..."
+# --- Update source code ---
+echo ">>> Pulling latest source code from Git..."
 cd "$PROJECT_DIR"
-git pull origin main
 
-echo ">>> Building Docker image: $DOCKER_IMAGE_NAME..."
+# Make sure the repository is owned by current user to avoid permission errors
+sudo chown -R $USER:$USER "$PROJECT_DIR"
+
+# Fetch and reset to the desired branch (main)
+git fetch origin "$GIT_BRANCH"
+git reset --hard "origin/$GIT_BRANCH"
+
+# --- Build Docker image ---
+echo ">>> Building Docker image: $DOCKER_IMAGE_NAME"
 docker build -t "$DOCKER_IMAGE_NAME" .
 
-echo ">>> Creating temporary container..."
-CONTAINER_ID=$(docker create "$DOCKER_IMAGE_NAME")
+# --- Prepare dist folder ---
+echo ">>> Preparing dist folder..."
+rm -rf "$PROJECT_DIR/dist"
+mkdir -p "$PROJECT_DIR/dist"
 
+# --- Create temporary container and copy build output ---
 echo ">>> Extracting build files from container..."
-rm -rf "$PROJECT_DIR/dist" 
-docker cp "$CONTAINER_ID:/app/dist" "$PROJECT_DIR/dist"
-
-echo ">>> Cleaning up container..."
+CONTAINER_ID=$(docker create "$DOCKER_IMAGE_NAME")
+docker cp "$CONTAINER_ID:/app/dist/." "$PROJECT_DIR/dist/"
 docker rm "$CONTAINER_ID"
 
-echo ">>> Deploying files to web root..."
+# --- Deploy to web root ---
+echo ">>> Syncing files to web root: $WEB_ROOT"
+mkdir -p "$WEB_ROOT"
 rsync -av --delete "$PROJECT_DIR/dist/" "$WEB_ROOT/"
 
-rm -rf "$PROJECT_DIR/dist"
-
-echo ">>> Fixing file permissions..."
+# --- Fix permissions ---
+echo ">>> Setting permissions..."
 chown -R www-data:www-data "$WEB_ROOT"
 
-echo ">>> Deployment successfully completed."
+# --- Cleanup local dist ---
+rm -rf "$PROJECT_DIR/dist"
+
+echo ">>> Deployment successfully completed!"
