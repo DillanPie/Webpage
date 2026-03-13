@@ -21,7 +21,7 @@ body > .container {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/public/fonts/FiraCodeNF-Reg.woff2") format("woff2");
+  src: url("/fonts/FiraCodeNF-Reg.woff2") format("woff2");
 }
 
 @font-face {
@@ -29,7 +29,7 @@ body > .container {
   font-style: normal;
   font-weight: 700; /* 700 is bold */
   font-display: swap;
-  src: url("/public/fonts/FiraCodeNF-Bold.woff2") format("woff2");
+  src: url("/fonts/FiraCodeNF-Bold.woff2") format("woff2");
 }
 
 /*Color Palette definations */
@@ -132,8 +132,6 @@ body.loaded {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-  -webkit-animation: fadeIn 1s ease-in-out;
-  -moz-animation: fadeIn 1s ease-in-out;
 }
 
 /* Titles and Subtitles */
@@ -395,12 +393,6 @@ form input[type="submit"]:hover {
   animation: fadeInOnLoad 0.7s ease-out forwards;
   -webkit-animation: fadeInOnLoad 0.7s ease-out forwards;
   -moz-animation: fadeInOnLoad 0.7s ease-out forwards;
-}
-
-.container {
-  animation: fadeInOnLoad 1s ease-in-out;
-  -webkit-animation: fadeInOnLoad 1s ease-in-out;
-  -moz-animation: fadeInOnLoad 1s ease-in-out;
 }
 
 /* --- Unified Image Loading Animation --- */
