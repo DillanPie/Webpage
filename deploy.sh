@@ -34,4 +34,7 @@ rsync -av --delete "$PROJECT_DIR/dist/" "$WEB_ROOT/"
 
 rm -rf "$PROJECT_DIR/dist"
 
+echo ">>> Fixing file permissions..."
+chown -R www-data:www-data "$WEB_ROOT"
+
 echo ">>> Deployment successfully completed."
