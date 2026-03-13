@@ -1,6 +1,6 @@
 // js/gallery-init.js
 
-import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
 
 // This function runs when the page is fully loaded
 document.addEventListener('DOMContentLoaded', () => {

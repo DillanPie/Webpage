@@ -94,6 +94,10 @@ body > .container {
   --text-color: var(--gruvbox-dark-fg0);
 }
 
+html {
+  background-color: var(--gruvbox-dark-bg);
+}
+
 /* General Body Styling */
 body {
   margin: 0;

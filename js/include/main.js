@@ -3,7 +3,6 @@
 // This file is the single source of truth for all GLOBAL assets.
 
 // Import all global styles using the '@/' alias
-import '@/css/style.css';
 import '@/css/navbar.css';
 import '@/css/footer.css';
 

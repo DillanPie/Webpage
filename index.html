@@ -8,11 +8,16 @@
       name="description"
       content="Dillan Suon's personal portfolio showcasing skills in cybersecurity, programming, and Linux system administration."
     />
+    <!-- Global Styles and FOUC Fix -->
+    <link rel="stylesheet" href="/css/style.css" />
 
-    <script type="module">
-      import "./css/slideshow.css";
-    </script>
-
+    <noscript>
+      <style>
+        body {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
     <!-- Favicon web icon-->
     <link
       rel="apple-touch-icon"
@@ -32,6 +37,7 @@
       href="favicon_io/favicon-16x16.png"
     />
     <link rel="manifest" href="favicon_io/site.webmanifest" />
+    <script type="module" src="/js/include/pages/index-page.js"></script>
   </head>
 
   <body onload="showSlides()">
@@ -262,8 +268,5 @@
       </form>
     </div>
     <div id="footer-placeholder"></div>
-    <!--Navbar-->
-    <script type="module" src="js/include/main.js"></script>
-    <script type="module" src="js/slideshow.js" defer></script>
   </body>
 </html>
