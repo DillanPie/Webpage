@@ -8,6 +8,22 @@ body > .container {
   display: block;
 }
 
+/*
+ * Self-Hosted Fira Code Nerd Font
+ *
+ * This rule defines the font 'Fira Code Nerd Font' and tells the
+ * browser where to find the local file. The `font-display: swap`
+ * ensures text is visible while the font loads.
+ */
+
+@font-face {
+  font-family: "FiraCode Nerd Font";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FiraCodeNerdFont-Regular.woff2") format("woff2");
+}
+
 /*Color Palette definations */
 :root {
   /* Dark Mode Colors */
@@ -41,7 +57,7 @@ body > .container {
   --gruvbox-green-bright: #b8bb26;
   --gruvbox-yellow: #d79921;
   --gruvbox-yellow-bright: #fabd2f;
-  --gruvbox-yellow-soft:  #d8a657;
+  --gruvbox-yellow-soft: #d8a657;
   --gruvbox-blue: #458588;
   --gruvbox-blue-bright: #83a598;
   --gruvbox-purple: #b16286;
@@ -54,89 +70,96 @@ body > .container {
   --gruvbox-gray-bright: #a89984;
 
   /*Site's Semantic Palette (assigning roles to colors) */
---page-background: var(--gruvbox-dark-bg);
---headings-color: var(--gruvbox-yellow-soft);
---card-background: var(--gruvbox-dark-bg1);
---border-color: var(--gruvbox-gray);
---primary-accent: var(--gruvbox-yellow-bright); /* For links, buttons, highlights */
---secondary-accent: var(--gruvbox-blue);     /* For secondary actions or details */
---hover-accent: var(--gruvbox-red-bright); /* For interactive element feedback */
---text-color: var(--gruvbox-dark-fg0)
-
+  --page-background: var(--gruvbox-dark-bg);
+  --headings-color: var(--gruvbox-yellow-soft);
+  --card-background: var(--gruvbox-dark-bg1);
+  --border-color: var(--gruvbox-gray);
+  --primary-accent: var(
+    --gruvbox-yellow-bright
+  ); /* For links, buttons, highlights */
+  --secondary-accent: var(
+    --gruvbox-blue
+  ); /* For secondary actions or details */
+  --hover-accent: var(
+    --gruvbox-red-bright
+  ); /* For interactive element feedback */
+  --text-color: var(--gruvbox-dark-fg0);
 }
-
 
 /* General Body Styling */
 body {
-    margin: 0;
-    color:  var(--gruvbox-dark-fg);
-    font-family: "FiraCode Nerd Font", monospace;
-    background-color: var(--gruvbox-dark-bg);
-    text-align: center;
-    overflow-x: hidden;
+  margin: 0;
+  color: var(--gruvbox-dark-fg);
+  font-family: "FiraCode Nerd Font", monospace;
+  background-color: var(--gruvbox-dark-bg);
+  text-align: center;
+  overflow-x: hidden;
 }
 
 /* Font Variants */
 .user-css {
-    font-family: "Nerd Font Regular";
-    src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontRegular.ttf') format('truetype');
+  font-family: "Nerd Font Regular";
+  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontRegular.ttf")
+    format("truetype");
 }
 .user-css {
-    font-family: "Nerd Font Bold";
-    src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontBold.ttf') format('truetype');
+  font-family: "Nerd Font Bold";
+  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontBold.ttf")
+    format("truetype");
 }
 .user-css {
-    font-family: "Nerd Font Italic";
-    src: url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontItalic.ttf') format('truetype');
+  font-family: "Nerd Font Italic";
+  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontItalic.ttf")
+    format("truetype");
 }
 
 /* Header */
 .header {
-    background: var(--gruvbox-dark-bg0);
-    padding: 1.5rem;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--headings-color) ;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  background: var(--gruvbox-dark-bg0);
+  padding: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--headings-color);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Container Boxes */
 .container {
-    max-width: 70rem;
-    margin: 5vh auto;
-    padding: 2rem;
-    background-color: var(--gruvbox-dark-bg1);
-    border-radius: 15px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 1s ease-in-out;
-    -webkit-animation: fadeIn 1s ease-in-out;
-    -moz-animation: fadeIn 1s ease-in-out;
+  max-width: 70rem;
+  margin: 5vh auto;
+  padding: 2rem;
+  background-color: var(--gruvbox-dark-bg1);
+  border-radius: 15px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1s ease-in-out;
+  -webkit-animation: fadeIn 1s ease-in-out;
+  -moz-animation: fadeIn 1s ease-in-out;
 }
 
 /* Titles and Subtitles */
 .title {
-    font-size: 2.5rem; /* Adjusted for better mobile scaling */
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: var(--headings-color);
+  font-size: 2.5rem; /* Adjusted for better mobile scaling */
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--headings-color);
 }
 
 .subtitle {
-    font-size: 1.5rem; /* Adjusted for better mobile scaling */
-    margin-bottom: 1.5rem;
-    color: var(--gruvbox-orange);
+  font-size: 1.5rem; /* Adjusted for better mobile scaling */
+  margin-bottom: 1.5rem;
+  color: var(--gruvbox-orange);
 }
 
 /* Links */
 .links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem; /* Slightly reduced gap for mobile */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem; /* Slightly reduced gap for mobile */
 }
 
 .grid-item {
@@ -152,7 +175,9 @@ body {
   align-items: center;
 
   /* Effects */
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .grid-item:hover {
@@ -164,7 +189,7 @@ body {
   /* Layout & Sizing */
   display: block; /* Removes any extra space below the image */
   width: 100%;
-  height: auto;   /* Lets the parent decide the height */
+  height: auto; /* Lets the parent decide the height */
 
   /* Visuals */
   border-radius: 8px;
@@ -179,63 +204,61 @@ body {
   transform: scale(1.05);
 }
 
-
 /* Contact Form */
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-form input, form textarea {
-    padding: 0.7rem;
-    width: 90%; /* Increased width for mobile */
-    max-width: 500px;
-    background-color: var(--gruvbox-dark-bg0);
-    color: var(--headings-color);
-    border: 1px solid var(--gruvbox-yellow-soft);
-    border-radius: 8px;
+form input,
+form textarea {
+  padding: 0.7rem;
+  width: 90%; /* Increased width for mobile */
+  max-width: 500px;
+  background-color: var(--gruvbox-dark-bg0);
+  color: var(--headings-color);
+  border: 1px solid var(--gruvbox-yellow-soft);
+  border-radius: 8px;
 }
 
 form input[type="submit"] {
-    background-color: var(--gruvbox-orange);
-    color:  var(--gruvbox-dark-fg0);
-    cursor: pointer;
-    transition: background-color 0.3s;
-    -webkit-transition: background-color 0.3s;
-    -moz-transition: background-color 0.3s;
+  background-color: var(--gruvbox-orange);
+  color: var(--gruvbox-dark-fg0);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
 }
 
 form input[type="submit"]:hover {
-    background-color: var(--hover-accent);
+  background-color: var(--hover-accent);
 }
-
-
 
 /* Mobile Friendly Adjustments */
 @media (max-width: 768px) {
-    .title {
-        font-size: 2rem;
-    }
-    
-    .subtitle {
-        font-size: 1.2rem;
-    }
+  .title {
+    font-size: 2rem;
+  }
 
-    .container {
-        margin: 3vh 15px; /* Adds side margin on mobile */
-        padding: 1.5rem;
-    }
-    
-    .slideshow-container {
-        max-width: 95%; /* Allow slideshow to take more width */
-        height: auto; /* Let height be determined by aspect ratio */
-        min-height: 300px;
-    }
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .container {
+    margin: 3vh 15px; /* Adds side margin on mobile */
+    padding: 1.5rem;
+  }
+
+  .slideshow-container {
+    max-width: 95%; /* Allow slideshow to take more width */
+    height: auto; /* Let height be determined by aspect ratio */
+    min-height: 300px;
+  }
 }
 
-  /* ============= UNIFIED BUTTON & LINK STYLES ============= */
+/* ============= UNIFIED BUTTON & LINK STYLES ============= */
 
 /* 1. The Base Button/Link Class (Shape, Size, Effects) */
 .btn {
@@ -256,9 +279,15 @@ form input[type="submit"]:hover {
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  -webkit-transition: transform 0.3s ease, background-color 0.3s ease;
-  -moz-transition: transform 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+  -webkit-transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+  -moz-transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
 /* Universal Hover Effect */
@@ -277,7 +306,7 @@ form input[type="submit"]:hover {
 }
 
 .btn-default:hover,
-.btn:focusS {
+.btn:focuss {
   color: var(--hover-accent);
 }
 
@@ -293,26 +322,26 @@ form input[type="submit"]:hover {
 
 /* Container for buttons that need extra margin */
 .button-container {
-    margin-top: 25px; /* Reduced margin for mobile */
-    text-align: center;
+  margin-top: 25px; /* Reduced margin for mobile */
+  text-align: center;
 }
 
 /* CUT THIS ENTIRE BLOCK from slideshow.css */
 .scroll-arrow {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 12px;
-    color: var(--gruvbox-dark-fg0);
-    font-weight: bold;
-    font-size: 1.8rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    user-select: none;
-    transition: background-color 0.3s;
-    z-index: 2;
-    font-family: inherit;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 12px;
+  color: var(--gruvbox-dark-fg0);
+  font-weight: bold;
+  font-size: 1.8rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  user-select: none;
+  transition: background-color 0.3s;
+  z-index: 2;
+  font-family: inherit;
 }
 
 .scroll-arrow:hover {
@@ -320,8 +349,8 @@ form input[type="submit"]:hover {
 }
 
 .scroll-arrow:disabled {
-    opacity: 0;
-    cursor: not-allowed;
+  opacity: 0;
+  cursor: not-allowed;
 }
 
 .scroll-arrow-left {
@@ -343,8 +372,22 @@ form input[type="submit"]:hover {
     opacity: 1;
   }
 }
-@-webkit-keyframes fadeInOnLoad { from { opacity: 0; } to { opacity: 1; } }
-@-moz-keyframes fadeInOnLoad { from { opacity: 0; } to { opacity: 1; } }
+@-webkit-keyframes fadeInOnLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeInOnLoad {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 /* 
   This is a reusable utility class we can add via JavaScript 
@@ -358,10 +401,10 @@ form input[type="submit"]:hover {
   -moz-animation: fadeInOnLoad 0.7s ease-out forwards;
 }
 
-.container{
-    animation: fadeInOnLoad 1s ease-in-out;
-    -webkit-animation: fadeInOnLoad 1s ease-in-out;
-    -moz-animation: fadeInOnLoad 1s ease-in-out;
+.container {
+  animation: fadeInOnLoad 1s ease-in-out;
+  -webkit-animation: fadeInOnLoad 1s ease-in-out;
+  -moz-animation: fadeInOnLoad 1s ease-in-out;
 }
 
 /* --- Unified Image Loading Animation --- */
@@ -373,5 +416,19 @@ form input[type="submit"]:hover {
     opacity: 1;
   }
 }
-@-webkit-keyframes imageFadeIn { from { opacity: 0; } to { opacity: 1; } }
-@-moz-keyframes imageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@-webkit-keyframes imageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes imageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
