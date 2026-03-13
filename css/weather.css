@@ -1,20 +1,50 @@
 /* --- Loading State --- */
-/* When the body has this class, hide all containers except the first one */
+/* Hide secondary containers when loading */
 body.weather-loading #hourly-container,
 body.weather-loading #daily-container,
 body.weather-loading #map-container {
   display: none;
 }
 
-/* While loading, keep the top container visible but hide its main content */
-body.weather-loading #current-weather {
-    visibility: hidden;
+/* --- Current Weather --- */
+#current-weather {
+  text-align: center;
+  /* **FIX**: Add position context and min-height for the new spinner */
+  position: relative;
+  min-height: 250px;
+}
+
+/* **FIX**: Hide children of the content block during loading */
+body.weather-loading #current-weather > * {
+  visibility: hidden;
+}
+
+/* **FIX**: Create the spinner on the content block itself for perfect centering */
+body.weather-loading #current-weather::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-top: -25px; /* Half of height */
+  margin-left: -25px; /* Half of width */
+  border: 5px solid var(--gruvbox-dark-bg3);
+  border-top-color: var(--primary-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--gruvbox-orange);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--gruvbox-orange);
 }
 
 /* --- Search Header --- */
@@ -23,136 +53,202 @@ h3 {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   margin-bottom: 2rem;
   border-bottom: 1px solid var(--gruvbox-dark-bg4);
   padding-bottom: 1.5rem;
 }
-.weather-label { font-size: 2rem; font-weight: bold; }
+.weather-label {
+  font-size: 2rem;
+  font-weight: bold;
+}
 .weather-search {
-  flex-grow: 1; max-width: 250px; font-size: 1.2rem;
-  color: var(--text-color); background-color: var(--gruvbox-dark-bg);
-  border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 15px;
+  flex-grow: 1;
+  max-width: 250px;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  background-color: var(--gruvbox-dark-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 8px 15px;
 }
 .weather-search-btn {
-  font-size: 1rem; color: var(--gruvbox-dark-fg0); background-color: var(--secondary-accent);
-  border: none; border-radius: 14px; padding: 10px 12px; cursor: pointer;
+  font-size: 1rem;
+  color: var(--gruvbox-dark-fg0);
+  background-color: var(--secondary-accent);
+  border: none;
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
 }
 
-/* --- Current Weather --- */
-#current-weather { text-align: center; }
-.city-name { font-size: 2.5rem; margin-bottom: 1rem; }
-.current-main { display: flex; justify-content: center; align-items: center; gap: 1rem; }
-.current-temp { font-size: 5rem; font-weight: bold; }
-.current-icon { width: 100px; }
-.current-description { text-transform: capitalize; font-size: 1.5rem; margin-top: -1rem; }
+/* --- Current Weather  --- */
+.city-name {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.current-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.current-temp {
+  font-size: 5rem;
+  font-weight: bold;
+}
+.current-icon {
+  width: 100px;
+}
+.current-description {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  margin-top: -1rem;
+}
 .current-extras {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
-    color: var(--gruvbox-dark-fg2);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--gruvbox-dark-fg2);
 }
 
-/* --- Shared Forecast Styles (for the <h3> titles) --- */
+/* --- Shared Forecast Styles  --- */
 .container .subtitle {
-    text-align: left;
-    border-bottom: 1px solid var(--gruvbox-dark-bg3);
-    padding-bottom: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gruvbox-dark-bg3);
+  padding-bottom: 0.5rem;
 }
 
-/* --- Hourly & Daily Forecasts (These styles are correct) --- */
-.hourly-forecast-container { display: flex; overflow-x: auto; padding: 1rem 0.5rem; gap: 1rem; scrollbar-width: thin; scrollbar-color: var(--gruvbox-dark-bg3) var(--gruvbox-dark-bg1); }
-.hourly-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; background: rgba(40, 40, 40, 0.4); padding: 1rem; border-radius: 15px; min-width: 80px; }
-.hourly-item .temp { font-size: 1.2rem; }
-.hourly-item .icon { width: 50px; }
-.daily-forecast-container { display: flex; flex-direction: column; gap: 0.75rem; }
-.daily-item { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0.75rem 1rem; background: rgba(40, 40, 40, 0.4); border-radius: 10px; }
-.daily-item .day { font-weight: bold; }
-.daily-item .icon-temp { display: flex; align-items: center; justify-content: center; gap: 1rem; }
-.daily-item .icon { width: 40px; }
-.daily-item .temps { text-align: right; }
+/* --- Hourly & Daily Forecasts  --- */
+.hourly-forecast-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+  gap: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gruvbox-dark-bg3) var(--gruvbox-dark-bg1);
+}
+.hourly-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(40, 40, 40, 0.4);
+  padding: 1rem;
+  border-radius: 15px;
+  min-width: 80px;
+}
+.hourly-item .temp {
+  font-size: 1.2rem;
+}
+.hourly-item .icon {
+  width: 50px;
+}
+.daily-forecast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.daily-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(40, 40, 40, 0.4);
+  border-radius: 10px;
+}
+.daily-item .day {
+  font-weight: bold;
+}
+.daily-item .icon-temp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.daily-item .icon {
+  width: 40px;
+}
+.daily-item .temps {
+  text-align: right;
+}
 
-/* --- Map Styles --- */
+.hourly-scroll-wrapper {
+  position: relative;
+}
+.scroll-arrow {
+  background-color: rgba(80, 80, 80, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.scroll-arrow-left {
+  left: -15px;
+}
+.scroll-arrow-right {
+  right: -15px;
+}
+
+/* --- Map Styles  --- */
 #map {
   height: 450px;
   width: 100%;
   border-radius: 15px;
   background-color: #1d2021;
+  cursor: pointer;
 }
-
 #weather-map .leaflet-tile-pane img:not(.rainviewer-layer) {
-    filter: sepia(20%) brightness(105%) saturate(80%) contrast(95%);
+  filter: sepia(20%) brightness(105%) saturate(80%) contrast(95%);
 }
-
 #weather-map .rainviewer-layer {
-    filter: sepia(45%) saturate(200%) brightness(95%) contrast(130%);  }
-
-.leaflet-pane.leaflet-tile-pane {
-  filter: 
-    hue-rotate(-20deg)
-    saturate(140%);
+  filter: sepia(45%) saturate(200%) brightness(95%) contrast(130%);
 }
-
-/*Weather Map Legend */
+.leaflet-pane.leaflet-tile-pane {
+  filter: hue-rotate(-20deg) saturate(140%);
+}
 .map-header {
-    display: flex;
-    justify-content: space-between; /* Pushes title and legend apart */
-    align-items: center;
-    margin-bottom: 1rem; /* Adds some space above the map */
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
   --radar-light-pink: #ffe2be;
   --radar-blue: #3f827e;
   --radar-yellow: #ffe916;
   --radar-orange: #ffb82e;
 }
-
-/* Reset the legend to be a simple flex container */
 #map-legend {
-    padding: 0;
+  padding: 0;
 }
-
 #map-legend ul {
-    display: flex;      /* Makes the list items display horizontally */
-    gap: 1rem;          /* Creates space between each legend item */
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
 #map-legend li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;        /* Creates space between the color swatch and text */
-    font-size: 0.9em;   /* Makes the font slightly smaller */
-    color: var(--light2); /* Use a slightly more subtle text color from your theme */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9em;
+  color: var(--light2);
 }
-
-/* Find this existing rule in your weather.css */
 #map-legend li span {
-    display: inline-block; /* <-- ADD THIS LINE - This makes the square visible */
-    width: 15px;
-    height: 15px;
-    border: 1px solid var(--dark3);
-    border-radius: 3px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--dark3);
+  border-radius: 3px;
 }
-
-/* --- Timestamp Styles --- */
 #timestamp-container p {
-  margin: 0; 
+  margin: 0;
   font-size: 0.9em;
   color: var(--gruvbox-dark-fg2);
 }
 
-/* --- Styles for Expanded Map Modal --- */
-
-/* Make the original map look clickable */
-#map {
-  cursor: pointer;
-}
-
-/* Modal background - hidden by default */
+/* --- Modal Styles  --- */
 .map-modal {
   display: none;
   position: fixed;
@@ -165,21 +261,15 @@ h3 {
   justify-content: center;
   align-items: center;
 }
-
-/* Class to show the modal via JavaScript */
 .map-modal.visible {
   display: flex;
 }
-
-/* Container for the expanded map inside the modal */
 #expanded-map {
   width: 90vw;
   height: 90vh;
   border: 2px solid var(--gruvbox-dark-bg3, #504945);
   border-radius: 8px;
 }
-
-/* Style for the close button */
 .close-modal {
   position: absolute;
   top: 15px;
@@ -189,83 +279,40 @@ h3 {
   font-weight: bold;
   transition: 0.3s;
 }
-
 .close-modal:hover,
 .close-modal:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
 }
-
-/* Prevent the main page from scrolling when the modal is open */
 body.modal-open {
   overflow: hidden;
 }
 
-
-/* --- Error Message Styling --- */
+/* --- Error Message  --- */
 .weather-error {
-  /* Use your theme's red for text color */
   color: var(--gruvbox-red-bright);
-  /* Add a subtle, transparent red background */
   background-color: rgba(204, 36, 29, 0.2);
   padding: 1rem;
   border-radius: 10px;
-  margin-bottom: 1.5rem; /* Adds space between the error and weather data */
+  margin-bottom: 1.5rem;
   font-size: 1.1rem;
   text-align: center;
-  /* Hide it by default; we'll show it with JavaScript */
   display: none;
   border: 1px solid var(--gruvbox-red);
 }
 
-/* --- Enhanced Loading Spinner --- */
-/* This makes the container a reference point for the spinner */
-body.weather-loading #current-weather-container {
-    position: relative;
-    /* Ensure a minimum height so the spinner is visible even when empty */
-    min-height: 300px;
-}
-
-/* This pseudo-element IS the spinner. It only appears when the body has the 'weather-loading' class. */
-body.weather-loading #current-weather-container::after {
-  content: '';
+/* Style for the radar error message */
+.radar-error {
   position: absolute;
-  /* Center it in the container */
-  top: 50%;
+  top: 10px;
   left: 50%;
-  /* Spinner dimensions */
-  width: 50px;
-  height: 50px;
-  margin-top: -25px;  /* Half of height */
-  margin-left: -25px; /* Half of width */
-  /* The gray "track" of the spinner */
-  border: 5px solid var(--gruvbox-dark-bg3);
-  /* The colored, moving part of the spinner */
-  border-top-color: var(--primary-accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.scroll-arrow {
-    background-color: rgba(80, 80, 80, 0.4); /* A lighter, more transparent background */
-    backdrop-filter: blur(8px); /* The magic ingredient! */
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-}
-
-.hourly-scroll-wrapper {
-  position: relative;
-}
-
-.scroll-arrow-left {
-  left: -15px;
-}
-
-.scroll-arrow-right {
-  right: -15px;
+  transform: translateX(-50%);
+  background-color: rgba(204, 36, 29, 0.8); /* Use your theme's red */
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 1001; /* Ensure it's above the map tiles */
+  font-size: 0.9rem;
+  pointer-events: none; /* Allows clicking through the message */
 }
