@@ -21,7 +21,15 @@ body > .container {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/FiraCodeNerdFont-Regular.woff2") format("woff2");
+  src: url("/public/fonts/FiraCodeNF-Reg.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "FiraCode Nerd Font";
+  font-style: normal;
+  font-weight: 700; /* 700 is bold */
+  font-display: swap;
+  src: url("/public/fonts/FiraCodeNF-Bold.woff2") format("woff2");
 }
 
 /*Color Palette definations */
@@ -94,23 +102,12 @@ body {
   background-color: var(--gruvbox-dark-bg);
   text-align: center;
   overflow-x: hidden;
+  opacity: 0; /* Make the body invisible by default */
+  transition: opacity 0.7s ease-in-out; /* Define the fade-in effect */
 }
 
-/* Font Variants */
-.user-css {
-  font-family: "Nerd Font Regular";
-  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontRegular.ttf")
-    format("truetype");
-}
-.user-css {
-  font-family: "Nerd Font Bold";
-  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontBold.ttf")
-    format("truetype");
-}
-.user-css {
-  font-family: "Nerd Font Italic";
-  src: url("https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/fonts/NerdFontItalic.ttf")
-    format("truetype");
+body.loaded {
+  opacity: 1;
 }
 
 /* Header */
@@ -135,7 +132,6 @@ body {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 1s ease-in-out;
   -webkit-animation: fadeIn 1s ease-in-out;
   -moz-animation: fadeIn 1s ease-in-out;
 }

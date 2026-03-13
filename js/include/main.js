@@ -11,4 +11,8 @@ import '@/css/footer.css';
 import '@/js/include/navbar.js';
 import '@/js/include/footer.js';
 
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+});
+
 console.log("Global assets (main.js) have been loaded.");
