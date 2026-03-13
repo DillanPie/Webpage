@@ -1,0 +1,15 @@
+# Ignore dependencies (they will be installed inside the container)
+
+node_modules
+
+# Ignore build output
+
+dist
+
+# Ignore system files
+
+.DS_Store
+
+# Ignore git folder
+
+.git

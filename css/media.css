@@ -41,10 +41,34 @@ h1 {
     margin: auto;
 }
 
-/* AFTER: In media.css */
+.music-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
 .media-item img {
   /* This only keeps the unique properties */
   height: 280px;
   object-fit: cover;
   border: 2px solid #665c54;
+}
+
+.music-grid .media-item img {
+    width: 100%;    /* Make the image fill the full width of the grid column */
+    height: auto;     /* CRITICAL: Let the height adjust automatically to maintain the aspect ratio */
+    object-fit: contain; /* Good practice: Ensures the whole image is contained */
+}
+
+
+@media (max-width: 900px) {
+    .four-col-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .four-col-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

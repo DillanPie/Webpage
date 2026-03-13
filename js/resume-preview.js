@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
         return;
     }
 
-    const url = "resume/Dillan-Suon-Resume.pdf";
+    const url = "/resume/Dillan-Suon-Resume.pdf";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
 
     pdfjsLib.getDocument(url).promise.then((pdfDoc) => {

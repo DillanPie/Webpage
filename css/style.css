@@ -1,3 +1,13 @@
+/* style.css */
+body {
+  display: block !important; /* Force the body to a standard block layout */
+}
+
+/* Ensure all direct children containers in the body also stack correctly */
+body > .container {
+  display: block;
+}
+
 /*Color Palette definations */
 :root {
   /* Dark Mode Colors */

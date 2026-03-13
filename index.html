@@ -19,16 +19,9 @@
       href="https://unpkg.com/photoswipe@5/dist/photoswipe.css"
     />
 
-    <!-- 2. Global Site Styles -->
-    <link rel="stylesheet" href="css/style.css" />
-
-    <!-- 3. Reusable Component Styles -->
-    <link rel="stylesheet" href="css/navbar.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/slideshow.css" />
-    <!-- Add any other component styles like calendar.css here if used on multiple pages -->
-
-    <!-- 4. Page-Specific Styles-->
+    <script type="module">
+      import "./css/slideshow.css";
+    </script>
 
     <!-- Favicon web icon-->
     <link
@@ -135,7 +128,10 @@
     <div class="container" id="resume">
       <h1 class="subtitle">Resume</h1>
       <div class="links">
-        <a class="btn btn-default" href="resume/Dillan-Suon-Resume.pdf" download
+        <a
+          class="btn btn-default"
+          href="/resume/Dillan-Suon-Resume.pdf"
+          download
           >Download My Resume</a
         >
         <a class="btn btn-default" href="resume-preview.html">Preview Resume</a>
@@ -233,11 +229,7 @@
     </div>
     <div id="footer-placeholder"></div>
     <!--Navbar-->
-    <script src="js/navbar.js"></script>
-    <!-- Footer Section -->
-
-    <script src="js/footer.js"></script>
-    <!-- JavaScript Integration for slideshow -->
+    <script type="module" src="js/include/main.js"></script>
     <script type="module" src="js/slideshow.js" defer></script>
   </body>
 </html>

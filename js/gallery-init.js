@@ -11,7 +11,8 @@ async function initializeGallery() {
   console.log('Starting gallery initialization...');
   
   // Combine the selectors here to get all links from both gallery types
-  const galleryLinks = document.querySelectorAll('.media-grid a, .item a');
+// Add .music-grid a to the list of selectors
+  const galleryLinks = document.querySelectorAll('.media-grid a, .item a, .music-grid a');
   const promises = [];
 
   for (const link of galleryLinks) {
@@ -38,17 +39,18 @@ async function initializeGallery() {
     await Promise.all(promises);
     console.log('All image dimensions have been set.');
 
-    // --- The Magic is Here ---
-    const lightbox = new PhotoSwipeLightbox({
-      // 1. Gallery Container: Look for an element with class '.grid' OR '.media-grid'
-      gallery: '.grid, .media-grid', 
-      
-      // 2. Child Items: Look for an 'a' tag inside an element with class '.item' OR '.media-item'
-      children: '.item > a, .media-item > a',
 
-      pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.min.js'),
-      padding: { top: 20, bottom: 20, left: 40, right: 40 }
-    });
+const lightbox = new PhotoSwipeLightbox({
+  // 1. Gallery Container: Add .music-grid to the list
+  gallery: '.grid, .media-grid, .music-grid', 
+  
+  // 2. Child Items: This selector is still correct and doesn't need to be changed.
+  children: '.item > a, .media-item > a',
+
+  pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.min.js'),
+  padding: { top: 20, bottom: 20, left: 40, right: 40 }
+});
+
     
     lightbox.init();
     console.log('Universal PhotoSwipe initialized successfully.');
