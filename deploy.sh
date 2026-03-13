@@ -39,6 +39,9 @@ docker rm "$CONTAINER_ID"
 echo ">>> Syncing files to web root: $WEB_ROOT"
 rsync -av --delete --ignore-missing-args "$PROJECT_DIR/dist/" "$WEB_ROOT/"
 
+echo "Copy custom error pages to live root"
+cp -v "$PROJECT_DIR/error/"*.shtml "$WEB_ROOT/"
+
 echo ">>> Fixing file permissions..."
 chown -R www-data:www-data "$WEB_ROOT"
 
