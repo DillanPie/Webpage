@@ -118,22 +118,32 @@ document.addEventListener("DOMContentLoaded", () => {
     },
 
     displayAllWeather: function(data, cityName) {
-        document.getElementById("current-weather").style.visibility = 'visible';
-        
-        this.displayCurrent(data, cityName);
-        this.displayHourlyChart(data.hourly);
-        this.displayHourly(data.hourly);
-        this.displayDaily(data.daily);
-        this.displayWeatherMap(data.lat, data.lon, 'map', false);
+    //display all the fast, text-based data first.
+    
+    document.getElementById("current-weather").style.visibility = 'visible';
+    
+    this.displayCurrent(data, cityName);
+    this.displayHourlyChart(data.hourly);
+    this.displayHourly(data.hourly);
+    this.displayDaily(data.daily);
 
-        document.body.classList.remove("weather-loading");
-        document.querySelector(".weather-search").value = cityName;
-        document.getElementById("timestamp").innerText = new Date().toLocaleTimeString();
-        
-        this.enableSearchControls();
-        
-        setTimeout(() => map && map.invalidateSize(), 100);
-    },
+    // Update the search bar and timestamp
+    document.querySelector(".weather-search").value = cityName;
+    document.getElementById("timestamp").innerText = new Date().toLocaleTimeString();
+
+    // NOW, remove the loading spinner and show the main content.
+    // The user sees the page as "loaded" at this point.
+    document.body.classList.remove("weather-loading");
+    this.enableSearchControls();
+
+    // --- THEN, start loading the map in the background ---
+    // This will no longer hold up the initial page display.
+    this.displayWeatherMap(data.lat, data.lon, 'map', false);
+
+    // This final resize call is still good practice.
+    setTimeout(() => map && map.invalidateSize(), 100);
+},
+
 
     displayCurrent: function(data, cityName) {
         const { temperature_2m: temp, apparent_temperature: feels_like, relativehumidity_2m: humidity, windspeed_10m: wind_speed } = data.current;
@@ -286,47 +296,84 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     },
     
-    displayWeatherMap: function(lat, lon, mapId, isExpanded) {
-        let mapInstance;
-    
+displayWeatherMap: function (lat, lon, mapId, isExpanded) {
+    let mapInstance;
+
+    const setupMap = (zoom) => {
+        const mapOptions = { maxZoom: 20 };
+        let instance;
+
         if (isExpanded) {
             if (expandedMap) expandedMap.remove();
-            expandedMap = L.map(mapId).setView([lat, lon], 9);
-            mapInstance = expandedMap;
+            expandedMap = L.map(mapId, mapOptions).setView([lat, lon], zoom);
+            instance = expandedMap;
         } else {
             if (map) map.remove();
-            map = L.map(mapId).setView([lat, lon], 9);
-            mapInstance = map;
+            map = L.map(mapId, mapOptions).setView([lat, lon], zoom);
+            instance = map;
         }
-    
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        }).addTo(mapInstance);
-    
-        fetch('https://api.rainviewer.com/public/weather-maps.json')
-            .then(res => res.ok ? res.json() : Promise.reject('RainViewer API request failed'))
-            .then(data => {
-                const latestTimestampPath = data.radar.past.pop().path;
-                const radarUrl = `https://tilecache.rainviewer.com/v2/radar/${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
-                L.tileLayer(radarUrl, {
-                    attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
-                    opacity: 0.7,
-                    className: 'rainviewer-layer'
-                }).addTo(mapInstance);
-            })
-            .catch(error => {
-                console.error("Could not load RainViewer radar layer:", error);
-                const mapContainer = mapInstance.getContainer();
-                // Check if an error message already exists to avoid duplicates
-                if (!mapContainer.querySelector('.radar-error')) {
-                    const radarError = document.createElement('div');
-                    radarError.className = 'radar-error';
-                    radarError.innerText = 'Live radar layer is currently unavailable.';
-                    mapContainer.appendChild(radarError);
-                }
-});
 
-    },
+        setTimeout(() => {
+            if (instance) instance.invalidateSize();
+        }, 0);
+
+        return instance;
+    };
+
+    mapInstance = setupMap(10);
+
+    const baseLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        maxZoom: 20
+    });
+    baseLayer.addTo(mapInstance);
+
+    const overlayMaps = {};
+
+    // --- THIS IS THE CORRECTED PART ---
+    const cloudLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${weather.apiKey}`, {
+        attribution: ' | Clouds &copy; <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>',
+        // 1. Opacity decreased to make clouds more transparent.
+        //    (0.0 is fully transparent, 1.0 is fully solid)
+        opacity: 1.0,
+        
+        // 2. A class name to target this layer with CSS.
+        className: 'cloud-tile-layer',
+
+        // 3. Over-zooming options remain to keep it visible.
+        maxNativeZoom: 9,
+        maxZoom: 20,
+        noWrap: true
+    });
+    overlayMaps["Clouds"] = cloudLayer;
+
+    fetch('https://api.rainviewer.com/public/weather-maps.json')
+        .then(res => res.ok ? res.json() : Promise.reject('RainViewer API request failed'))
+        .then(data => {
+            const host = data.host;
+            const latestTimestampPath = data.radar.past.pop().path;
+            const radarUrl = `${host}${latestTimestampPath}/512/{z}/{x}/{y}/2/1_1.png`;
+
+            const rainviewerLayer = L.tileLayer(radarUrl, {
+                attribution: ' | <a href="https://www.rainviewer.com/" target="_blank">RainViewer</a>',
+                opacity: 0.8,
+                noWrap: true,
+                maxNativeZoom: 7,
+                maxZoom: 20
+            });
+            
+            overlayMaps["Smooth Radar"] = rainviewerLayer;
+            rainviewerLayer.addTo(mapInstance);
+
+            L.control.layers({ "Base Map": baseLayer }, overlayMaps).addTo(mapInstance);
+        })
+        .catch(error => {
+            console.error("Could not load smooth radar layer. Only showing cloud layer option.", error);
+            L.control.layers({ "Base Map": baseLayer }, overlayMaps).addTo(mapInstance);
+        });
+},
+
+
 
     getWeatherInfoFromCode: function(code) {
         const weatherMap = { 0: { description: "Clear sky", icon: "01d" }, 1: { description: "Mainly clear", icon: "01d" }, 2: { description: "Partly cloudy", icon: "02d" }, 3: { description: "Overcast", icon: "04d" }, 45: { description: "Fog", icon: "50d" }, 48: { description: "Rime Fog", icon: "50d" }, 51: { description: "Light Drizzle", icon: "09d" }, 53: { description: "Drizzle", icon: "09d" }, 55: { description: "Dense Drizzle", icon: "09d" }, 61: { description: "Slight Rain", icon: "10d" }, 63: { description: "Rain", icon: "10d" }, 65: { description: "Heavy Rain", icon: "10d" }, 71: { description: "Slight Snow", icon: "13d" }, 73: { description: "Snow", icon: "13d" }, 75: { description: "Heavy Snow", icon: "13d" }, 80: { description: "Rain Showers", icon: "09d" }, 81: { description: "Rain Showers", icon: "09d" }, 82: { description: "Violent Showers", icon: "09d" }, 95: { description: "Thunderstorm", icon: "11d" } };
@@ -363,31 +410,43 @@ document.addEventListener("DOMContentLoaded", () => {
   
   weather.getLocationAndWeather();
 
-  // --- Modal Logic ---
-  const mapModal = document.getElementById('map-modal');
-  const closeModalBtn = document.querySelector('.close-modal');
-  const mainMapContainer = document.getElementById('map');
+// --- Modal Logic ---
+const mapModal = document.getElementById('map-modal');
+const closeModalBtn = document.querySelector('.close-modal');
+const expandMapBtn = document.getElementById('expand-map-btn'); // Get the new button
 
-  mainMapContainer.addEventListener('click', () => {
-      mapModal.classList.add('visible');
-      document.body.classList.add('modal-open');
-      const currentCenter = map.getCenter();
-      const currentZoom = map.getZoom();
-      weather.displayWeatherMap(currentCenter.lat, currentCenter.lng, 'expanded-map', true);
-      setTimeout(() => expandedMap.invalidateSize(), 100); 
-  });
+// --- THIS IS THE CORRECTED PART ---
+// The click listener is now on the expand button, not the whole map.
+expandMapBtn.addEventListener('click', () => {
+    mapModal.classList.add('visible');
+    document.body.classList.add('modal-open');
+    
+    // Get the current view from the small map
+    const currentCenter = map.getCenter();
+    const currentZoom = map.getZoom();
 
-  const closeModal = () => {
-      mapModal.classList.remove('visible');
-      document.body.classList.remove('modal-open');
-      if (expandedMap) {
-          expandedMap.remove();
-          expandedMap = null;
-      }
-  };
+    // Display the big map with the same view
+    weather.displayWeatherMap(currentCenter.lat, currentCenter.lng, 'expanded-map', true);
+    
+    // Ensure the expanded map resizes correctly
+    setTimeout(() => {
+        if (expandedMap) {
+            expandedMap.invalidateSize();
+        }
+    }, 100); 
+});
 
-  closeModalBtn.addEventListener('click', closeModal);
-  mapModal.addEventListener('click', (e) => {
-      if (e.target === mapModal) closeModal();
-  });
+const closeModal = () => {
+    mapModal.classList.remove('visible');
+    document.body.classList.remove('modal-open');
+    if (expandedMap) {
+        expandedMap.remove();
+        expandedMap = null;
+    }
+};
+
+closeModalBtn.addEventListener('click', closeModal);
+mapModal.addEventListener('click', (e) => {
+    if (e.target === mapModal) closeModal();
+});
 });
