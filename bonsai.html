@@ -3,43 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page-specific title -->
     <title>Digital Bonsai Garden</title>
+    <meta
+      name="description"
+      content="An interactive, procedurally generated digital bonsai tree."
+    />
 
-    <!-- Global & Component Styles -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/navbar.css" />
-    <link rel="stylesheet" href="css/footer.css" />
+    <!-- Global Styles and FOUC Fix -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <noscript>
+      <style>
+        body {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
 
-    <!-- Page-Specific Styles -->
-    <link rel="stylesheet" href="css/bonsai.css" />
+    <!-- Favicon web icon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon_io/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon_io/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon_io/site.webmanifest" />
+
+    <!-- Load the JavaScript for THIS page, which also loads main.js -->
+    <script type="module" src="/js/include/pages/bonsai-page.js"></script>
   </head>
+
   <body>
-    <!-- Use the standard JS-powered navbar -->
+    <!-- Sticky Navbar Placeholder (filled by JavaScript) -->
     <div id="navbar" class="navbar"></div>
 
-    <!-- Wrap main content in the .container class for consistent layout -->
+    <!-- Consistent page header -->
+    <div class="header">The Digital Bonsai Garden</div>
+
+    <!-- Main Content Wrapper -->
     <div class="container">
-      <h1>The Digital Bonsai Garden</h1>
-
-      <p id="seed-display">> Loading seed...</p>
-
-      <!-- New viewer container for the background -->
+      <!-- **** FIX: ADD THIS SECTION **** -->
+      <!-- The Viewer and Canvas for the Bonsai Tree -->
       <div class="bonsai-viewer">
-        <!-- The SVG canvas for the bonsai tree -->
         <svg
           id="bonsai-canvas"
           viewBox="0 0 500 500"
           xmlns="http://www.w3.org/2000/svg"
         ></svg>
       </div>
+      <!-- **** END OF FIX **** -->
+
+      <!-- Main Interaction Controls -->
+      <div id="bonsai-controls">
+        <p id="seed-display">> Loading seed...</p>
+        <p>Age: <span id="age-display">0</span> years</p>
+        <button id="pass-time-btn">Pass Time</button>
+      </div>
+
+      <!-- Save/Load Controls -->
+      <div id="state-manager">
+        <h3>Manage & Share</h3>
+
+        <!-- Add the "Create from Seed" input -->
+        <div class="state-group">
+          <label for="new-seed-input">Create from Seed:</label>
+          <input
+            type="text"
+            id="new-seed-input"
+            placeholder="Enter a new seed..."
+          />
+          <button id="new-tree-btn">New Tree</button>
+        </div>
+
+        <div class="state-group">
+          <label for="state-string-output">Share your Tree:</label>
+          <input
+            type="text"
+            id="state-string-output"
+            readonly
+            placeholder="Click 'Save Tree' to generate a code"
+          />
+          <button id="save-state-btn">Save Tree</button>
+        </div>
+
+        <div class="state-group">
+          <label for="state-string-input">Load a Tree:</label>
+          <input
+            type="text"
+            id="state-string-input"
+            placeholder="Paste a tree code here..."
+          />
+          <button id="load-state-btn">Load Tree</button>
+        </div>
+      </div>
     </div>
-
-    <!-- Use the standard JS-powered footer -->
+    <!-- Footer Placeholder (filled by JavaScript) -->
     <div id="footer-placeholder"></div>
-
-    <!-- Scripts for dynamic content and the bonsai renderer -->
-    <script src="js/navbar.js"></script>
-    <script src="js/footer.js"></script>
-    <script src="/js/bonsai-renderer.js"></script>
   </body>
 </html>

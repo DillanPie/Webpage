@@ -15,6 +15,7 @@
   border-radius: 8px;
   border: 3px solid var(--gruvbox-orange); /* Thicker border for better visibility */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  overflow: hidden;
 }
 
 /* Styling for the SVG canvas itself */
@@ -28,4 +29,83 @@
   /* SVG stroke defaults */
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+#bonsai-controls {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: monospace;
+}
+
+#bonsai-controls p {
+  color: var(--gruvbox-gray);
+  margin: 0.5rem 0;
+}
+
+#bonsai-controls button {
+  background-color: var(--gruvbox-blue);
+  color: var(--gruvbox-dark-bg);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#bonsai-controls button:hover {
+  background-color: var(--gruvbox-aqua);
+}
+
+/* NEW: Styling for the Save/Load container */
+#state-manager {
+  max-width: 500px;
+  margin: 2rem auto 0;
+  padding: 1rem;
+  border: 1px solid var(--gruvbox-dark-bg3);
+  border-radius: 8px;
+  text-align: center;
+  font-family: monospace;
+}
+
+#state-manager h3 {
+  margin-top: 0;
+  color: var(--gruvbox-light-fg);
+}
+
+.state-group {
+  margin-top: 1rem;
+}
+
+.state-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--gruvbox-gray);
+}
+
+.state-group input[type="text"] {
+  width: 80%;
+  padding: 8px;
+  background-color: var(--gruvbox-dark-bg0);
+  border: 1px solid var(--gruvbox-dark-bg3);
+  color: var(--gruvbox-light-fg);
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+#state-manager button {
+  background-color: var(--gruvbox-purple);
+  color: var(--gruvbox-dark-bg);
+  border: none;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+#state-manager button:hover {
+  background-color: var(--gruvbox-aqua);
 }
