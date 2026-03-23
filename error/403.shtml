@@ -5,33 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>403 Forbidden</title>
     <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/navbar.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <!-- Nerd Fonts -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css"
-    />
-    <!-- Favicon Setup -->
+    <noscript>
+      <style>
+        body {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
+
+    <!-- Favicon web icon (assuming the path is correct from the root) -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="/favicon_io/apple-touch-icon.png"
+      href="favicon_io/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="/favicon_io/favicon-32x32.png"
+      href="favicon_io/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/favicon_io/favicon-16x16.png"
+      href="favicon_io/favicon-16x16.png"
     />
-    <link rel="manifest" href="/favicon_io/site.webmanifest" />
-  </head>
+    <link rel="manifest" href="favicon_io/site.webmanifest" />
+
+    <!-- Include the main JavaScript module for includes -->
+    <script type="module" src="/js/include/main.js"></script>
   <body>
     <div id="navbar" class="navbar"></div>
 
@@ -45,9 +48,5 @@
     </div>
 
     <div id="footer-placeholder"></div>
-
-    <!--Scripts-->
-    <script src="/js/navbar.js"></script>
-    <script src="/js/footer.js"></script>
   </body>
 </html>

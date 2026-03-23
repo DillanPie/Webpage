@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(error => {
         console.warn(error.message, "Falling back to default city.");
-        weather.fetchWeatherByCity("King George");
+        weather.fetchWeatherByCity("New York");
       });
   };
 
