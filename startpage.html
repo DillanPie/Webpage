@@ -4,19 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Tab</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts/build/firacode-nerd-font.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/startpage.css" />
-    <link
-      rel="shortcut icon"
-      href="Weather-forcast/Assets/images/cloudy.png"
-      type="image/x-icon"
-    />
+    <!-- Global Styles and FOUC Fix -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <noscript>
+      <style>
+        body {
+          opacity: 1 !important;
+        }
+      </style>
+    </noscript>
 
-    <!-- Favicon web icon-->
+    <!-- Favicon web icon (assuming the path is correct from the root) -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -35,6 +33,9 @@
       href="favicon_io/favicon-16x16.png"
     />
     <link rel="manifest" href="favicon_io/site.webmanifest" />
+
+    <!-- Include the main JavaScript module for includes -->
+    <script type="module" src="/js/include/main.js"></script>
   </head>
   <body>
     <h1 class="title">Welcome!</h1>
@@ -106,6 +107,6 @@
         <a class="secondRow office" href="https://www.office.com">󰏆</a>
       </div>
     </div>
-    <script type="module" src="js/app.js"></script>
+    <script type="module" src="/js/include/pages/start-page.js"></script>
   </body>
 </html>
