@@ -1,50 +1,46 @@
-
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 2rem;
-}
-
 h1 {
-    text-align: center;
-    color: var(--gruvbox-yellow-soft);
-    margin-bottom: 2rem;
-    font-size: 2rem;
+  text-align: center;
+  color: var(--gruvbox-yellow-soft);
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .media-section {
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 }
 
 .media-section h2 {
-    text-align: center;
-    color: var(--gruvbox-green-bright);
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+  text-align: center;
+  color: var(--gruvbox-green-bright);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
 
 .media-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 /* For 3-wide video game grid */
 .games-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* This creates 3 equal-width columns */
-    gap: 20px;                             
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* This creates 3 equal-width columns */
+  gap: 20px;
 
-    /* These lines keep it centered and prevent it from becoming too wide */
-    max-width: 700px;
-    margin: auto;
+  /* These lines keep it centered and prevent it from becoming too wide */
+  max-width: 700px;
+  margin: auto;
 }
 
-.music-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.music-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .media-item img {
@@ -55,20 +51,19 @@ h1 {
 }
 
 .music-grid .media-item img {
-    width: 100%;    /* Make the image fill the full width of the grid column */
-    height: auto;     /* CRITICAL: Let the height adjust automatically to maintain the aspect ratio */
-    object-fit: contain; /* Good practice: Ensures the whole image is contained */
+  width: 100%; /* Make the image fill the full width of the grid column */
+  height: auto; /* CRITICAL: Let the height adjust automatically to maintain the aspect ratio */
+  object-fit: contain; /* Good practice: Ensures the whole image is contained */
 }
 
-
 @media (max-width: 900px) {
-    .four-col-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+  .four-col-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
-    .four-col-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .four-col-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

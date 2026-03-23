@@ -1,72 +1,65 @@
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-}
-
 h1 {
-    text-align: center;
-    color: var(--gruvbox-yellow-soft);
+  text-align: center;
+  color: var(--gruvbox-yellow-soft);
 }
 
 /* Project Grid Styling */
 .projects-grid {
-    display: grid;
-    /* On mobile, this will create a single column. On desktop, it fits as many 300px columns as possible. */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px; /* Reduced gap for mobile */
-    margin-top: 30px;
+  display: grid;
+  /* On mobile, this will create a single column. On desktop, it fits as many 300px columns as possible. */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px; /* Reduced gap for mobile */
+  margin-top: 30px;
 }
 
-
 .project-item {
-    text-align: left;
+  text-align: left;
 }
 
 .project-item img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    border: 2px solid var(--gruvbox-gray);
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border: 2px solid var(--gruvbox-gray);
 }
 
 .project-item h2 {
-    color: var(--gruvbox-yellow-soft);
-    margin: 10px 0 8px;
-    font-size: 1.4rem;
-    text-align: center;
+  color: var(--gruvbox-yellow-soft);
+  margin: 10px 0 8px;
+  font-size: 1.4rem;
+  text-align: center;
 }
 
 .project-item p {
-    color: var(--gruvbox-gray);
-    margin-bottom: 10px;
-    line-height: 1.5;
-    font-size: 1rem;
-    max-width: 95%;
-    text-align: left;
+  color: var(--gruvbox-gray);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 1rem;
+  max-width: 95%;
+  text-align: left;
 }
 
 .project-item .links {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: auto;
 }
 
 .links a {
-    background-color: var(--gruvbox-aqua);
-    color: var(--gruvbox-dark-fg);
-    padding: 6px 14px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.95rem;
-    transition: background-color 0.3s;
+  background-color: var(--gruvbox-aqua);
+  color: var(--gruvbox-dark-fg);
+  padding: 6px 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: background-color 0.3s;
 }
 
 .links a:hover {
-    color: var(--gruvbox-yellow-soft);
+  color: var(--gruvbox-yellow-soft);
 }
