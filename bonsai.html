@@ -52,10 +52,7 @@
     <!-- Consistent page header -->
     <div class="header">The Digital Bonsai Garden</div>
 
-    <!-- Main Content Wrapper -->
     <div class="container">
-      <!-- **** FIX: ADD THIS SECTION **** -->
-      <!-- The Viewer and Canvas for the Bonsai Tree -->
       <div class="bonsai-viewer">
         <svg
           id="bonsai-canvas"
@@ -63,49 +60,13 @@
           xmlns="http://www.w3.org/2000/svg"
         ></svg>
       </div>
-      <!-- **** END OF FIX **** -->
 
-      <!-- Main Interaction Controls -->
       <div id="bonsai-controls">
         <p id="seed-display">> Loading seed...</p>
         <p>Age: <span id="age-display">0</span> years</p>
         <button id="pass-time-btn">Pass Time</button>
       </div>
 
-      <!-- Save/Load Controls -->
-      <div id="state-manager">
-        <h3>Manage & Share</h3>
-
-        <!-- Add the "Create from Seed" input -->
-        <div class="state-group">
-          <label for="new-seed-input">Create from Seed:</label>
-          <input
-            type="text"
-            id="new-seed-input"
-            placeholder="Enter a new seed..."
-          />
-          <button id="new-tree-btn">New Tree</button>
-        </div>
-
-        <div class="state-group">
-          <label for="state-string-output">Share your Tree:</label>
-          <input
-            type="text"
-            id="state-string-output"
-            readonly
-            placeholder="Click 'Save Tree' to generate a code"
-          />
-          <button id="save-state-btn">Save Tree</button>
-        </div>
-
-        <div class="state-group">
-          <label for="state-string-input">Load a Tree:</label>
-          <input
-            type="text"
-            id="state-string-input"
-            placeholder="Paste a tree code here..."
-          />
-          <button id="load-state-btn">Load Tree</button>
         </div>
       </div>
     </div>

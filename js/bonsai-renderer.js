@@ -1,330 +1,352 @@
-// js/bonsai-renderer.js
+//
+// bonsai-page.js
+//
 
-// --- Helper: Seeded Pseudo-Random Number Generator ---
-function mulberry32(seed) {
-    return function() {
-        let t = seed += 0x6D2B79F5;
-        t = Math.imul(t ^ t >>> 15, t | 1);
-        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+// Wait for the DOM to be fully loaded before running the script
+document.addEventListener("DOMContentLoaded", () => {
+  // --- DOM ELEMENT REFERENCES ---
+  const svgCanvas = document.getElementById("bonsai-canvas");
+  const passTimeBtn = document.getElementById("pass-time-btn");
+  const ageDisplay = document.getElementById("age-display");
+
+  // --- CORE VARIABLES ---
+  // The highest ID in our new tree is 7, so the counter starts at 8.
+  let branchCounter = 8;
+  let age = 8; // This tree is a bit older.
+
+  // --- TREE DATA STRUCTURE ---
+  // A more complex and asymmetrical starter tree with some "imperfect" branches.
+  let tree = {
+    id: 0,
+    x1: 250, y1: 500, x2: 250, y2: 410,
+    angle: -90, length: 90, depth: 0,
+    thickness: 12, // A thicker trunk
+    children: [
+      { // Main right-hand branch
+        id: 1,
+        x1: 250, y1: 430, x2: 300, y2: 390,
+        angle: -38, length: 64, depth: 1,
+        thickness: 7,
+        children: [
+          { // Upper fork
+            id: 3,
+            x1: 300, y1: 390, x2: 340, y2: 375,
+            angle: -20, length: 42, depth: 2,
+            thickness: 4,
+            children: []
+          },
+          { // A less desirable downward fork, inviting a pruning decision
+            id: 4,
+            x1: 300, y1: 390, x2: 315, y2: 420,
+            angle: 60, length: 33, depth: 2,
+            thickness: 3,
+            children: []
+          }
+        ]
+      },
+      { // Main left-hand branch
+        id: 2,
+        x1: 250, y1: 450, x2: 200, y2: 430,
+        angle: -157, length: 54, depth: 1,
+        thickness: 6,
+        children: [
+          {
+            id: 5,
+            x1: 200, y1: 430, x2: 160, y2: 420,
+            angle: -165, length: 41, depth: 2,
+            thickness: 3,
+            children: [
+              {
+                id: 7,
+                x1: 160, y1: 420, x2: 130, y2: 400,
+                angle: -145, length: 36, depth: 3,
+                thickness: 1.5,
+                children: []
+              }
+            ]
+          }
+        ]
+      },
+      { // An extra small branch on the trunk
+          id: 6,
+          x1: 250, y1: 470, x2: 220, y2: 475,
+          angle: 170, length: 30, depth: 1,
+          thickness: 2.5,
+          children: []
+      }
+    ]
+  };
+
+  /**
+   * Recursively finds a branch by its ID in the tree data structure.
+   * @param {number} id - The ID of the branch to find.
+   * @param {object} branch - The current branch to search within (starts with the main tree object).
+   * @returns {object|null} - The branch object if found, otherwise null.
+   */
+  function findBranchById(id, branch = tree) {
+    if (branch.id === id) {
+      return branch;
     }
-}
-
-// --- SVG Drawing Helper ---
-function createSvgElement(tag, attributes) {
-    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    for (const key in attributes) {
-        el.setAttribute(key, attributes[key]);
+    for (const child of branch.children) {
+      const found = findBranchById(id, child);
+      if (found) {
+        return found;
+      }
     }
-    return el;
-}
+    return null;
+  }
 
-// ==================================================================
-// --- Global State & DOM Elements ---
-// ==================================================================
-let config;
-let age = 0;
-let initialSeedString = "";
-let numericSeed = 0;
-let random;
-let masterPrunedSet = new Set();
-let treeData = { branches: [], leaves: [], pot: null };
+  /**
+   * Finds the parent of a branch and prunes the child.
+   * It marks the parent branch as having a dormant bud for potential regrowth.
+   * @param {number} childId - The ID of the branch to prune.
+   * @param {object} currentBranch - The branch to start the search from.
+   * @returns {boolean} - True if the branch was found and pruned, otherwise false.
+   */
+  function findParentAndPrune(childId, currentBranch = tree) {
+    for (let i = 0; i < currentBranch.children.length; i++) {
+      const child = currentBranch.children[i];
+      if (child.id === childId) {
+        // Found the branch to prune. Remove it from the parent's children array.
+        currentBranch.children.splice(i, 1);
+        
+        // Mark the parent branch as having a dormant bud.
+        // We will also initialize the property on the tree if it's not there.
+        currentBranch.hasDormantBud = true; 
+        
+        return true; // Pruning was successful.
+      }
+      // If not found, recursively search in the children of the current branch.
+      if (findParentAndPrune(childId, child)) {
+        return true;
+      }
+    }
+    return false; // Branch not found in this path.
+  }
 
-const canvas = document.getElementById('bonsai-canvas');
-const seedDisplay = document.getElementById('seed-display');
-const ageDisplay = document.getElementById('age-display');
-const passTimeBtn = document.getElementById('pass-time-btn');
-const saveBtn = document.getElementById('save-state-btn');
-const loadBtn = document.getElementById('load-state-btn');
-const stateOutput = document.getElementById('state-string-output');
-const stateInput = document.getElementById('state-string-input');
-const newSeedInput = document.getElementById('new-seed-input');
-const newTreeBtn = document.getElementById('new-tree-btn');
+  /**
+   * Handles the click event on a branch for pruning.
+   * (This function remains mostly the same but now calls findParentAndPrune)
+   * @param {Event} event - The click event.
+   */
+  function onBranchClick(event) {
+    const id = parseInt(event.target.getAttribute("data-id"), 10);
+    if (id === 0) {
+      console.log("You cannot prune the trunk!");
+      return;
+    }
+    
+    // Call our new pruning function and redraw if it was successful.
+    if (findParentAndPrune(id)) {
+      console.log(`Pruned branch ${id}. A dormant bud has formed on the parent branch.`);
+      drawTree();
+    }
+  }
 
-// ==================================================================
-// --- 1. UNIFIED TREE TRAVERSAL LOGIC ---
-// ==================================================================
+  /**
+   * Draws the entire tree on the SVG canvas based on the 'tree' object.
+   */
+   function drawTree() {
+    svgCanvas.innerHTML = "";
 
-/**
- * [RE-ARCHITECTED, FINAL VERSION] The single source of truth for tree structure.
- * This function is guaranteed to be synchronized because both modes ('GENERATE' and 'SIMULATE')
- * consume the exact same sequence of random numbers.
- */
-function traverseTree(parentBranch, context) {
-    const { mode, config, rand, prunedSet, hierarchy, data } = context;
+    function drawBranch(branch) {
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", branch.x1);
+      line.setAttribute("y1", branch.y1);
+      line.setAttribute("x2", branch.x2);
+      line.setAttribute("y2", branch.y2);
 
-    // --- Exit Condition (Identical for both modes) ---
-    if (parentBranch.depth >= config.maxDepth || parentBranch.thickness < 0.5) {
-        if (parentBranch.depth > config.minDepthForLeaves) {
-            const leafSizeRandomness = rand(); // Consume random for leaf size
-            if (mode === 'GENERATE' && !prunedSet.has(parentBranch.id)) {
-                data.leaves.push({
-                    id: `${parentBranch.id}-leaf`,
-                    parentId: parentBranch.id,
-                    x: parentBranch.endX,
-                    y: parentBranch.endY,
-                    size: config.leafSize + leafSizeRandomness * config.leafSizeRandom,
-                });
-            }
+      // --- THIS IS THE KEY CHANGE ---
+      // Use the 'thickness' property from our data structure.
+      line.setAttribute("stroke-width", branch.thickness);
+
+      line.setAttribute("stroke", "hsl(20, 40%, 30%)");
+      line.classList.add("branch");
+      line.setAttribute("data-id", branch.id);
+      line.addEventListener("click", onBranchClick);
+      svgCanvas.appendChild(line);
+
+      branch.children.forEach(drawBranch);
+    }
+
+    drawBranch(tree);
+  }
+
+  /**
+   * Checks if a given coordinate is a minimum distance away from all existing branch endpoints.
+   * This prevents branches from growing on top of each other.
+   * @param {number} x - The x-coordinate to check.
+   * @param {number} y - The y-coordinate to check.
+   * @param {number} minDistance - The minimum required distance from any other branch.
+   * @param {object} branch - The current branch to start the search from (defaults to the whole tree).
+   * @returns {boolean} - True if the space is free, false if it's too close to another branch.
+   */
+  function isSpaceFree(x, y, minDistance, branch = tree) {
+    // Calculate the distance from the given point to the endpoint of the current branch.
+    const dist = Math.sqrt(Math.pow(branch.x2 - x, 2) + Math.pow(branch.y2 - y, 2));
+
+    // If the distance is less than the minimum, the space is not free.
+    if (dist < minDistance) {
+      return false;
+    }
+
+    // Recursively check all children. If any of them return false, propagate that result up.
+    for (const child of branch.children) {
+      if (!isSpaceFree(x, y, minDistance, child)) {
+        return false;
+      }
+    }
+
+    // If we've checked all branches in this path and found no collisions, the space is free.
+    return true;
+  }
+
+  /**
+   * Realistically thickens the tree based on its structure using a post-order traversal.
+   * A branch's thickness increase is proportional to the number of sub-branches it supports.
+   * @param {object} branch - The branch to start the process from.
+   * @returns {number} - The cumulative "growth mass" supported by this branch.
+   */
+  function thickenTree(branch = tree) {
+    // Base Case: If this is a leaf node (no children), it contributes a tiny amount of thickness to itself
+    // and returns a base "mass" value to its parent.
+    if (branch.children.length === 0) {
+      branch.thickness += 0.5; // Leaves themselves barely thicken.
+      return 0.5; // Return a base "growth mass"
+    }
+
+    // --- Recursive Step ---
+    // Calculate the total mass flowing up from all children branches.
+    let cumulativeMassFromChildren = 0;
+    branch.children.forEach(child => {
+      // The mass from the children accumulates.
+      cumulativeMassFromChildren += thickenTree(child);
+    });
+
+    // The parent branch's thickness increases by a small base amount PLUS a fraction
+    // of the total mass it has to support.
+    const thicknessIncrease = 0.5 + (cumulativeMassFromChildren / 20);
+    branch.thickness += thicknessIncrease;
+
+    // The total mass this branch reports to ITS parent is its own base mass plus all the mass from its children.
+    return 0.1 + cumulativeMassFromChildren;
+  }
+
+
+
+  function growTree() {
+    const growthPoints = [];
+    function findGrowthPoints(branch) {
+      if (branch.children.length === 0) growthPoints.push({ branch, type: 'leaf' });
+      if (branch.hasDormantBud) growthPoints.push({ branch, type: 'dormant' });
+      branch.children.forEach(findGrowthPoints);
+    }
+    findGrowthPoints(tree);
+
+    if (growthPoints.length === 0) {
+      thickenTree();
+      drawTree();
+      return; 
+    }
+
+    let didGrow = false;
+
+    // --- IMPERFECT GROWTH: "SUCKERS" ---
+    // There's a small chance each year to spawn a single, awkward branch from old wood.
+    if (Math.random() < 0.25) { // 25% chance for a sucker to appear
+      const potentialParents = [];
+      // Find all thick, old branches to be a potential parent for the sucker.
+      function findOldWood(branch) {
+        if (branch.depth < 2 && branch.id !== 0) { // Only main branches, not the trunk
+          potentialParents.push(branch);
         }
-        return;
-    }
+        branch.children.forEach(findOldWood);
+      }
+      findOldWood(tree);
 
-    // --- Branch Generation Logic (Identical for both modes) ---
-    const branchCount = rand() > config.branchingProbability ? 2 : 1;
-
-    for (let i = 0; i < branchCount; i++) {
-        const id = `${parentBranch.id}-${i}`;
-        const newThickness = parentBranch.thickness * (config.taperBase + rand() * config.taperRandom);
-        const gravityEffect = (parentBranch.endX - 250) / config.gravity;
-        let newAngle;
-
-        if (branchCount === 1) {
-            newAngle = parentBranch.angle + (rand() - 0.5) * config.singleBranchAngle + gravityEffect;
-        } else {
-            const direction = (i === 0) ? -1 : 1;
-            newAngle = parentBranch.angle + (direction * config.vShapeSpread) + (rand() - 0.5) * config.vShapeRandomness + gravityEffect;
-        }
-
-        const branchLength = (config.trunkHeight / (parentBranch.depth + 1.5)) * (config.branchLengthFactor + rand() * config.branchLengthRandom);
-        const endX = parentBranch.endX + Math.cos(newAngle) * branchLength;
-        const endY = parentBranch.endY + Math.sin(newAngle) * branchLength;
-
-        // Consume wobble factors for both modes to stay in sync.
-        const wobble1 = rand() - 0.5;
-        const wobble2 = rand() - 0.5;
-        const wobble3 = rand() - 0.5;
-        const wobble4 = rand() - 0.5;
-
+      if (potentialParents.length > 0) {
+        didGrow = true;
+        const parentBranch = potentialParents[Math.floor(Math.random() * potentialParents.length)];
+        
+        console.log(`An imperfect "sucker" branch grew on branch ${parentBranch.id}! You might want to prune it.`);
+        
+        branchCounter++;
         const newBranch = {
-            id, parentId: parentBranch.id, thickness: newThickness, depth: parentBranch.depth + 1, angle: newAngle, endX, endY
+            id: branchCounter,
+            x1: parentBranch.x1 + (parentBranch.x2 - parentBranch.x1) * 0.5, // Start from middle of parent
+            y1: parentBranch.y1 + (parentBranch.y2 - parentBranch.y1) * 0.5,
+            x2: parentBranch.x2, // Initially grow towards the parent's end
+            y2: parentBranch.y2 + 20, // ...but with an awkward downward pull
+            angle: 90, length: 25,
+            depth: parentBranch.depth + 1,
+            thickness: 1.5,
+            children: [],
         };
-
-        // --- Mode-Specific Actions ---
-        if (mode === 'GENERATE') {
-            if (!prunedSet.has(id)) {
-                const cp1X = parentBranch.endX + Math.cos(newAngle + wobble1 * config.wobbleFactor1) * branchLength * 0.3;
-                const cp1Y = parentBranch.endY + Math.sin(newAngle + wobble2 * config.wobbleFactor1) * branchLength * 0.3;
-                const cp2X = parentBranch.endX + Math.cos(newAngle + wobble3 * config.wobbleFactor2) * branchLength * 0.7;
-                const cp2Y = parentBranch.endY + Math.sin(newAngle + wobble4 * config.wobbleFactor2) * branchLength * 0.7;
-                data.branches.push({
-                    ...newBranch, startX: parentBranch.endX, startY: parentBranch.endY, cp1X, cp1Y, cp2X, cp2Y
-                });
-            }
-        } else { // SIMULATE
-            hierarchy.push(newBranch);
-        }
-
-        // --- Recurse for the next level ---
-        traverseTree(newBranch, context);
+        parentBranch.children.push(newBranch);
+      }
     }
-}
-
-// ==================================================================
-// --- 2. RENDERING & STATE MANAGEMENT ---
-// ==================================================================
-
-function renderTreeFromData() {
-    canvas.innerHTML = '';
-    const colorPalette = { trunk: `hsl(25, 30%, 30%)`, leaf: `hsl(110, 45%, 55%)`, potBody: `hsl(210, 20%, 40%)`, potLip: `hsl(210, 25%, 32%)`, potStroke: `hsl(210, 20%, 25%)` };
-    if (treeData.pot) {
-        canvas.appendChild(createSvgElement('path', { d: treeData.pot.bodyPath, fill: colorPalette.potBody, stroke: colorPalette.potStroke, 'stroke-width': 2 }));
-    }
-    treeData.branches.forEach(branch => {
-        const pathData = `M ${branch.startX} ${branch.startY} C ${branch.cp1X} ${branch.cp1Y}, ${branch.cp2X} ${branch.cp2Y}, ${branch.endX} ${branch.endY}`;
-        canvas.appendChild(createSvgElement('path', { 'data-id': branch.id, d: pathData, 'stroke-width': branch.thickness, stroke: colorPalette.trunk, fill: 'none', cursor: 'pointer' }));
-    });
-    treeData.leaves.forEach(leaf => {
-        canvas.appendChild(createSvgElement('circle', { cx: leaf.x, cy: leaf.y, r: leaf.size, fill: colorPalette.leaf, opacity: config.leafOpacity, 'pointer-events': 'none' }));
-    });
-    if (treeData.pot) {
-        canvas.appendChild(createSvgElement('path', { d: treeData.pot.lipPath, fill: colorPalette.potLip, stroke: colorPalette.potStroke, 'stroke-width': 2 }));
-    }
-}
-
-function growToState(targetAge, prunedIds = []) {
-    age = 0;
-    masterPrunedSet = new Set(prunedIds);
-    initializeConfig();
-
-    while (age < targetAge) {
-        age++;
-        config.trunkThickness += 0.25;
-        if (age > 0 && age % 5 === 0 && config.maxDepth < 11) {
-            config.maxDepth++;
-        }
-        config.gravity -= 100;
-    }
-
-    generateFullTreeData(masterPrunedSet);
-    age = targetAge;
-    ageDisplay.textContent = age;
-    renderTreeFromData();
-}
-
-function passTime() {
-    growToState(age + 1, Array.from(masterPrunedSet));
-}
-
-// ==================================================================
-// --- 3. PRUNING LOGIC (Now using the Unified Traverse) ---
-// ==================================================================
-
-function getDescendants(branchIdToPrune, forAge) {
-    const simConfig = initializeConfig(true);
-    let currentSimAge = 0;
-    while (currentSimAge < forAge) {
-        currentSimAge++;
-        simConfig.trunkThickness += 0.25;
-        if (currentSimAge > 0 && currentSimAge % 5 === 0 && simConfig.maxDepth < 11) {
-            simConfig.maxDepth++;
-        }
-        simConfig.gravity -= 100;
-    }
-
-    const simRandom = mulberry32(numericSeed);
-    simRandom(); simRandom();
-    const initialTrunkThickness = simConfig.trunkThickness + simRandom() * simConfig.trunkThicknessRandom;
-    const trunk = {
-        id: 'trunk', depth: 0, thickness: initialTrunkThickness, angle: -Math.PI / 2,
-        startX: 250, startY: 0, endX: 250, endY: 0
-    };
     
-    const hierarchy = [];
-    const context = {
-        mode: 'SIMULATE', config: simConfig, rand: simRandom,
-        prunedSet: new Set(), hierarchy: hierarchy, data: null
-    };
-    traverseTree(trunk, context);
+    // --- REGULAR GROWTH LOGIC ---
+    growthPoints.forEach(point => {
+      const parentBranch = point.branch;
+      const growthType = point.type;
+      const growthProbability = growthType === 'leaf' ? 0.45 : 0.65;
 
-    const descendants = new Set();
-    const branchesToExplore = [branchIdToPrune];
-    const visited = new Set([branchIdToPrune]);
-    while (branchesToExplore.length > 0) {
-        const currentId = branchesToExplore.shift();
-        const children = hierarchy.filter(b => b.parentId === currentId);
-        for (const child of children) {
-            if (!visited.has(child.id)) {
-                visited.add(child.id);
-                descendants.add(child.id);
-                branchesToExplore.push(child.id);
-            }
-        }
-    }
-    return descendants;
-}
-
-function handlePrune(event) {
-    if (event.target.tagName !== 'path') return;
-    const branchIdToPrune = event.target.getAttribute('data-id');
-    if (!branchIdToPrune) return;
-
-    masterPrunedSet.add(branchIdToPrune);
-    const descendants = getDescendants(branchIdToPrune, age);
-    descendants.forEach(id => masterPrunedSet.add(id));
-
-    generateFullTreeData(masterPrunedSet);
-    renderTreeFromData();
-}
-
-// ==================================================================
-// --- 4. INITIALIZATION & MAIN GENERATION ---
-// ==================================================================
-
-function generateFullTreeData(prunedSet) {
-    random = mulberry32(numericSeed);
-    treeData = { branches: [], leaves: [], pot: null };
-
-    const potHeight = 60 + random() * 20;
-    const potWidth = 150 + random() * 50;
-    const potTopY = 480;
-    const potLipHeight = 15;
-    const potTopLeftX = 250 - potWidth / 2;
-    const potTopRightX = 250 + potWidth / 2;
-    const potBottomLeftX = potTopLeftX + 20;
-    const potBottomRightX = potTopRightX - 20;
-    treeData.pot = {
-        bodyPath: `M ${potTopLeftX},${potTopY - potHeight + potLipHeight} L ${potTopRightX},${potTopY - potHeight + potLipHeight} L ${potBottomRightX},${potTopY} L ${potBottomLeftX},${potTopY} Z`,
-        lipPath: `M ${potTopLeftX - 3} ${potTopY - potHeight} L ${potTopRightX + 3} ${potTopY - potHeight} L ${potTopRightX + 3} ${potTopY - potHeight + potLipHeight} L ${potTopLeftX - 3} ${potTopY - potHeight + potLipHeight} Z`
-    };
-
-    const initialTrunkThickness = config.trunkThickness + random() * config.trunkThicknessRandom;
-    const trunk = {
-        id: 'trunk', parentId: null, depth: 0, thickness: initialTrunkThickness,
-        angle: -Math.PI / 2, startX: 250,
-        startY: potTopY - potHeight + potLipHeight - 15,
-        endX: 250,
-        endY: (potTopY - potHeight + potLipHeight - 15) - config.trunkHeight,
-    };
-    
-    if (!prunedSet.has(trunk.id)) {
-        treeData.branches.push({
-            ...trunk,
-             cp1X: 250, cp1Y: trunk.startY - config.trunkHeight * 0.3,
-             cp2X: 250, cp2Y: trunk.startY - config.trunkHeight * 0.7,
+      if (Math.random() < growthProbability && parentBranch.depth <= 7) {
+        const newLength = parentBranch.length * 0.8;
+        const angles = [30, -30];
+        const proposedBranches = [];
+        let isBlocked = false;
+        
+        angles.forEach(angleOffset => {
+            const newAngle = parentBranch.angle + angleOffset + (Math.random() * 15 - 7.5);
+            const x2 = parentBranch.x2 + newLength * Math.cos(newAngle * (Math.PI / 180));
+            const y2 = parentBranch.y2 + newLength * Math.sin(newAngle * (Math.PI / 180));
+            proposedBranches.push({ x2, y2, newAngle });
         });
-    }
+        
+        for (const prop of proposedBranches) {
+            if (!isSpaceFree(prop.x2, prop.y2, 10)) {
+                isBlocked = true;
+                break;
+            }
+        }
+        
+        if (!isBlocked) {
+            didGrow = true;
+            if (growthType === 'dormant') parentBranch.hasDormantBud = false;
+            proposedBranches.forEach(prop => {
+                branchCounter++;
+                const newBranch = {
+                    id: branchCounter,
+                    x1: parentBranch.x2, y1: parentBranch.y2,
+                    x2: prop.x2, y2: prop.y2,
+                    angle: prop.newAngle, length: newLength,
+                    depth: parentBranch.depth + 1,
+                    thickness: 1,
+                    children: [],
+                };
+                parentBranch.children.push(newBranch);
+            });
+        }
+      }
+    });
 
-    const context = {
-        mode: 'GENERATE', config: config, rand: random,
-        prunedSet: prunedSet, hierarchy: null, data: treeData
-    };
+    // --- AGING and DRAWING ---
+    if (didGrow) {
+      age++;
+      ageDisplay.textContent = age;
+      thickenTree();
+    }
     
-    traverseTree(trunk, context);
-}
+    drawTree();
+  }
 
-function initializeConfig(returnOnly = false) {
-    const newConfig = {
-        maxDepth: 7, trunkHeight: 120, trunkHeightRandom: 40, trunkThickness: 15, trunkThicknessRandom: 10,
-        branchLengthFactor: 0.8, branchLengthRandom: 0.4, taperBase: 0.65, taperRandom: 0.15,
-        wobbleFactor1: 0.8, wobbleFactor2: 0.4, branchingProbability: 0.4, singleBranchAngle: 1.6,
-        vShapeSpread: 0.6, vShapeRandomness: 0.5, gravity: 2500, minDepthForLeaves: 1,
-        leafSize: 2.5, leafSizeRandom: 2, leafOpacity: 0.75,
-    };
-    if (returnOnly) return newConfig;
-    config = newConfig;
-}
+  // --- EVENT LISTENERS ---
+  passTimeBtn.addEventListener("click", growTree);
 
-function startNewTree(seedString) {
-    initialSeedString = seedString;
-    numericSeed = 0;
-    for (let i = 0; i < initialSeedString.length; i++) {
-        numericSeed += initialSeedString.charCodeAt(i);
-    }
-    seedDisplay.textContent = `Seed: ${initialSeedString}`;
-    masterPrunedSet.clear();
-    growToState(0);
-}
-
-// ==================================================================
-// --- 5. EVENT LISTENERS & BOOTSTRAP ---
-// ==================================================================
-passTimeBtn.addEventListener('click', passTime);
-canvas.addEventListener('click', handlePrune);
-
-saveBtn.addEventListener('click', () => {
-    const stateString = btoa(JSON.stringify({ seed: initialSeedString, age: age, pruned: Array.from(masterPrunedSet) }));
-    stateOutput.value = stateString;
-    navigator.clipboard.writeText(stateString).then(() => alert("Tree state copied to clipboard!"));
+  // --- INITIALIZATION ---
+  // Draw the initial trunk when the page loads
+  drawTree();
+  console.log("Digital Bonsai Garden initialized. Click 'Pass Time' to grow your tree.");
 });
-
-loadBtn.addEventListener('click', () => {
-    if (!stateInput.value) return alert("Please paste a state code.");
-    try {
-        const stateObject = JSON.parse(atob(stateInput.value));
-        if (!stateObject.seed || typeof stateObject.age === 'undefined') throw new Error("Invalid state.");
-        startNewTree(stateObject.seed);
-        growToState(stateObject.age, stateObject.pruned);
-    } catch (error) {
-        alert("The provided tree code is invalid or corrupted.");
-    }
-});
-
-newTreeBtn.addEventListener('click', () => {
-    if (!newSeedInput.value) return alert("Please enter a new seed.");
-    startNewTree(newSeedInput.value);
-    newSeedInput.value = '';
-});
-
-// Initial Load
-startNewTree("welcome-to-your-garden");

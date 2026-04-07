@@ -1,34 +1,29 @@
-/* Style for the seed display paragraph */
-#seed-display {
-  color: var(--gruvbox-gray);
-  text-align: center;
-  font-family: monospace;
-  margin-bottom: 1rem;
-}
-
-/* New container for the bonsai background */
+/* --- bonsai.css --- */
 .bonsai-viewer {
   max-width: 500px;
   margin: 1rem auto;
-  padding: 1rem; /* Add some padding around the SVG */
-  background-color: #f2f0ef; /* Lighter background color */
   border-radius: 8px;
-  border: 3px solid var(--gruvbox-orange); /* Thicker border for better visibility */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   overflow: hidden;
 }
 
-/* Styling for the SVG canvas itself */
 #bonsai-canvas {
   width: 100%;
   height: auto;
   display: block;
-  /* Make SVG background transparent to show the viewer's background */
-  background-color: transparent;
-
-  /* SVG stroke defaults */
+  background-color: #fbf1c7; /* Light background for the canvas */
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+#bonsai-canvas .branch {
+  cursor: pointer;
+  transition: stroke 0.2s ease-in-out;
+}
+
+#bonsai-canvas .branch:hover {
+  stroke: var(
+    --hover-accent
+  ) !important; /* Use important to override inline styles */
 }
 
 #bonsai-controls {
@@ -57,7 +52,6 @@
   background-color: var(--gruvbox-aqua);
 }
 
-/* NEW: Styling for the Save/Load container */
 #state-manager {
   max-width: 500px;
   margin: 2rem auto 0;
@@ -70,7 +64,7 @@
 
 #state-manager h3 {
   margin-top: 0;
-  color: var(--gruvbox-light-fg);
+  color: var(--gruvbox-dark-fg0);
 }
 
 .state-group {
@@ -88,7 +82,7 @@
   padding: 8px;
   background-color: var(--gruvbox-dark-bg0);
   border: 1px solid var(--gruvbox-dark-bg3);
-  color: var(--gruvbox-light-fg);
+  color: var(--gruvbox-dark-fg0);
   border-radius: 4px;
   font-family: monospace;
 }
