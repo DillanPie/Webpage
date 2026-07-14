@@ -1,0 +1,320 @@
+/* =========================================================
+ * ENHANCED STAGIT GRUVBOX THEME 
+ * ========================================================= */
+
+@font-face {
+  font-family: "FiraCode Nerd Font";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/FiraCodeNF-Reg.woff2") format("woff2");
+}
+
+:root {
+  /* Gruvbox Dark Palette */
+  --gruvbox-bg: #282828;
+  --gruvbox-bg-soft: #32302f; /* Slightly lighter bg for code blocks */
+  --gruvbox-bg-alt: #3c3836; /* Hover states */
+  --gruvbox-bg-border: #504945; /* Subtle borders */
+
+  --gruvbox-fg: #ebdbb2;
+  --gruvbox-gray: #a89984; /* Dim text, line numbers */
+
+  --gruvbox-yellow: #fabd2f; /* Headings, Titles */
+  --gruvbox-blue: #83a598; /* Links */
+  --gruvbox-aqua: #8ec07c; /* Diff Hunks */
+  --gruvbox-green: #b8bb26; /* Additions */
+  --gruvbox-red: #fb4934; /* Deletions */
+  --gruvbox-orange: #fe8019; /* Highlights */
+}
+
+html,
+body {
+  background-color: var(--gruvbox-bg) !important;
+  color: var(--gruvbox-fg) !important;
+  font-family: "FiraCode Nerd Font", monospace;
+  margin: 0;
+  padding: 0;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: block !important;
+  line-height: 1.4;
+}
+
+/* =========================================================
+ * 1. LAYOUT & CENTERING
+ * ========================================================= */
+table,
+#content,
+hr {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+/* Subtler horizontal rules */
+hr {
+  border: 0;
+  border-top: 1px solid var(--gruvbox-bg-border);
+  margin: 1.5em auto;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--gruvbox-yellow);
+  margin-top: 20px;
+}
+
+/* =========================================================
+ * 2. LINKS & NAVIGATION
+ * ========================================================= */
+a {
+  color: var(--gruvbox-blue);
+  text-decoration: none;
+  pointer-events: auto !important;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--gruvbox-red);
+}
+
+/* Dimmer text for metadata (Commit dates, descriptions) */
+.desc {
+  color: var(--gruvbox-gray);
+}
+
+/* =========================================================
+ * 3. TABLES (Log, Files, Index)
+ * ========================================================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2em;
+}
+
+table td {
+  padding: 10px 12px; /* Increased padding for breathing room */
+  vertical-align: top;
+  border-bottom: 1px solid var(--gruvbox-bg-alt);
+}
+
+table thead td {
+  font-weight: bold;
+  color: var(--gruvbox-orange); /* Differentiate headers from titles */
+  border-bottom: 2px solid var(--gruvbox-bg-border);
+}
+
+tr:hover td {
+  background-color: var(--gruvbox-bg-alt);
+}
+
+/* Specific Index Layout */
+table#index td:nth-child(1) {
+  width: 25%;
+  font-weight: bold;
+}
+table#index td:nth-child(2) {
+  width: 45%;
+  white-space: normal;
+}
+table#index td:nth-child(3) {
+  width: 15%;
+}
+table#index td:nth-child(4) {
+  width: 15%;
+  text-align: right;
+  color: var(--gruvbox-gray);
+}
+
+/* Make Index Links Highly Visible */
+table#index a {
+  color: var(--gruvbox-yellow);
+  font-size: 1.1em;
+}
+table#index a:hover {
+  color: var(--gruvbox-red);
+}
+
+/* Header/Logo Table Fix (Prevents stretching) */
+body > table:first-of-type {
+  width: max-content;
+  margin: 25px auto;
+}
+body > table:first-of-type td {
+  border: none;
+  background: transparent;
+  padding: 0 10px;
+  vertical-align: middle;
+}
+body > table:first-of-type span.desc {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--gruvbox-yellow);
+}
+
+/* Numbers alignment (File sizes, lines) */
+td.num {
+  text-align: right;
+  color: var(--gruvbox-gray);
+}
+
+/* =========================================================
+ * 4. CODE BLOCKS & FILE VIEWER
+ * ========================================================= */
+pre {
+  background-color: var(--gruvbox-bg-soft);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--gruvbox-bg-border);
+  overflow-x: auto; /* Adds scrollbar if code is too wide */
+  font-size: 0.95em;
+}
+
+/* Line numbers in the file/blob view */
+#blob a {
+  color: var(--gruvbox-bg-border); /* Dim line numbers */
+  user-select: none; /* Prevents copying line numbers when copying code! */
+  -webkit-user-select: none;
+  display: inline-block;
+  min-width: 30px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+#blob a:hover {
+  color: var(--gruvbox-yellow);
+  text-decoration: none;
+}
+
+/* Target the highlighted line URL hash (e.g., #L10) */
+a:target {
+  background-color: var(--gruvbox-bg-border);
+  display: inline-block;
+  width: 100%;
+}
+
+/* =========================================================
+ * 5. GIT DIFF COLORS
+ * ========================================================= */
+/* Diff Hunk Headers (@@ -1,2 +1,2 @@) */
+pre a.h {
+  color: var(--gruvbox-aqua);
+}
+
+/* Additions */
+.A,
+pre a.i {
+  color: var(--gruvbox-green);
+}
+
+/* Deletions */
+.D,
+pre a.d {
+  color: var(--gruvbox-red);
+}
+
+pre a.h:hover,
+pre a.i:hover,
+pre a.d:hover {
+  text-decoration: none;
+  background-color: transparent;
+}
+
+/* =========================================================
+ * REPOSITORY HEADER & NAVIGATION (Centered Text, Left Logo)
+ * ========================================================= */
+
+/* 1. Force the main header table to act as a Flex container */
+body > table:first-of-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 30px auto;
+  padding: 0;
+  max-width: 1000px;
+}
+
+/* Make table rows and cells behave like centered blocks */
+body > table:first-of-type tbody,
+body > table:first-of-type tr,
+body > table:first-of-type td {
+  display: block;
+  width: 100%;
+  text-align: center !important; /* CRITICAL: Forces text to center */
+}
+
+/* Hide empty/useless cells Stagit generates */
+body > table:first-of-type td:empty {
+  display: none !important;
+}
+
+/* 2. The First Row: Logo + Title */
+body > table:first-of-type tr:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* The Logo Cell */
+body > table:first-of-type tr:first-child td:first-child {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: auto; /* Prevent logo cell from taking 100% width */
+}
+
+/* The Title Cell */
+body > table:first-of-type tr:first-child td:nth-child(2) {
+  display: block;
+  width: auto;
+}
+
+/* The Title Text */
+body > table:first-of-type h1 {
+  color: var(--gruvbox-yellow);
+  font-size: 3em;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. The Description & Clone URL */
+body > table:first-of-type .desc {
+  color: var(--gruvbox-gray);
+  font-size: 1em;
+  display: block;
+  margin: 5px auto 15px auto; /* Centers the block itself */
+  text-align: center;
+}
+
+/* Ensure the URL row text is centered */
+body > table:first-of-type tr.url td {
+  text-align: center !important;
+  padding-bottom: 20px;
+}
+
+/* 4. The Navigation Links ("Log", "Files", "Refs") */
+body > table:first-of-type tr:last-child td {
+  padding-top: 10px;
+  text-align: center !important;
+}
+
+body > table:first-of-type a {
+  color: var(--gruvbox-blue);
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+/* Hover effect */
+body > table:first-of-type a:hover {
+  color: var(--gruvbox-bg);
+  background-color: var(--gruvbox-blue);
+  text-decoration: none;
+}

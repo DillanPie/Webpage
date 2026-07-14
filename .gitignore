@@ -9,3 +9,9 @@ Logs
 
 # Ignore system files
 .DS_Store
+
+# Local test outputs
+test_web_root/
+deploy-local.conf
+deploy-local.sh
+dist-git/

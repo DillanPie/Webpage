@@ -37,10 +37,59 @@ echo ">>> Cleaning up container..."
 docker rm "$CONTAINER_ID"
 
 echo ">>> Syncing files to web root: $WEB_ROOT"
-rsync -av --delete --ignore-missing-args "$PROJECT_DIR/dist/" "$WEB_ROOT/"
+rsync -av --delete --exclude '/git' --ignore-missing-args "$PROJECT_DIR/dist/" "$WEB_ROOT/"
 
 echo "Copy custom error pages to live root"
-cp -v "$PROJECT_DIR/error/"*.shtml "$WEB_ROOT/"
+cp -v "$PROJECT_DIR/error/"*.shtml "$WEB_ROOT/" || true
+
+echo ">>> Fixing file permissions..."
+chown -R www-data:www-data "$WEB_ROOT"
+
+echo ">>> Deployment complete."
+
+# ==========================================
+# STAGIT BUILD PROCESS
+# ==========================================
+echo ">>> Building Stagit Docker image..."
+docker build -t stagit-builder -f Dockerfile.stagit "$PROJECT_DIR"
+
+echo ">>> Running Stagit container..."
+# Notice the -v mount: it mounts your website project directory as read-only
+CONTAINER_ID=$(docker run -d -v "$PROJECT_DIR:/repo:ro" stagit-builder)
+
+echo ">>> Waiting for Stagit to finish generating pages..."
+docker wait "$CONTAINER_ID"
+
+echo ">>> Extracting git pages from container..."
+rm -rf "$PROJECT_DIR/dist-git"
+# Copy the generated files out of the container
+docker cp "$CONTAINER_ID:/app/dist-git" "$PROJECT_DIR/"
+
+echo ">>> Cleaning up Stagit container..."
+docker rm "$CONTAINER_ID"
+
+echo ">>> Injecting Favicon and Logo into Stagit directories..."
+# Stagit looks specifically for files named "favicon.png" and "logo.png".
+# Since your favicons are in favicon_io/, we map the 32x32 one to both names.
+
+FAVICON_SRC="$PROJECT_DIR/favicon_io/favicon-32x32.png"
+
+# Copy to the root of the git pages
+cp "$FAVICON_SRC" "$PROJECT_DIR/dist-git/favicon.png" || true
+cp "$FAVICON_SRC" "$PROJECT_DIR/dist-git/logo.png" || true
+
+# Loop through all repo subdirectories and copy them there too
+for repo_dir in "$PROJECT_DIR/dist-git"/*/; do
+    if [ -d "$repo_dir" ]; then
+        cp "$FAVICON_SRC" "${repo_dir}favicon.png" || true
+        cp "$FAVICON_SRC" "${repo_dir}logo.png" || true
+    fi
+done
+
+echo ">>> Syncing Git pages to web root..."
+# Sync the extracted git files into the /git subfolder of your web root
+mkdir -p "$WEB_ROOT/git"
+rsync -av --delete "$PROJECT_DIR/dist-git/" "$WEB_ROOT/git/"
 
 echo ">>> Fixing file permissions..."
 chown -R www-data:www-data "$WEB_ROOT"

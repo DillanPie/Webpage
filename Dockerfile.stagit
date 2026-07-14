@@ -1,0 +1,26 @@
+# Dockerfile.stagit
+FROM alpine:3.19
+
+RUN apk add --no-cache make gcc musl-dev libgit2-dev
+
+WORKDIR /src
+
+RUN wget https://codemadness.org/releases/stagit/stagit-1.2.tar.gz
+
+# --- ADD CHECKSUM VERIFICATION HERE ---
+# Must be formatted as: <hash><space><space><filename>
+RUN echo "5659bd8ba7e1417edd40f7b7781a8ea26939ab6aa513409023835f04875921c5  stagit-1.2.tar.gz" | sha256sum -c - || exit 1
+
+# If the hash matches, proceed to extract and compile
+RUN tar -xzf stagit-1.2.tar.gz && \
+    cd stagit-1.2 && \
+    make && \
+    make install
+
+WORKDIR /app
+
+COPY build-git.sh .
+
+RUN chmod +x build-git.sh
+
+CMD ["./build-git.sh"]
