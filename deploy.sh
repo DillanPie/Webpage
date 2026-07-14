@@ -68,6 +68,24 @@ docker cp "$CONTAINER_ID:/app/dist-git" "$PROJECT_DIR/"
 echo ">>> Cleaning up Stagit container..."
 docker rm "$CONTAINER_ID"
 
+echo ">>> Injecting Navbar, Footer, and Vite Assets into Stagit pages..."
+
+# 1. Extract the compiled CSS and JS tags from Vite's built index.html
+# This ensures we get the correct hashed filenames (e.g., /assets/main-xyz.js)
+VITE_ASSETS=$(grep -oE '<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' "$PROJECT_DIR/dist/index.html" | tr '\n' ' ' | sed 's/|/\\|/g')
+
+# 2. Loop through all generated stagit HTML files and inject the HTML
+find "$PROJECT_DIR/dist-git" -type f -name "*.html" | while read -r html_file; do
+    # Inject Vite assets (global styles and main JS) right before </head>
+    sed -i "s|</head>|  ${VITE_ASSETS}\n</head>|" "$html_file"
+
+    # Inject Navbar placeholder right after <body>
+    sed -i 's|<body>|<body>\n  <div id="navbar" class="navbar"></div>|' "$html_file"
+
+    # Inject Footer placeholder right before </body>
+    sed -i 's|</body>|  <div id="footer-placeholder"></div>\n</body>|' "$html_file"
+done
+
 echo ">>> Injecting Favicon and Logo into Stagit directories..."
 # Stagit looks specifically for files named "favicon.png" and "logo.png".
 # Since your favicons are in favicon_io/, we map the 32x32 one to both names.
