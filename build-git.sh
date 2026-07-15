@@ -27,7 +27,20 @@ cp /repo/css/stagit.css ./style.css
 
 # Run stagit directly on the copied repo
 stagit -c ".cache" /repos/portfolio.git
-cp log.html index.html
+
+# 1. Stagit relies on log.html as the main page.
+cp log.html log-full.html
+
+# 2. Hide commits after the 10th row using inline CSS on log.html
+sed -i 's|</head>|<style>table#log tbody tr:nth-child(n+11) { display: none; }</style></head>|' log.html
+
+# 3. Inject the "View Full Commit History" button at the bottom of the page (right before </body>)
+sed -i 's|</body>|<div style="text-align: center; margin: 40px 0;"><a href="log-full.html" style="font-size: 1.1em; color: var(--gruvbox-yellow); font-weight: bold; border: 1px solid var(--gruvbox-bg-border); padding: 10px 20px; border-radius: 6px; background: var(--gruvbox-bg-soft); transition: background 0.2s; text-decoration: none;">View Full Commit History \&rarr;</a></div></body>|' log.html
+# -----------------------
+
+# 4. Generate the Root Index Page
+echo "Generating stagit index..."
+
 
 # 4. Generate the Root Index Page
 echo "Generating stagit index..."
