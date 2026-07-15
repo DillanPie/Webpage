@@ -11,6 +11,9 @@ mkdir -p "$OUT_DIR"
 mkdir -p /repos
 cp -R /repo/.git /repos/portfolio.git
 
+# Write GitHub clone URL directly into the repository configuration
+echo "https://github.com/DillanPie/Webpage" > /repos/portfolio.git/url
+
 # 2. Setup Main Index CSS
 cp /repo/css/stagit.css "$OUT_DIR/style.css"
 

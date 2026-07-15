@@ -261,10 +261,7 @@ body > table:first-of-type tr:first-child {
 
 /* The Logo Cell */
 body > table:first-of-type tr:first-child td:first-child {
-  position: absolute;
-  left: 0;
-  display: block;
-  width: auto; /* Prevent logo cell from taking 100% width */
+  display: none !important; /* Completely hides the logo */
 }
 
 /* The Title Cell */
