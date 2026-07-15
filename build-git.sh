@@ -28,19 +28,31 @@ cp /repo/css/stagit.css ./style.css
 # Run stagit directly on the copied repo
 stagit -c ".cache" /repos/portfolio.git
 
-# 1. Stagit relies on log.html as the main page.
+# --- 1. GENERATE THE GIT GRAPH ---
+echo "Generating git commit graph..."
+
+echo "Generating git commit graph..."
+
+# Feed the external graph.txt directly into grawkit
+grawkit /app/graph.txt > "$OUT_DIR/portfolio/graph.svg"
+
+# --- 2. SETUP THE LOG PAGES ---
 cp log.html log-full.html
 
-# 2. Hide commits after the 10th row using inline CSS on log.html
+# Hide commits after the 10th row using inline CSS on log.html
 sed -i 's|</head>|<style>table#log tbody tr:nth-child(n+11) { display: none; }</style></head>|' log.html
 
-# 3. Inject the "View Full Commit History" button at the bottom of the page (right before </body>)
+# Inject the "View Full Commit History" button
 sed -i 's|</body>|<div style="text-align: center; margin: 40px 0;"><a href="log-full.html" style="font-size: 1.1em; color: var(--gruvbox-yellow); font-weight: bold; border: 1px solid var(--gruvbox-bg-border); padding: 10px 20px; border-radius: 6px; background: var(--gruvbox-bg-soft); transition: background 0.2s; text-decoration: none;">View Full Commit History \&rarr;</a></div></body>|' log.html
-# -----------------------
 
-# 4. Generate the Root Index Page
-echo "Generating stagit index..."
+# --- 3. INJECT THE GRAPH ABOVE NAVIGATION LINKS ---
+# We inject the graph right before the "Log" link in both log and log-full.
+# We also apply a Gruvbox-styled border and padding to make it match your theme.
+GRAPH_HTML='<div style="text-align: center; margin: 20px auto;"><object data="graph.svg" type="image/svg+xml" style="max-width: 100%; max-height: 250px; background: var(--gruvbox-bg-soft); border: 1px solid var(--gruvbox-bg-border); border-radius: 8px; padding: 15px;"></object></div><a href="log.html">Log</a>'
 
+sed -i "s|<a href=\"log.html\">Log</a>|$GRAPH_HTML|" log.html
+sed -i "s|<a href=\"log.html\">Log</a>|$GRAPH_HTML|" log-full.html
+# ---------------------------------------------
 
 # 4. Generate the Root Index Page
 echo "Generating stagit index..."

@@ -1,0 +1,10 @@
+git commit -m "Initial commit: Setup Vite"
+git commit -m "Add Gruvbox CSS theme"
+git branch feature-stagit
+git checkout feature-stagit
+git commit -m "Add Dockerfile.stagit"
+git commit -m "Configure deploy script"
+git checkout master
+git commit -m "Update homepage content"
+git merge feature-stagit
+git commit -m "Deploy to production"
