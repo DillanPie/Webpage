@@ -45,13 +45,20 @@ sed -i 's|</head>|<style>table#log tbody tr:nth-child(n+11) { display: none; }</
 # Inject the "View Full Commit History" button
 sed -i 's|</body>|<div style="text-align: center; margin: 40px 0;"><a href="log-full.html" style="font-size: 1.1em; color: var(--gruvbox-yellow); font-weight: bold; border: 1px solid var(--gruvbox-bg-border); padding: 10px 20px; border-radius: 6px; background: var(--gruvbox-bg-soft); transition: background 0.2s; text-decoration: none;">View Full Commit History \&rarr;</a></div></body>|' log.html
 
-# --- 3. INJECT THE GRAPH ABOVE NAVIGATION LINKS ---
-# We inject the graph right before the "Log" link in both log and log-full.
-# We also apply a Gruvbox-styled border and padding to make it match your theme.
-GRAPH_HTML='<div style="text-align: center; margin: 20px auto;"><object data="graph.svg" type="image/svg+xml" style="max-width: 100%; max-height: 250px; background: var(--gruvbox-bg-soft); border: 1px solid var(--gruvbox-bg-border); border-radius: 8px; padding: 15px;"></object></div><a href="log.html">Log</a>'
+# --- 3. INJECT THE GRAPH INTO THE LEFT MARGIN ---
 
-sed -i "s|<a href=\"log.html\">Log</a>|$GRAPH_HTML|" log.html
-sed -i "s|<a href=\"log.html\">Log</a>|$GRAPH_HTML|" log-full.html
+# 1. Single-line CSS (Added max-height and overflow-y: auto for scrolling!)
+GRAPH_STYLE="<style>#content { position: relative; } .git-graph-sidebar { position: absolute; top: 0; left: -280px; width: 250px; height: 100%; z-index: 1; } .git-graph-sticky { position: sticky; top: 80px; background: var(--gruvbox-bg-soft); border: 1px solid var(--gruvbox-bg-border); border-radius: 8px; padding: 15px; max-height: calc(100vh - 100px); overflow-y: auto; } @media (max-width: 1650px) { .git-graph-sidebar { position: static; left: 0; width: 100%; height: auto; margin-bottom: 25px; display: flex; justify-content: center; } .git-graph-sticky { position: static; max-width: 1050px; width: 100%; max-height: 500px; } }</style>"
+# 2. Single-line HTML (Changed <object> to <img> so it scales correctly!)
+GRAPH_HTML="<div class=\"git-graph-sidebar\"><div class=\"git-graph-sticky\"><img src=\"graph.svg\" alt=\"Git Graph\" style=\"width: 100%; height: auto; display: block;\" /></div></div>"
+
+# 3. Inject the CSS right before the closing </head> tag
+sed -i "s|</head>|$GRAPH_STYLE</head>|" log.html
+sed -i "s|</head>|$GRAPH_STYLE</head>|" log-full.html
+
+# 4. Inject the Graph inside #content, right before the log table
+sed -i "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" log.html
+sed -i "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" log-full.html
 # ---------------------------------------------
 
 # 4. Generate the Root Index Page
