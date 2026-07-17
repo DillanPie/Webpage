@@ -1,7 +1,7 @@
 FROM alpine:3.19
 
 # Added git, pkgconf, cairo-dev, and pango-dev for grawkit
-RUN apk add --no-cache make gcc musl-dev libgit2-dev git pkgconf cairo-dev pango-dev bash gawk
+RUN apk add make gcc musl-dev libgit2-dev git pkgconf cairo-dev pango-dev bash gawk
 
 WORKDIR /src
 
