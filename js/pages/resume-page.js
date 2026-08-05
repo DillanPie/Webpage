@@ -1,4 +1,4 @@
 // js/include/pages/resume-page.js
-import '@/js/include/main.js';
+import '@/js/pages/main';
 import '@/css/resume-preview.css';
-import '@/js/resume-preview.js';
+import '@/js/pages/resume-page';

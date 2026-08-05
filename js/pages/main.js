@@ -7,8 +7,8 @@ import '@/css/navbar.css';
 import '@/css/footer.css';
 
 // Import all global scripts
-import '@/js/include/navbar.js';
-import '@/js/include/footer.js';
+import '@/js/components/navbar.js';
+import '@/js/components/footer.js';
 
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');

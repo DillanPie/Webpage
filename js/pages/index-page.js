@@ -1,17 +1,17 @@
-// js/include/pages/about-page.js
+// js/include/pages/index-page.js
 
 // Step 1: Import the global assets (like navbar.css, footer.css, etc.)
-import '../main.js';
+import '@/js/pages/main.js';
 
 // Step 2: Import the page-specific assets for the homepage.
 
-import '../../../css/about.css';
-import '../../../css/slideshow.css'; 
+// --- FIX: Add the CSS import for the slideshow ---
+import '@/css/slideshow.css'; 
 
 // Import the slideshow's JavaScript logic
-import '../../slideshow.js';
+import '@/js/features/slideshow.js';
 
 // Import the PhotoSwipe library's CSS
 import 'photoswipe/dist/photoswipe.css';
 
-console.log("About Page(about-page.js) assets have been loaded.");
+console.log("Homepage (index-page.js) assets have been loaded.");
