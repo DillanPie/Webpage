@@ -92,171 +92,89 @@ fi
 # ==========================================
 
 echo ">>> Building Stagit Docker image..."
-
-docker build \
-    -t stagit-builder \
-    -f Dockerfile.stagit \
-    "$PROJECT_DIR"
-
+docker build -t stagit-builder -f Dockerfile.stagit "$PROJECT_DIR"
 
 echo ">>> Running Stagit container..."
+CONTAINER_ID=$(docker run -d -v "$PROJECT_DIR:/repo:ro" stagit-builder)
 
-CONTAINER_ID=$(docker run -d \
-    -v "$PROJECT_DIR:/repo:ro" \
-    stagit-builder)
-
-
-echo ">>> Waiting for Stagit..."
-
+echo ">>> Waiting for Stagit to finish generating pages..."
 docker wait "$CONTAINER_ID"
 
+echo ">>> Extracting git pages from container..."
 
-echo ">>> Extracting Stagit output..."
+# Remove old Stagit output safely
+if [ -d "$PROJECT_DIR/dist-git" ]; then
+    sudo rm -rf "$PROJECT_DIR/dist-git"
+fi
 
-rm -rf "$PROJECT_DIR/dist-git"
+# Copy generated files
+docker cp "$CONTAINER_ID:/app/dist-git" "$PROJECT_DIR/"
 
-docker cp \
-    "$CONTAINER_ID:/app/dist-git" \
-    "$PROJECT_DIR/"
+echo ">>> Fixing Stagit ownership..."
 
+# Return ownership to current user
+sudo chown -R "$(whoami):$(whoami)" "$PROJECT_DIR/dist-git"
 
 echo ">>> Cleaning up Stagit container..."
-
 docker rm "$CONTAINER_ID"
 
 
-# ==========================================
-# INJECT SITE COMPONENTS
-# ==========================================
+echo ">>> Injecting Navbar, Footer, and Vite Assets into Stagit pages..."
 
-echo ">>> Injecting Navbar, Footer, and Vite assets..."
-
-
-NAVBAR_FILE="$PROJECT_DIR/dist/partials/navbar.html"
-FOOTER_FILE="$PROJECT_DIR/dist/partials/footer.html"
+# Extract Vite assets from built index.html
+VITE_ASSETS=$(grep -oE '<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' \
+"$PROJECT_DIR/dist/index.html" | tr '\n' ' ' | sed 's/|/\\|/g')
 
 
-if [ ! -f "$NAVBAR_FILE" ] || [ ! -f "$FOOTER_FILE" ]; then
-    echo "Warning: navbar/footer partials not found."
-else
-
-    NAVBAR=$(cat "$NAVBAR_FILE")
-    FOOTER=$(cat "$FOOTER_FILE")
-
-fi
+find "$PROJECT_DIR/dist-git" -type f -name "*.html" -print
 
 
-# Get Vite generated assets
+find "$PROJECT_DIR/dist-git" -type f -name "*.html" | while read -r html_file; do
 
-VITE_ASSETS=$(grep -oE \
-'<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' \
-"$PROJECT_DIR/dist/index.html" \
-| tr '\n' ' ')
+    # Add Vite CSS/JS before </head>
+    sed -i "s|</head>|  ${VITE_ASSETS}\n</head>|" "$html_file"
 
+    # Add navbar
+    sed -i 's|<body>|<body>\n  <div id="navbar" class="navbar"></div>|' "$html_file"
 
-find "$PROJECT_DIR/dist-git" \
--type f \
--name "*.html" \
-| while read -r html_file; do
-
-
-    echo "Processing $html_file"
-
-
-    # Add Vite CSS/JS
-
-    sed -i \
-    "s|</head>|${VITE_ASSETS}</head>|" \
-    "$html_file"
-
-
-    # Fix absolute asset paths
-
-    sed -i \
-    's|/assets/|/git/assets/|g' \
-    "$html_file"
-
-
-    # Insert navbar
-
-    if [ -n "$NAVBAR" ]; then
-
-        sed -i \
-        "s|<body>|<body>${NAVBAR}|" \
-        "$html_file"
-
-    fi
-
-
-    # Insert footer
-
-    if [ -n "$FOOTER" ]; then
-
-        sed -i \
-        "s|</body>|${FOOTER}</body>|" \
-        "$html_file"
-
-    fi
-
+    # Add footer
+    sed -i 's|</body>|<div id="footer-placeholder"></div>\n</body>|' "$html_file"
 
 done
 
 
-# ==========================================
-# STAGIT FAVICON / LOGO
-# ==========================================
-
-echo ">>> Injecting favicon and logo..."
-
+echo ">>> Injecting Favicon and Logo into Stagit directories..."
 
 FAVICON_SRC="$PROJECT_DIR/favicon_io/favicon-32x32.png"
 
-
 if [ -f "$FAVICON_SRC" ]; then
 
-    cp "$FAVICON_SRC" \
-    "$PROJECT_DIR/dist-git/favicon.png"
-
-    cp "$FAVICON_SRC" \
-    "$PROJECT_DIR/dist-git/logo.png"
-
+    cp "$FAVICON_SRC" "$PROJECT_DIR/dist-git/favicon.png"
+    cp "$FAVICON_SRC" "$PROJECT_DIR/dist-git/logo.png"
 
     for repo_dir in "$PROJECT_DIR/dist-git"/*/; do
-
         if [ -d "$repo_dir" ]; then
-
-            cp "$FAVICON_SRC" \
-            "${repo_dir}favicon.png"
-
-            cp "$FAVICON_SRC" \
-            "${repo_dir}logo.png"
-
+            cp "$FAVICON_SRC" "${repo_dir}favicon.png"
+            cp "$FAVICON_SRC" "${repo_dir}logo.png"
         fi
-
     done
 
 fi
 
 
-# ==========================================
-# DEPLOY STAGIT
-# ==========================================
-
-echo ">>> Syncing Git pages..."
+echo ">>> Syncing Git pages to web root..."
 
 mkdir -p "$WEB_ROOT/git"
 
-
-rsync -av \
-    --delete \
-    "$PROJECT_DIR/dist-git/" \
-    "$WEB_ROOT/git/"
+rsync -av --delete \
+"$PROJECT_DIR/dist-git/" \
+"$WEB_ROOT/git/"
 
 
-echo ">>> Fixing permissions..."
+echo ">>> Fixing final permissions..."
 
 if id www-data >/dev/null 2>&1; then
-    chown -R www-data:www-data "$WEB_ROOT"
+    sudo chown -R www-data:www-data "$WEB_ROOT"
 else
     echo "www-data user not found, skipping ownership change"
 fi
