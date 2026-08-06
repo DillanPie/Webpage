@@ -19,6 +19,8 @@ if [ -z "$PROJECT_DIR" ] || [ -z "$WEB_ROOT" ]; then
     exit 1
 fi
 
+DEPLOY_USER="$(whoami)"
+DEPLOY_GROUP="$(id -gn)"
 
 # ==========================================
 # BUILD MAIN VITE SITE
@@ -100,14 +102,24 @@ CONTAINER_ID=$(docker run -d -v "$PROJECT_DIR:/repo:ro" stagit-builder)
 echo ">>> Waiting for Stagit to finish generating pages..."
 docker wait "$CONTAINER_ID"
 
+EXIT_CODE=$?
+
+if [ "$EXIT_CODE" -ne 0 ]; then
+    echo "ERROR: Stagit container failed"
+    docker logs "$CONTAINER_ID"
+    docker rm "$CONTAINER_ID"
+    exit 1
+fi
+
 echo ">>> Extracting git pages from container..."
 
-# Remove old Stagit output safely
+# Remove previous generated Stagit output
 if [ -d "$PROJECT_DIR/dist-git" ]; then
+    echo ">>> Removing previous dist-git..."
     sudo rm -rf "$PROJECT_DIR/dist-git"
 fi
 
-# Copy generated files
+# Extract new output
 docker cp "$CONTAINER_ID:/app/dist-git" "$PROJECT_DIR/"
 
 echo ">>> Fixing Stagit ownership..."
@@ -121,9 +133,13 @@ docker rm "$CONTAINER_ID"
 
 echo ">>> Injecting Navbar, Footer, and Vite Assets into Stagit pages..."
 
-# Extract Vite assets from built index.html
-VITE_ASSETS=$(grep -oE '<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' \
-"$PROJECT_DIR/dist/index.html" | tr '\n' ' ' | sed 's/|/\\|/g')
+if [ -f "$PROJECT_DIR/dist/index.html" ]; then
+    VITE_ASSETS=$(grep -oE '<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' \
+    "$PROJECT_DIR/dist/index.html" | tr '\n' ' ' | sed 's/|/\\|/g')
+else
+    echo "ERROR: Vite index.html missing"
+    exit 1
+fi
 
 
 find "$PROJECT_DIR/dist-git" -type f -name "*.html" -print
