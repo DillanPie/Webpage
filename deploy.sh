@@ -112,6 +112,11 @@ mkdir -p "$WEB_ROOT/git"
 rsync -av --delete "$PROJECT_DIR/dist-git/" "$WEB_ROOT/git/"
 
 echo ">>> Fixing file permissions..."
-chown -R www-data:www-data "$WEB_ROOT"
+
+if id www-data >/dev/null 2>&1; then
+    chown -R www-data:www-data "$WEB_ROOT"
+else
+    echo "www-data user not found, skipping ownership change"
+fi
 
 echo ">>> Deployment complete."
