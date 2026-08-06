@@ -97,6 +97,8 @@ cd /repos
 
 # Run stagit-index on the copied folder. 
 # This guarantees it outputs <a href="portfolio/log.html">portfolio</a>
+
 stagit-index portfolio.git > "$OUT_DIR/index.html"
+chmod -R a+rX /app/dist-git
 
 echo "Stagit build complete."

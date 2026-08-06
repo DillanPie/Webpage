@@ -113,7 +113,7 @@ docker cp "$CONTAINER_ID:/app/dist-git" "$PROJECT_DIR/"
 echo ">>> Fixing Stagit ownership..."
 
 # Return ownership to current user
-sudo chown -R "$(whoami):$(whoami)" "$PROJECT_DIR/dist-git"
+sudo chown -R "$DEPLOY_USER:$DEPLOY_GROUP" "$PROJECT_DIR/dist-git"
 
 echo ">>> Cleaning up Stagit container..."
 docker rm "$CONTAINER_ID"
