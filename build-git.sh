@@ -22,8 +22,12 @@ echo "Generating portfolio repo..."
 mkdir -p "$OUT_DIR/portfolio"
 cd "$OUT_DIR/portfolio"
 
-# Copy CSS into the repo folder
 cp /repo/css/stagit.css ./style.css
+
+stagit -c ".cache" /repos/portfolio.git
+
+# Generate repository landing page
+stagit-index /repos/portfolio.git > index.html
 
 # Run stagit directly on the copied repo
 stagit -c ".cache" /repos/portfolio.git

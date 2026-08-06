@@ -18,7 +18,7 @@ fi
 
 echo ">>> Pulling latest source code from Git..."
 cd "$PROJECT_DIR"
-sudo -u $(whoami) git pull origin main
+sudo -u $(whoami) git pull origin "$GIT_BRANCH"
 
 echo ">>> Building Docker image: $DOCKER_IMAGE_NAME..."
 docker build -t "$DOCKER_IMAGE_NAME" .
@@ -73,6 +73,8 @@ echo ">>> Injecting Navbar, Footer, and Vite Assets into Stagit pages..."
 # 1. Extract the compiled CSS and JS tags from Vite's built index.html
 # This ensures we get the correct hashed filenames (e.g., /assets/main-xyz.js)
 VITE_ASSETS=$(grep -oE '<link rel="stylesheet"[^>]+>|<script type="module"[^>]+></script>' "$PROJECT_DIR/dist/index.html" | tr '\n' ' ' | sed 's/|/\\|/g')
+
+find "$PROJECT_DIR/dist-git" -type f -name "*.html" -print
 
 # 2. Loop through all generated stagit HTML files and inject the HTML
 find "$PROJECT_DIR/dist-git" -type f -name "*.html" | while read -r html_file; do
