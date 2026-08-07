@@ -1,98 +1,305 @@
-#!/bin/sh
+#!/bin/bash
 # build-git.sh
-set -e
+set -euo pipefail
+
+# ==========================================
+# Configuration
+# ==========================================
 
 OUT_DIR="/app/dist-git"
+REPOS_DIR="/repos"
+CONFIG_FILE="/app/repos.config"
+STAGIT_CSS="/repo/css/stagit.css"
+
+# ==========================================
+# Cleanup
+# ==========================================
+
+rm -rf "$OUT_DIR"
+rm -rf "$REPOS_DIR"
+
 mkdir -p "$OUT_DIR"
+mkdir -p "$REPOS_DIR"
 
-# 1. Fix the Name Bug: Copy instead of symlinking!
-# By physically copying the folder, Stagit sees the real name as "portfolio.git",
-# and successfully strips it to "portfolio".
-mkdir -p /repos
-cp -R /repo/.git /repos/portfolio.git
+# ==========================================
+# Load Repository Configuration
+# ==========================================
 
-# Write GitHub clone URL directly into the repository configuration
-echo "https://github.com/DillanPie/Webpage" > /repos/portfolio.git/url
+if [[ ! -f "$CONFIG_FILE" ]]; then
+    echo "Error: Repository configuration not found:"
+    echo "       $CONFIG_FILE"
+    exit 1
+fi
 
-# 2. Setup Main Index CSS
-cp /repo/css/stagit.css "$OUT_DIR/style.css"
+# shellcheck disable=SC1090
+source "$CONFIG_FILE"
 
-# 3. Generate Portfolio Repo Pages
-echo "Generating portfolio repo..."
-mkdir -p "$OUT_DIR/portfolio"
-cd "$OUT_DIR/portfolio"
+if [[ ${#REPOS[@]} -eq 0 ]]; then
+    echo "Error: No repositories defined in $CONFIG_FILE"
+    exit 1
+fi
 
-# Copy CSS into the repo folder
-cp /repo/css/stagit.css ./style.css
+echo ">>> Loaded ${#REPOS[@]} repositories."
 
-# Run stagit directly on the copied repo
-stagit -c ".cache" /repos/portfolio.git
+# ==========================================
+# Setup Main Stagit CSS
+# ==========================================
 
-# --- 1. GENERATE THE GIT GRAPH ---
-echo "Generating git commit graph..."
+if [[ ! -f "$STAGIT_CSS" ]]; then
+    echo "Error: Stagit CSS not found:"
+    echo "       $STAGIT_CSS"
+    exit 1
+fi
 
-# Define Gruvbox options
-GRUVBOX_PALETTE="#928374,#cc241d,#98971a,#d79921,#458588,#b16286,#689d6a,#d65d0e,#928374"
-COMMIT_FILL="#ebdbb2"
-LABEL_FILL="#3c3836"
-LABEL_TEXT="#ebdbb2"
+cp "$STAGIT_CSS" "$OUT_DIR/style.css"
 
-# Define Spacing and Font options
-BRANCH_SPACING="70"      # Default is 50. Space between vertical branch lines.
-BRANCH_STROKE_WIDTH="20"
-COMMIT_SPACING="80"      # Default is 50. Space between horizontal commit nodes.
-LABEL_FONT="Fira Code, monospace" # Default is "Inconsolata, Consolas, monospace".
-LABEL_FONT_SIZE="70"     # Default is 14.
-LABEL_SPACING="10" # Default 10
-LABEL_ROUND="10"
+# ==========================================
+# Generate Individual Repository Pages
+# ==========================================
 
-# Feed the external graph.txt directly into grawkit with all arguments
-grawkit \
-  --palette="$GRUVBOX_PALETTE" \
-  --commit-fill="$COMMIT_FILL" \
-  --label-fill="$LABEL_FILL" \
-  --label-text="$LABEL_TEXT" \
-  --branch-spacing="$BRANCH_SPACING" \
-  --commit-spacing="$COMMIT_SPACING" \
-  --label-font="$LABEL_FONT" \
-  --label-font-size="$LABEL_FONT_SIZE" \
-  --label-spacing="$LABEL_SPACING" \
-  --branch-stroke-width="$BRANCH_STROKE_WIDTH" \
-  --label-round="$LABEL_ROUND" \
-  /app/graph.txt > "$OUT_DIR/portfolio/graph.svg"
+for repo_config in "${REPOS[@]}"; do
 
-# --- 2. SETUP THE LOG PAGES ---
+    IFS='|' read -r \
+        SLUG \
+        REPO_PATH \
+        NAME \
+        URL \
+        OWNER \
+        DESCRIPTION <<< "$repo_config"
+
+    echo
+    echo "=========================================="
+    echo "Generating repository: $NAME"
+    echo "=========================================="
+
+    # --------------------------------------
+    # Validate configuration
+    # --------------------------------------
+
+    if [[ -z "$SLUG" ||
+          -z "$REPO_PATH" ||
+          -z "$NAME" ||
+          -z "$URL" ||
+          -z "$OWNER" ||
+          -z "$DESCRIPTION" ]]; then
+
+        echo "Error: Invalid repository configuration:"
+        echo "$repo_config"
+        exit 1
+    fi
+
+    # --------------------------------------
+    # Determine repository directory
+    # --------------------------------------
+
+    REPO_DIR="$REPO_PATH"
+
+    # Make sure the path is under /repos
+    case "$REPO_DIR" in
+        "$REPOS_DIR"/*)
+            ;;
+        *)
+            echo "Error: Repository path must be under $REPOS_DIR:"
+            echo "       $REPO_DIR"
+            exit 1
+            ;;
+    esac
+
+    # --------------------------------------
+    # Obtain repository
+    # --------------------------------------
+
+    if [[ "$SLUG" == "webpage" ]]; then
+
+        echo ">>> Using local Webpage repository..."
+
+        # Copy the actual Git repository.
+        cp -R /repo/.git "$REPO_DIR"
+
+    else
+
+        echo ">>> Cloning repository from GitHub..."
+        echo "    $URL"
+
+        git clone --bare "$URL" "$REPO_DIR"
+
+    fi
+
+    # --------------------------------------
+    # Write Stagit metadata
+    # --------------------------------------
+
+    echo ">>> Writing repository metadata..."
+
+    echo "$URL" \
+        > "$REPO_DIR/url"
+
+    echo "$OWNER" \
+        > "$REPO_DIR/owner"
+
+    echo "$DESCRIPTION" \
+        > "$REPO_DIR/description"
+
+    # --------------------------------------
+    # Prepare output directory
+    # --------------------------------------
+
+    REPO_OUTPUT="$OUT_DIR/$SLUG"
+
+    mkdir -p "$REPO_OUTPUT"
+
+    cd "$REPO_OUTPUT"
+
+    # Copy repository-specific CSS
+    cp "$STAGIT_CSS" ./style.css
+
+    # --------------------------------------
+    # Generate Stagit pages
+    # --------------------------------------
+
+    echo ">>> Running stagit..."
+
+    stagit -c ".cache" "$REPO_DIR"
+
+    echo ">>> $NAME generated successfully."
+
+done
+
+# ==========================================
+# Generate Git Commit Graph
+# ==========================================
+
+echo
+echo "=========================================="
+echo "Generating Webpage Git Graph"
+echo "=========================================="
+
+# The graph is currently specific to your Webpage
+# repository, so don't generate one for every project.
+
+WEBPAGE_OUTPUT="$OUT_DIR/webpage"
+
+if [[ -f "/app/graph.txt" ]]; then
+
+    GRUVBOX_PALETTE="#928374,#cc241d,#98971a,#d79921,#458588,#b16286,#689d6a,#d65d0e,#928374"
+    COMMIT_FILL="#ebdbb2"
+    LABEL_FILL="#3c3836"
+    LABEL_TEXT="#ebdbb2"
+
+    BRANCH_SPACING="70"
+    BRANCH_STROKE_WIDTH="20"
+    COMMIT_SPACING="80"
+    LABEL_FONT="Fira Code, monospace"
+    LABEL_FONT_SIZE="70"
+    LABEL_SPACING="10"
+    LABEL_ROUND="10"
+
+    grawkit \
+        --palette="$GRUVBOX_PALETTE" \
+        --commit-fill="$COMMIT_FILL" \
+        --label-fill="$LABEL_FILL" \
+        --label-text="$LABEL_TEXT" \
+        --branch-spacing="$BRANCH_SPACING" \
+        --commit-spacing="$COMMIT_SPACING" \
+        --label-font="$LABEL_FONT" \
+        --label-font-size="$LABEL_FONT_SIZE" \
+        --label-spacing="$LABEL_SPACING" \
+        --branch-stroke-width="$BRANCH_STROKE_WIDTH" \
+        --label-round="$LABEL_ROUND" \
+        /app/graph.txt \
+        > "$WEBPAGE_OUTPUT/graph.svg"
+
+else
+
+    echo "Warning: /app/graph.txt not found."
+    echo "         Skipping Git graph."
+
+fi
+
+# ==========================================
+# Customize Webpage Log Pages
+# ==========================================
+
+echo
+echo "=========================================="
+echo "Customizing Webpage Log Pages"
+echo "=========================================="
+
+cd "$WEBPAGE_OUTPUT"
+
+# ------------------------------------------
+# Create full log page
+# ------------------------------------------
+
 cp log.html log-full.html
 
-# Hide commits after the 10th row using inline CSS on log.html
-sed -i 's|</head>|<style>table#log tbody tr:nth-child(n+11) { display: none; }</style></head>|' log.html
+# ------------------------------------------
+# Hide commits after the 10th row
+# ------------------------------------------
 
-# Inject the "View Full Commit History" button
-sed -i 's|</body>|<div style="text-align: center; margin: 40px 0;"><a href="log-full.html" style="font-size: 1.1em; color: var(--gruvbox-yellow); font-weight: bold; border: 1px solid var(--gruvbox-bg-border); padding: 10px 20px; border-radius: 6px; background: var(--gruvbox-bg-soft); transition: background 0.2s; text-decoration: none;">View Full Commit History \&rarr;</a></div></body>|' log.html
+sed -i \
+    's|</head>|<style>table#log tbody tr:nth-child(n+11) { display: none; }</style></head>|' \
+    log.html
 
-# --- 3. INJECT THE GRAPH INTO THE LEFT MARGIN ---
+# ------------------------------------------
+# Add "View Full Commit History" button
+# ------------------------------------------
 
-# 1. CSS Layout (Sticky box locked to 600px height, image scaled to fit completely inside)
-GRAPH_STYLE="<style>#content { position: relative; } .git-graph-sidebar { position: absolute; top: 0; left: -380px; width: 350px; height: 100%; z-index: 1; } .git-graph-sticky { position: sticky; top: 80px; background: var(--gruvbox-bg-soft); border: 1px solid var(--gruvbox-bg-border); border-radius: 8px; padding: 15px; box-sizing: border-box; height: 600px; max-height: calc(100vh - 100px); display: flex; justify-content: center; align-items: center; } .git-graph-sticky img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; } @media (max-width: 1750px) { .git-graph-sidebar { position: static; left: 0; width: 100%; height: auto; margin-bottom: 25px; } .git-graph-sticky { width: 100%; max-width: 1050px; height: 500px; margin: 0 auto; } }</style>"
+sed -i \
+    's|</body>|<div style="text-align: center; margin: 40px 0;"><a href="log-full.html" style="font-size: 1.1em; color: var(--gruvbox-yellow); font-weight: bold; border: 1px solid var(--gruvbox-bg-border); padding: 10px 20px; border-radius: 6px; background: var(--gruvbox-bg-soft); transition: background 0.2s; text-decoration: none;">View Full Commit History \&rarr;</a></div></body>|' \
+    log.html
 
-# 2. HTML: Simple wrapper
-GRAPH_HTML="<div class=\"git-graph-sidebar\"><div class=\"git-graph-sticky\"><img src=\"graph.svg\" alt=\"Git Graph\" /></div></div>"
+# ==========================================
+# Inject Git Graph
+# ==========================================
 
-# 3. Inject the CSS right before the closing </head> tag
-sed -i "s|</head>|$GRAPH_STYLE</head>|" log.html
-sed -i "s|</head>|$GRAPH_STYLE</head>|" log-full.html
+GRAPH_STYLE='<style>#content { position: relative; } .git-graph-sidebar { position: absolute; top: 0; left: -380px; width: 350px; height: 100%; z-index: 1; } .git-graph-sticky { position: sticky; top: 80px; background: var(--gruvbox-bg-soft); border: 1px solid var(--gruvbox-bg-border); border-radius: 8px; padding: 15px; box-sizing: border-box; height: 600px; max-height: calc(100vh - 100px); display: flex; justify-content: center; align-items: center; } .git-graph-sticky img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; } @media (max-width: 1750px) { .git-graph-sidebar { position: static; left: 0; width: 100%; height: auto; margin-bottom: 25px; } .git-graph-sticky { width: 100%; max-width: 1050px; height: 500px; margin: 0 auto; } }</style>'
 
-# 4. Inject the Graph inside #content, right before the log table
-sed -i "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" log.html
-sed -i "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" log-full.html
-# ---------------------------------------------
+GRAPH_HTML='<div class="git-graph-sidebar"><div class="git-graph-sticky"><img src="graph.svg" alt="Git Graph" /></div></div>'
 
-# 4. Generate the Root Index Page
-echo "Generating stagit index..."
-cd /repos
+# Inject graph CSS
+sed -i \
+    "s|</head>|$GRAPH_STYLE</head>|" \
+    log.html
 
-# Run stagit-index on the copied folder. 
-# This guarantees it outputs <a href="portfolio/log.html">portfolio</a>
-stagit-index portfolio.git > "$OUT_DIR/index.html"
+sed -i \
+    "s|</head>|$GRAPH_STYLE</head>|" \
+    log-full.html
 
-echo "Stagit build complete."
+# Inject graph HTML
+sed -i \
+    "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" \
+    log.html
+
+sed -i \
+    "s|<table id=\"log\">|$GRAPH_HTML<table id=\"log\">|" \
+    log-full.html
+
+# ==========================================
+# Generate Repository Index
+# ==========================================
+
+echo
+echo "=========================================="
+echo "Generating Stagit Repository Index"
+echo "=========================================="
+
+cd "$REPOS_DIR"
+
+# stagit-index reads every *.git repository in /repos
+# and generates links to their corresponding pages.
+stagit-index ./*.git > "$OUT_DIR/index.html"
+
+echo
+echo "=========================================="
+echo "Stagit Build Complete"
+echo "=========================================="
+
+echo "Generated repositories:"
+
+for repo_config in "${REPOS[@]}"; do
+    IFS='|' read -r SLUG REPO_PATH NAME URL OWNER DESCRIPTION <<< "$repo_config"
+
+    echo "  - $NAME"
+    echo "    /git/$SLUG/"
+done

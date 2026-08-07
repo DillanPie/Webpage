@@ -1,38 +1,65 @@
 FROM alpine:3.19
 
-# Added git, pkgconf, cairo-dev, and pango-dev for grawkit
-RUN apk add make gcc musl-dev libgit2-dev git pkgconf cairo-dev pango-dev bash gawk
+# ==========================================
+# Build dependencies
+# ==========================================
+
+RUN apk add --no-cache \
+    make \
+    gcc \
+    musl-dev \
+    libgit2-dev \
+    git \
+    pkgconf \
+    cairo-dev \
+    pango-dev \
+    bash \
+    gawk \
+    wget
 
 WORKDIR /src
 
-# ================================
-# 1. BUILD STAGIT
-# ================================
+# ==========================================
+# Build Stagit
+# ==========================================
+
 RUN wget https://codemadness.org/releases/stagit/stagit-1.2.tar.gz
 
-# Checksum Verification
-RUN echo "5659bd8ba7e1417edd40f7b7781a8ea26939ab6aa513409023835f04875921c5  stagit-1.2.tar.gz" | sha256sum -c - || exit 1
+# Checksum verification
+RUN echo "5659bd8ba7e1417edd40f7b7781a8ea26939ab6aa513409023835f04875921c5  stagit-1.2.tar.gz" \
+    | sha256sum -c -
 
-# Extract and compile stagit
+# Extract and compile Stagit
 RUN tar -xzf stagit-1.2.tar.gz && \
     cd stagit-1.2 && \
     make && \
     make install
 
-# ================================
-# 2. INSTALL GRAWKIT
-# ================================
+# ==========================================
+# Install Grawkit
+# ==========================================
+
 RUN git clone https://github.com/deuill/grawkit.git && \
     cd grawkit && \
     chmod +x grawkit && \
     cp grawkit /usr/local/bin/
 
-# ================================
-# 3. SETUP CONTAINER RUNTIME
-# ================================
+# ==========================================
+# Setup Container Runtime
+# ==========================================
+
 WORKDIR /app
+
 COPY build-git.sh .
-COPY graph.txt . 
+COPY graph.txt .
+
+# Copy repository configuration
+COPY repos.config .
+
 RUN chmod +x build-git.sh
+
+# ==========================================
+# Runtime
+# ==========================================
 
 CMD ["./build-git.sh"]
