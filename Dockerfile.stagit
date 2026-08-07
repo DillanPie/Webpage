@@ -54,7 +54,7 @@ COPY build-git.sh .
 COPY graph.txt .
 
 # Copy repository configuration
-COPY repos.config .
+COPY repos.conf .
 
 RUN chmod +x build-git.sh
 
