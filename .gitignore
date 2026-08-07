@@ -15,3 +15,4 @@ test_web_root/
 deploy-local.conf
 deploy-local.sh
 dist-git/
+test-deploy/

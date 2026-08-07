@@ -315,3 +315,32 @@ body > table:first-of-type a:hover {
   background-color: var(--gruvbox-blue);
   text-decoration: none;
 }
+
+/* =========================================================
+ * STAGIT MAIN CONTENT ALIGNMENT
+ * ========================================================= */
+
+/* Repository index: files/repos list */
+table#index {
+  text-align: left;
+}
+
+table#index td {
+  text-align: left;
+}
+
+/* README markdown pages */
+#content {
+  text-align: left;
+}
+
+#content * {
+  text-align: left;
+}
+
+/* Keep numbers aligned properly */
+table#index td:nth-child(3),
+table#index td:nth-child(4),
+td.num {
+  text-align: right !important;
+}

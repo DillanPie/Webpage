@@ -8,7 +8,7 @@ set -euo pipefail
 
 OUT_DIR="/app/dist-git"
 REPOS_DIR="/repos"
-CONFIG_FILE="/app/repos.config"
+CONFIG_FILE="/app/repos.conf"
 STAGIT_CSS="/repo/css/stagit.css"
 
 # ==========================================
