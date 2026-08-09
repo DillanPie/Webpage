@@ -358,3 +358,30 @@ body > table:first-of-type img[src="logo.png"] {
 body > table:first-of-type tr:first-child td:first-child {
   display: none !important;
 }
+
+/* =========================================================
+ * STAGIT FOOTER — STICK TO BOTTOM
+ * ========================================================= */
+
+/* Make the page occupy the full viewport */
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex !important;
+    flex-direction: column;
+}
+
+/* Allow the main content to expand and push the footer down */
+#content {
+    flex: 1 0 auto;
+}
+
+/* Keep the footer at the bottom when content is short */
+#footer-placeholder {
+    margin-top: auto;
+    width: 100%;
+    flex-shrink: 0;
+}
