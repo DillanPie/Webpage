@@ -30,15 +30,14 @@
 
 html,
 body {
-  background-color: var(--gruvbox-bg) !important;
-  color: var(--gruvbox-fg) !important;
-  font-family: "FiraCode Nerd Font", monospace;
-  margin: 0;
-  padding: 0;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  display: block !important;
-  line-height: 1.4;
+    background-color: var(--gruvbox-bg) !important;
+    color: var(--gruvbox-fg) !important;
+    font-family: "FiraCode Nerd Font", monospace;
+    margin: 0;
+    padding: 0;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    line-height: 1.4;
 }
 
 /* =========================================================
@@ -360,28 +359,38 @@ body > table:first-of-type tr:first-child td:first-child {
 }
 
 /* =========================================================
- * STAGIT FOOTER — STICK TO BOTTOM
+ * STAGIT FOOTER — ALWAYS AT BOTTOM
  * ========================================================= */
 
-/* Make the page occupy the full viewport */
+/* Force the Stagit page to fill the viewport */
 html {
-    min-height: 100%;
+  min-height: 100% !important;
 }
 
-body {
-    min-height: 100vh;
-    display: flex !important;
-    flex-direction: column;
+html body {
+  min-height: 100vh !important;
+  margin: 0 !important;
+
+  display: grid !important;
+
+  /*
+   * Row 1: navbar
+   * Row 2: repository header
+   * Row 3: horizontal rule
+   * Row 4: main content — expands to fill available space
+   * Row 5: footer
+   */
+  grid-template-rows: auto auto auto 1fr auto;
 }
 
-/* Allow the main content to expand and push the footer down */
-#content {
-    flex: 1 0 auto;
+/* Main Stagit content fills the remaining vertical space */
+html body > #content {
+  min-height: 0;
+  width: 100%;
 }
 
-/* Keep the footer at the bottom when content is short */
-#footer-placeholder {
-    margin-top: auto;
-    width: 100%;
-    flex-shrink: 0;
+/* Footer stays at the bottom of the page */
+html body > #footer-placeholder {
+  width: 100%;
+  min-height: 0;
 }
